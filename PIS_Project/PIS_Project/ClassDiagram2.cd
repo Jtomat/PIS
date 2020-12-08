@@ -292,28 +292,28 @@
       <FileName>Models\DataClasses\ValidationResponse.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="PIS_Project.Models.DataControllers.CardRegister">
+  <Class Name="PIS_Project.Controllers.DataControllers.CardRegister">
     <Position X="11.75" Y="1.5" Width="5.5" />
     <TypeIdentifier>
       <HashCode>ACAAIAQEAAAAAAIIAAAABAAIQAEAGAAAAAEAAAAAAAI=</HashCode>
       <FileName>Controllers\DataControllers\CardRegister.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="PIS_Project.Models.DataControllers.ReportTemplate">
+  <Class Name="PIS_Project.Controllers.DataControllers.ReportTemplate">
     <Position X="11" Y="4.25" Width="4.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAACABAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Controllers\DataControllers\ReportTemplate.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="PIS_Project.Models.DataControllers.UsersRegister">
+  <Class Name="PIS_Project.Controllers.DataControllers.UsersRegister">
     <Position X="17.5" Y="1.5" Width="4.5" />
     <TypeIdentifier>
-      <HashCode>CAiAACAAAAAAAAAAAAAAgAAAAQAAAAAAAAAAABAAAAA=</HashCode>
+      <HashCode>CAiAACAAAAAAAAAAAAAggAAAAQAAAAAAAAAAABAAAAA=</HashCode>
       <FileName>Controllers\DataControllers\UsersRegister.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="PIS_Project.Models.DataControllers.ValidationController">
+  <Class Name="PIS_Project.Controllers.DataControllers.ValidationController">
     <Position X="15.75" Y="10.5" Width="6.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>

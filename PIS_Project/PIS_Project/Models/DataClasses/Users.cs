@@ -12,15 +12,17 @@ namespace PIS_Project.Models.DataClasses
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ID { get; set; }
-        public string FIO { get; set; }
-        public string email { get; set; }
+        public int ID { get { return int.Parse(Id); } set { Id = value.ToString(); } }
+        public string FIO { get { return UserName; } set { UserName = value; } }
+        public string email { get { return Email; } set { Email = value; } }
         public string phone { get; set; }
         public int ID_organization { get; set; }
+        public string Organization { get; set; }
         public Guid SIN { get; set; }
         public string password { get; set; }
         public bool Confirmed { get; set; }
         public byte[] Doc { get; set; }
         public int ID_role { get; set; }
+        public string Role { get; set; }
     }
 }

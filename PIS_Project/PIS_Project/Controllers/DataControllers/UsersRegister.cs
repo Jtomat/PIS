@@ -5,15 +5,23 @@ using System.Linq;
 using System.Web;
 using PIS_Project.Models.DataClasses;
 using System.Diagnostics.Tracing;
+using PIS_Project.Models;
 
-namespace PIS_Project.Models.DataControllers
+namespace PIS_Project.Controllers.DataControllers
 {
     public class UsersRegister:DbContext
     {
         public UsersRegister() 
             : base("DBConnection")
         { }
-        private DbSet<Users> Users { get; set; }
+        internal DbSet<Users> Users { get; set; }
+        internal DbSet<Organizations> Organizations { get; set; }
+        internal DbSet<Roles> Roles { get; set; }
+
+        public Users GetUserByID(int id)
+        {
+            return Users.Where(i=>i.Confirmed).FirstOrDefault(i=>i.ID==id);
+        }
         public List<Users> Requests 
         {
             get

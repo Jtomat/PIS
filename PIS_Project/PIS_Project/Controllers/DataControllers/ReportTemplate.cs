@@ -8,7 +8,7 @@ using System.Web;
 using TemplateEngine.Docx;
 using Word = Microsoft.Office.Interop.Word;
 
-namespace PIS_Project.Models.DataControllers
+namespace PIS_Project.Controllers.DataControllers
 {
     public static class ReportTemplate
     {
@@ -30,7 +30,7 @@ namespace PIS_Project.Models.DataControllers
                 return result;
             }
         }
-        public static byte[] GetDoc(int key, Dictionary<string, object> values)
+        public static byte[] GetDocByID(int key, Dictionary<string, object> values)
         {
             var fileGroup = _templates.FirstOrDefault(i=>i.Key.Key==key);
             var temp_name = AppDomain.CurrentDomain.BaseDirectory + "\\" + Enumerable.Range(1, 5000).OrderBy(g => Guid.NewGuid()).First() + ".docx";
@@ -61,9 +61,9 @@ namespace PIS_Project.Models.DataControllers
             File.Delete(temp_name);
             return res;
         }
-        public static byte[] GetDoc(string name, Dictionary<string, object> values)
+        public static byte[] GetDocByName(string name, Dictionary<string, object> values)
         {
-            return GetDoc(_templates.FirstOrDefault(i => i.Key.Value == name).Key.Key, values);
+            return GetDocByID(_templates.FirstOrDefault(i => i.Key.Value == name).Key.Key, values);
         }
     }
 }

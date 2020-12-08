@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using PIS_Project.Models.DataClasses;
+using PIS_Project.Models.DataControllers;
 
-namespace PIS_Project.Models.DataControllers
+namespace PIS_Project.Controllers.DataControllers
 {
     public static class ValidationController
     {

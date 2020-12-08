@@ -14,6 +14,6 @@ namespace PIS_Project.Models.DataClasses
         public int ID { get; set; }
         public string Name { get; set; }
         public string Contacts { get; set; }
-
+        public bool IsCatchingOrg { get; set; }
     }
 }

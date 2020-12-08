@@ -1,4 +1,4 @@
-﻿using PIS_Project.Models.DataControllers;
+﻿using PIS_Project.Controllers.DataControllers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -39,11 +39,13 @@ namespace PIS_Project.Models.DataClasses
 
         public string Status
         {
-            get { return (new CardRegister()).GetStatusByID(id_status).Name; }
+            get;// { return (new CardRegister()).GetStatusByID(id_status).Name; }
+            set;
         }
         public string MU
         {
-            get { return (new CardRegister()).GetMUByID(ID_MU).Name; }
+            get;// { return (new CardRegister()).GetMUByID(ID_MU).Name; }
+            set;
         }
     }
 }

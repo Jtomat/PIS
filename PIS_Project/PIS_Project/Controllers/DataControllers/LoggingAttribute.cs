@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
+using PIS_Project.Models.DataClasses;
 using PostSharp.Aspects;
 using System;
 using System.Collections.Generic;
@@ -7,13 +8,13 @@ using System.Reflection;
 using System.Text;
 using System.Web;
 
-namespace PIS_Project.Models.DataControllers
+namespace PIS_Project.Controllers.DataControllers
 {
     [Serializable]
     internal sealed class LoggingAttribute : OnMethodBoundaryAspect
     {
         private readonly Exception exception;
-        private readonly string method;
+        private object _locker = new object();
         private static Logger _logger = new Logger();
         public Exception Exception { get { return exception; } }
         public string MethodName { get; set; }
@@ -21,14 +22,6 @@ namespace PIS_Project.Models.DataControllers
         public string Result { get; set; }
         public override void OnEntry(MethodExecutionArgs args)
         {
-            
-            //var stringBuilder = new StringBuilder();
-
-            //stringBuilder.Append("Entering ");
-            //AppendCallInformation(args, stringBuilder);
-            //Logger.WriteLine(stringBuilder.ToString());
-
-            //Logger.Indent();
         }
         private static string MethodAction(MethodBase method)
         {
@@ -45,70 +38,66 @@ namespace PIS_Project.Models.DataControllers
         public override void OnSuccess(MethodExecutionArgs args)
         {
             var action = MethodAction(args.Method);
-            var @params = args.Method.GetParameters();
-            if (action == "Update")
-            {
+            var mes = "";
 
-                var dict_type = typeof(Dictionary<string, object>);
-                var id_card = args.Arguments.GetArgument(0);
-                var values = args.Arguments.FirstOrDefault(i=>i.GetType()==dict_type);
-                var id_user = HttpContext.Current.User.Identity.GetUserId();
-                var mes = $"Updating: ";
+            var id_card = -1;
+            try
+            {
+                id_card = ((Card)args.Arguments.GetArgument(0)).ID;
+            }
+            catch
+            {
+                id_card = (new CardsController()).Cards.OrderBy(i=>i.ID).First().ID;
+            }
+            var id_user = HttpContext.Current.User.Identity.GetUserId();
+            var dict_type = typeof(Dictionary<string, object>);
+            var values = args.Arguments.FirstOrDefault(i => i.GetType() == dict_type);
+            if (!action.Contains("Delete"))
+            {
+                if (action.Contains("Update"))
+                {
+                    var array = args.Arguments.FirstOrDefault(i => (i).GetType() == typeof(byte[]));
+                    if (array != null)
+                    {
+                        var name = args.Method.GetParameters().First(i => i.ParameterType == typeof(byte[])).Name;
+                        mes += $"Property [{name}] set [new blob value]. ";
+                    }
+                    mes = $"Updating: ";
+                }
+                else
+                    mes = $"Creating: ";
                 foreach (var pair in ((Dictionary<string, object>)values))
                 {
-                    mes += $"Property {pair.Key} set {pair.Value}. ";
+                    if (pair.Value.GetType() != typeof(byte[]))
+                        mes += $"Property [{pair.Key}] set [{pair.Value}]. ";
+                    else
+                        mes += $"Property [{pair.Key}] set [new blob value]. ";
                 }
-
-                
             }
-            //Logger.Unindent();
-
-            //var stringBuilder = new StringBuilder();
-
-            //stringBuilder.Append("Exiting ");
-            //AppendCallInformation(args, stringBuilder);
-
-            //if (!args.Method.IsConstructor && ((MethodInfo)args.Method).ReturnType != typeof(void))
-            //{
-            //    stringBuilder.Append(" with return value ");
-            //    stringBuilder.Append(args.ReturnValue);
-            //}
-
-            //Logger.WriteLine(stringBuilder.ToString());
+            else { mes = "Removing."; }
+            lock(_locker)
+                _logger.WriteInfo(id_card, int.Parse(id_user), mes);
         }
         public override void OnException(MethodExecutionArgs args)
         {
-            //Logger.Unindent();
+            var action = MethodAction(args.Method);
+            var mes = $"Failure in {(action.Contains("Update")?("Update"):action.Contains("Delete")?"Remove":"Creating")}: {args.Exception.Message.Replace("\n"," ")}";
+            var id_card = -1;
+            try
+            {
+                id_card = ((Card)args.Arguments.GetArgument(0)).ID;
+            }
+            catch
+            {
+            }
+            var id_user = HttpContext.Current.User.Identity.GetUserId();
+            lock (_locker)
+                _logger.WriteError(id_card, int.Parse(id_user), mes);
 
-            //var stringBuilder = new StringBuilder();
-
-            //stringBuilder.Append("Exiting ");
-            //AppendCallInformation(args, stringBuilder);
-
-            //if (!args.Method.IsConstructor && ((MethodInfo)args.Method).ReturnType != typeof(void))
-            //{
-            //    stringBuilder.Append(" with exception ");
-            //    stringBuilder.Append(args.Exception.GetType().Name);
-            //}
-
-            //Logger.WriteLine(stringBuilder.ToString());
         }
         private static void AppendCallInformation(MethodExecutionArgs args, StringBuilder stringBuilder)
         {
-            //var declaringType = args.Method.DeclaringType;
-            //Formatter.AppendTypeName(stringBuilder, declaringType);
-            //stringBuilder.Append('.');
-            //stringBuilder.Append(args.Method.Name);
 
-            //if (args.Method.IsGenericMethod)
-            //{
-            //    var genericArguments = args.Method.GetGenericArguments();
-            //    Formatter.AppendGenericArguments(stringBuilder, genericArguments);
-            //}
-
-            //var arguments = args.Arguments;
-
-            //Formatter.AppendArguments(stringBuilder, arguments);
         }
     }
 }

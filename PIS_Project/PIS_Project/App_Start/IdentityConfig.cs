@@ -36,7 +36,7 @@ namespace PIS_Project
     // Настройка диспетчера пользователей приложения. UserManager определяется в ASP.NET Identity и используется приложением.
     public class ApplicationUserManager : UserManager<ApplicationUser>
     {
-        public Users UserData;
+        public Models.DataClasses.Users UserData;
         public ApplicationUserManager(IUserStore<ApplicationUser> store)
             : base(store)
         {

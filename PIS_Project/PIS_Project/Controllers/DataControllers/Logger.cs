@@ -8,7 +8,7 @@ using PostSharp.Serialization;
 using System.Reflection;
 using PIS_Project.Models.DataClasses;
 
-namespace PIS_Project.Models.DataControllers
+namespace PIS_Project.Controllers.DataControllers
 {
     /// <summary>
     /// Класс, осуществляющий запись данных в Log.
@@ -25,20 +25,30 @@ namespace PIS_Project.Models.DataControllers
             : base("DBConnection")
         { }
         public DbSet<LogRecords> LogRecords { get; set; }
-        public void WriteInfo(int id_card, int id_user,string prop, object value)
+        public void WriteInfo(int id_card, int id_user, string toLogging)
         {
-            WriteRecord(MessageType.INFO, id_card, id_user, prop, value);
+            WriteRecord(MessageType.INFO, id_card, id_user,toLogging);
         }
-        private void WriteRecord(MessageType message,int id_card, int id_user, string prop, object value)
+        public void WriteWarning(int id_card, int id_user, string toLogging)
+        {
+            WriteRecord(MessageType.WARN, id_card, id_user, toLogging);
+        }
+        public void WriteError(int id_card, int id_user, string toLogging)
+        {
+            WriteRecord(MessageType.ERROR, id_card, id_user, toLogging);
+        }
+        private void WriteRecord(MessageType message,int id_card, int id_user,string toLogging)
         {
             var record = new LogRecords()
             {
                 Date=DateTime.Now,
-                ID_card=id_card,
                 ID_user=id_user,
-                Changes=$"[{message.ToString("F")}] "
+                Changes=$"[{message.ToString("F")}] {toLogging}"
             };
-            LogRecords.Add(null);
+            if (id_card != -1)
+                record.ID_card = id_card;
+            LogRecords.Add(record);
+            SaveChanges();
         }
     }
 
