@@ -13,10 +13,8 @@ namespace PIS_Project.Controllers.DataControllers
     [Serializable]
     internal sealed class LoggingAttribute : OnMethodBoundaryAspect
     {
-        private readonly Exception exception;
         private object _locker = new object();
         private static Logger _logger = new Logger();
-        public Exception Exception { get { return exception; } }
         public string MethodName { get; set; }
         public List<object> Arguments { get; set; }
         public string Result { get; set; }
