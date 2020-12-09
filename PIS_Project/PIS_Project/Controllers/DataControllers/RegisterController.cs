@@ -4,12 +4,17 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using PIS_Project.Models.DataClasses;
+using System.Web.Mvc;
 
 
 namespace PIS_Project.Controllers.DataControllers
 {
-    public class RegisterController
+    public class RegisterController : Controller
     {
+        public ActionResult C(int id_card = 1)
+        {
+            return View(Cards.GetCardByID(id_card));
+        }
         private CardsController Cards;
         public RegisterController()
         {

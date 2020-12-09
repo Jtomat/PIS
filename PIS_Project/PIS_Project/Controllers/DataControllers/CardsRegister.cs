@@ -79,6 +79,5 @@ namespace PIS_Project.Controllers.DataControllers
             card.MU = GetMUByID(card.ID_MU).Name;
             return card;
         }
-        
     }
 }

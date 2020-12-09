@@ -17,7 +17,11 @@ namespace PIS_Project
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
-            );
+            ); 
+            routes.MapRoute(
+                 name: "GetCard",
+                 url: "{controller}/{action}/{id_card}"
+             );
         }
     }
 }
