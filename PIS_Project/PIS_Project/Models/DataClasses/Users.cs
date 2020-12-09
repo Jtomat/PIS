@@ -13,6 +13,10 @@ namespace PIS_Project.Models.DataClasses
 
         [NotMapped]
         public override string Id { get; set; }
+        [NotMapped]
+        public override string UserName { get; set; }
+        [NotMapped]
+        public override string Email { get; set; }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get { return int.Parse(Id); } set { Id = value.ToString(); } }
