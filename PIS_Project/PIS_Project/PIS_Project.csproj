@@ -196,7 +196,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\DataControllers\CardsRegister.cs" />
+    <Compile Include="Controllers\DataControllers\CardsController.cs" />
     <Compile Include="Controllers\DataControllers\NotificationController.cs" />
     <Compile Include="Controllers\DataControllers\NotifyAttribute.cs" />
     <Compile Include="Controllers\DataControllers\RegisterOfCatched.cs" />
