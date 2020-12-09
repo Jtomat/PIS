@@ -5,9 +5,9 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
-namespace PIS_Project.Controllers.DataControllers
+namespace PIS_Project.Models.DataClasses
 {
-    public class CardsController : DbContext
+    public class CardsRegister : DbContext
     {
         internal DbSet<Card> Card { get; set; }
         internal DbSet<Status> Status { get; private set; }
@@ -39,7 +39,7 @@ namespace PIS_Project.Controllers.DataControllers
                 var prop = (new Card()).GetType().GetProperty(filter.Key);
                 result = result.Where(i => prop.GetValue(i) == filter.Value).ToList();
             }
-            using (var cards = new CardsController())
+            using (var cards = new CardsRegister())
             {
                 foreach (var card in result)
                 {
@@ -69,7 +69,7 @@ namespace PIS_Project.Controllers.DataControllers
             
             return result;
         }
-        public CardsController()
+        public CardsRegister()
             : base("DBConnection") 
         {
            

@@ -10,12 +10,12 @@ namespace PIS_Project.Controllers.DataControllers
 {
     public class RegisterController
     {
-        private CardsController Cards;
+        private CardsRegister Cards;
         public RegisterController()
         {
-            Cards = new CardsController();
+            Cards = new CardsRegister();
         }
-        public RegisterController(CardsController controller)
+        public RegisterController(CardsRegister controller)
         {
             Cards = controller;
         }
@@ -23,6 +23,23 @@ namespace PIS_Project.Controllers.DataControllers
         {
             var users = new UsersRegister().GetUserByID(id_user).ID_organization;
             var preproc = Cards.GetCards().Where(i => i.ID_MU == users).ToList();
+            var result = new Dictionary<int, Dictionary<string, object>>();
+            var prop = (new Card()).GetType().GetProperties();
+            foreach (var card in preproc)
+            {
+                var dict = new Dictionary<string, object>();
+                foreach (var pr in prop)
+                {
+                    dict.Add(pr.Name, pr.GetValue(card));
+                }
+                result.Add(card.ID, dict);
+            }
+            return result;
+        }
+
+        public Dictionary<int, Dictionary<string, object>> GetCards()
+        {
+            var preproc = Cards.GetCards().ToList();
             var result = new Dictionary<int, Dictionary<string, object>>();
             var prop = (new Card()).GetType().GetProperties();
             foreach (var card in preproc)

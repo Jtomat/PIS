@@ -1,2 +1,2 @@
 C:\ProgramData\PostSharp\6.7.11\bin.Release\net472\PostSharp.Compiler.Engine.dll
-D:\Repos\PIS\PIS_Project\PIS_Project\obj\Debug\PostSharp\postsharp.config
+C:\Users\Пользователь\Desktop\BIPIT\PISs\PIS_Project\PIS_Project\obj\Debug\PostSharp\postsharp.config

@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace PIS_Project.Controllers.DataControllers
+namespace PIS_Project.Models.DataClasses
 {
-    public class RegisterOfCatched: CardsController
+    public class RegisterOfCatched: CardsRegister
     {
         public override List<Card> GetCards()
         { 

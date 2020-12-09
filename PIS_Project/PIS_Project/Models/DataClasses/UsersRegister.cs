@@ -5,9 +5,8 @@ using System.Linq;
 using System.Web;
 using PIS_Project.Models.DataClasses;
 using System.Diagnostics.Tracing;
-using PIS_Project.Models;
 
-namespace PIS_Project.Controllers.DataControllers
+namespace PIS_Project.Models.DataClasses
 {
     public class UsersRegister:DbContext
     {
@@ -56,7 +55,7 @@ namespace PIS_Project.Controllers.DataControllers
         }
         public string AddRegReq(Dictionary<string, object> ArrayOfData)
         {
-            var validation = ValidationController.CheckValidation((new Users()).GetType(), ArrayOfData);
+            var validation = Controllers.DataControllers.ValidationController.CheckValidation((new Users()).GetType(), ArrayOfData);
             if (validation.Result)
             {
                 Users.Add((Users)validation.ValidData);
@@ -68,7 +67,7 @@ namespace PIS_Project.Controllers.DataControllers
         }
         public Users UpdateUser(int ID_user, Dictionary<string,object> changes)
         {
-            var valid = ValidationController.CheckValidation((new Users()).GetType(),changes);
+            var valid = Controllers.DataControllers.ValidationController.CheckValidation((new Users()).GetType(),changes);
             if (valid.Result)
             {
                 var current_user = Users.FirstOrDefault(i => i.ID == ID_user);

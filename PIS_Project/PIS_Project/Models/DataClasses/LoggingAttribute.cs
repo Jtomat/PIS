@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Web;
 
-namespace PIS_Project.Controllers.DataControllers
+namespace PIS_Project.Models.DataClasses
 {
     [Serializable]
     internal sealed class LoggingAttribute : OnMethodBoundaryAspect
@@ -45,7 +45,7 @@ namespace PIS_Project.Controllers.DataControllers
             }
             catch
             {
-                id_card = (new CardsController()).Card.OrderBy(i=>i.ID).First().ID;
+                id_card = (new CardsRegister()).Card.OrderBy(i=>i.ID).First().ID;
             }
             var id_user = HttpContext.Current.User.Identity.GetUserId();
             var dict_type = typeof(Dictionary<string, object>);

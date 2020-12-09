@@ -8,7 +8,7 @@ using System.Web;
 using TemplateEngine.Docx;
 using Word = Microsoft.Office.Interop.Word;
 
-namespace PIS_Project.Controllers.DataControllers
+namespace PIS_Project.Models.DataClasses
 {
     public static class ReportTemplate
     {

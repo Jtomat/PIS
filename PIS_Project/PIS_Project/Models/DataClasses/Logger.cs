@@ -8,7 +8,7 @@ using PostSharp.Serialization;
 using System.Reflection;
 using PIS_Project.Models.DataClasses;
 
-namespace PIS_Project.Controllers.DataControllers
+namespace PIS_Project.Models.DataClasses
 {
     /// <summary>
     /// Класс, осуществляющий запись данных в Log.

@@ -5,18 +5,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace PIS_Project.Controllers.DataControllers
+namespace PIS_Project.Models.DataClasses
 {
     [Serializable]
     public sealed class NotifyAttribute : OnMethodBoundaryAspect
     {
         private object _locker = new object();
-        private static NotificationController _notificator = new NotificationController();
+        private static Controllers.DataControllers.NotificationController _notificator = new Controllers.DataControllers.NotificationController();
         public override void OnSuccess(MethodExecutionArgs args)
         {
             var id_user = int.Parse(HttpContext.Current.User.Identity.GetUserId());
             var values = (Dictionary<string,object>)args.Arguments.FirstOrDefault();
-            var card_id =(new CardsController()).Card.OrderBy(i => i.ID).First().ID;
+            var card_id =(new CardsRegister()).Card.OrderBy(i => i.ID).First().ID;
             _notificator.Log("","",card_id);
 
         }
