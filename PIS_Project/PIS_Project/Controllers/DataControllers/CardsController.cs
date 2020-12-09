@@ -9,10 +9,9 @@ namespace PIS_Project.Controllers.DataControllers
 {
     public class CardsController : DbContext
     {
-        internal DbSet<Card> Cards { get; set; }
+        internal DbSet<Card> Card { get; set; }
         internal DbSet<Status> Status { get; private set; }
         internal DbSet<MUS> MUS { get; private set; }
-        
         internal Status GetStatusByID(int id)
         {
             return Status.FirstOrDefault(i => i.ID == id);
@@ -23,7 +22,7 @@ namespace PIS_Project.Controllers.DataControllers
         }
         public virtual List<Card> GetCards()
         {
-            var result = Cards.ToList();
+            var result = Card.ToList();
             foreach (var card in result)
             {
                 card.Status = GetStatusByID(card.id_status).Name;
@@ -52,7 +51,7 @@ namespace PIS_Project.Controllers.DataControllers
         }
         public List<Card> GetSortedBy(Dictionary<string, bool> filters)
         {
-            var result = Cards.ToList();
+            var result = Card.ToList();
             foreach (var filter in filters)
             {
                 var prop = (new Card()).GetType().GetProperty(filter.Key);
@@ -71,10 +70,16 @@ namespace PIS_Project.Controllers.DataControllers
             return result;
         }
         public CardsController()
-            : base("DBConnection") { }
+            : base("DBConnection") 
+        {
+           
+            Card = Set<Card>();
+            Status = Set<Status>();
+            MUS = Set<MUS>();
+        }
         public virtual Card GetCardByID(int id)
         {
-            var card = Cards.FirstOrDefault(i => i.ID == id);
+            var card = Card.FirstOrDefault(i => i.ID == id);
             card.Status = GetStatusByID(card.id_status).Name;
             card.MU = GetMUByID(card.ID_MU).Name;
             return card;

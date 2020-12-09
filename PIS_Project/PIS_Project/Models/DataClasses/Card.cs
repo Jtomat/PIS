@@ -15,7 +15,7 @@ namespace PIS_Project.Models.DataClasses
         {
             Male = 1,
             Female = 2,
-            Germafrodit = Male | Female
+            Germafrodit = Male | Female,
         }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -36,12 +36,13 @@ namespace PIS_Project.Models.DataClasses
         public byte[] document { get; set; }
         public byte[] scan_frame { get; set; }
         public DateTime sterilization_date { get; set; }
-
+        [NotMapped]
         public string Status
         {
             get;// { return (new CardRegister()).GetStatusByID(id_status).Name; }
             set;
         }
+        [NotMapped]
         public string MU
         {
             get;// { return (new CardRegister()).GetMUByID(ID_MU).Name; }

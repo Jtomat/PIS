@@ -10,7 +10,7 @@ namespace PIS_Project.Controllers.DataControllers
     {
         public override List<Card> GetCards()
         { 
-            var result =  Cards.Where(i=>MUS.FirstOrDefault(j=>j.ID==i.ID_MU).IsCatchingOrg).ToList();
+            var result =  Card.Where(i=>MUS.FirstOrDefault(j=>j.ID==i.ID_MU).IsCatchingOrg).ToList();
             foreach (var card in result)
             {
                 card.Status = GetStatusByID(card.id_status).Name;
