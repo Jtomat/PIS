@@ -10,11 +10,11 @@ namespace PIS_Project.Models.DataClasses
 {
     public class Users : ApplicationUser
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+
         [NotMapped]
         public override string Id { get; set; }
-
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get { return int.Parse(Id); } set { Id = value.ToString(); } }
         public string FIO { get { return UserName; } set { UserName = value; } }
         public string email { get { return Email; } set { Email = value; } }
