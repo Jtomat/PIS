@@ -20,12 +20,14 @@ namespace PIS_Project.Models.DataClasses
         public string email { get { return Email; } set { Email = value; } }
         public string phone { get; set; }
         public int ID_organization { get; set; }
+        [NotMapped]
         public string Organization { get; set; }
         public Guid SIN { get; set; }
         public string password { get; set; }
         public bool Confirmed { get; set; }
         public byte[] Doc { get; set; }
         public int ID_role { get; set; }
+        [NotMapped]
         public string Role { get; set; }
     }
 }
