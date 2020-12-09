@@ -16,7 +16,7 @@ namespace PIS_Project.Controllers.DataControllers
         {
             var id_user = int.Parse(HttpContext.Current.User.Identity.GetUserId());
             var values = (Dictionary<string,object>)args.Arguments.FirstOrDefault();
-            var card_id =(new CardsController()).Card.OrderBy(i => i.ID).First().ID;
+            var card_id =(new CardsController()).Cards.OrderBy(i => i.ID).First().ID;
             _notificator.Log("","",card_id);
 
         }

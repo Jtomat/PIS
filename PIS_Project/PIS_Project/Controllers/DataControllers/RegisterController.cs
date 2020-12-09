@@ -11,10 +11,11 @@ namespace PIS_Project.Controllers.DataControllers
 {
     public class RegisterController : Controller
     {
-        public ActionResult C(int id_card = 1)
+        public ActionResult Card(int id_card = 1)
         {
             return View(Cards.GetCardByID(id_card));
         }
+
         private CardsController Cards;
         public RegisterController()
         {
@@ -57,7 +58,7 @@ namespace PIS_Project.Controllers.DataControllers
                 }
                 new_card.Status = Cards.GetStatusByID(new_card.id_status).Name;
                 new_card.MU = Cards.GetMUByID(new_card.ID_MU).Name;
-                Cards.Card.Add(new_card);
+                Cards.Cards.Add(new_card);
                 Cards.SaveChanges();
             }
             else { throw new ArgumentException(validation.Information); }
@@ -68,7 +69,7 @@ namespace PIS_Project.Controllers.DataControllers
             var validation = ValidationController.CheckValidation((new Card()).GetType(), changedValues);
             if (validation.Result)
             {
-                var current_card = Cards.Card.FirstOrDefault(i => i.ID == id);
+                var current_card = Cards.Cards.FirstOrDefault(i => i.ID == id);
                 foreach (var change in changedValues)
                 {
                     var prop = current_card.GetType().GetProperty(change.Key);
@@ -132,7 +133,7 @@ namespace PIS_Project.Controllers.DataControllers
         [Logging]
         public void DeleteEntry(int id_card)
         {
-            Cards.Card.Remove(Cards.Card.Where(i=>i.ID== id_card).FirstOrDefault());
+            Cards.Cards.Remove(Cards.Cards.Where(i=>i.ID== id_card).FirstOrDefault());
             Cards.SaveChanges();
         }
     }
