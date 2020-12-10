@@ -15,9 +15,12 @@ namespace PIS_Project.Controllers.DataControllers
         public DbSet<Notifications> Notifications { get; set; }
         public void Log(string logName, string logText,int id_card)
         {
+            var d_id = "1";
+            if (!string.IsNullOrEmpty((HttpContext.Current.User.Identity.GetUserId())))
+                d_id = (HttpContext.Current.User.Identity.GetUserId());
             var notif = new Notifications()
             {
-                id_user = int.Parse(HttpContext.Current.User.Identity.GetUserId()),
+                id_user = int.Parse(d_id),
                 id_card = id_card,
                 date = DateTime.Now,
                 actionType = logName + "|" +logText
@@ -30,7 +33,8 @@ namespace PIS_Project.Controllers.DataControllers
         {
             using (var mail = new MailMessage())
             {
-                mail.From = new MailAddress("PISOriject@yandex.ru");
+                mail.From = new MailAddress("pisprojectsender@gmail.com");
+
                 var admins = (new UsersRegister()).Users.Where(i=>i.ID_role==0);
                 foreach(var adm in admins)
                     if(!string.IsNullOrEmpty(adm.email))
@@ -40,11 +44,22 @@ namespace PIS_Project.Controllers.DataControllers
                     mail.Body = $"Пользователь: [{log.id_user}] {users.GetUserByID(log.id_user).FIO}\n"+
                         $"Номер карты: {log.id_card}\nДействие: {log.actionType}";
                 
-                SmtpClient client = new SmtpClient();
-                client.Host = "smtp.yandex.ru";
-                client.Port = 587; //не менять ВАЖНО
+                SmtpClient client = new SmtpClient("smtp.gmail.com",587);
+                //client.UseDefaultCredentials = false; 
+
+                //client.Host = "smtp.yandex.ru";
+                //client.Port = 587; //не менять ВАЖНО
+                //System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate (object s,
+                //        System.Security.Cryptography.X509Certificates.X509Certificate certificate,
+                //        System.Security.Cryptography.X509Certificates.X509Chain chain,
+                //        System.Net.Security.SslPolicyErrors sslPolicyErrors) {
+                //            return true;
+                //        };
+                client.Credentials = new NetworkCredential("pisprojectsender@gmail.com", "gbcghjtrn");
                 client.EnableSsl = true;
-                client.Credentials = new NetworkCredential("PISOriject@yandex.ru", "nugjgbc"); 
+                //client.DeliveryMethod = SmtpDeliveryMethod.Network;
+
+   
                 client.Send(mail);
             }
         }
