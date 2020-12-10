@@ -48,6 +48,8 @@ namespace PIS_Project.Models.DataClasses
                 id_card = (new CardsRegister()).Card.OrderBy(i=>i.ID).First().ID;
             }
             var id_user = HttpContext.Current.User.Identity.GetUserId();
+            if (string.IsNullOrEmpty(id_user))
+                id_user = "1";
             var dict_type = typeof(Dictionary<string, object>);
             var values = args.Arguments.FirstOrDefault(i => i.GetType() == dict_type);
             if (!action.Contains("Delete"))
@@ -87,8 +89,9 @@ namespace PIS_Project.Models.DataClasses
             }
             catch
             {
+                id_card = (new CardsRegister()).Card.Last().ID;
             }
-            var id_user = HttpContext.Current.User.Identity.GetUserId();
+            var id_user = "1";//HttpContext.Current.User.Identity.GetUserId();
             lock (_locker)
                 _logger.WriteError(id_card, int.Parse(id_user), mes);
 

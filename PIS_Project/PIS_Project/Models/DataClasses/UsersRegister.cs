@@ -12,7 +12,11 @@ namespace PIS_Project.Models.DataClasses
     {
         public UsersRegister() 
             : base("DBConnection")
-        { }
+        {
+            Users = Set<Users>();
+            Organizations = Set<Organizations>();
+            Roles = Set<Roles>();
+        }
         internal DbSet<Users> Users { get; set; }
         internal DbSet<Organizations> Organizations { get; set; }
         internal DbSet<Roles> Roles { get; set; }
@@ -20,6 +24,7 @@ namespace PIS_Project.Models.DataClasses
         public Users GetUserByID(int id)
         {
             return Users.Where(i=>i.Confirmed).FirstOrDefault(i=>i.ID==id);
+            //return Users.FirstOrDefault(i => i.ID == id);
         }
         public List<Users> Requests 
         {

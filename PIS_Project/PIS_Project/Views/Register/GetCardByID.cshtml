@@ -1,0 +1,53 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>GetCardByID</title>
+</head>
+<body>
+    <div>
+        @foreach (var b in @ViewBag.CardData)
+        {
+            <p>ID </p> <input value='@b.Value["ID"]'/> 
+
+            <p>sex </p><input value='@b.Value["sex"]'/>
+
+            <p>type </p><input value='@b.Value["type"]'/>
+
+            <p>bitrhday </p><input value='@b.Value["birthday"]'/>
+
+            <p>id_mark </p><input value='@b.Value["id_mark"]'/>
+
+            <p>id_chip </p><input value='@b.Value["id_chip"]'/>
+
+            <p>name </p><input value='@b.Value["name"]'/>
+
+            <p>photo </p>@b.Value["photo"]
+
+            <p>spec_mark </p><input value='@b.Value["spec_mark"]'/>
+
+            <p>owner_traits </p><input value='@b.Value["owner_traits"]'/>
+
+            <p>id_status </p><input value='@b.Value["id_status"]'/>
+
+            <p>date_status_change </p><input value='@b.Value["date_status_change"]'/>
+
+            <p>id_mu </p><input value='@b.Value["ID_MU"]'/>
+
+            <p>local_place </p><input value='@b.Value["local_place"]'/>
+
+            <p>document </p><input value='@b.Value["document"]'/>
+
+            <p>scan_frame </p><input value='@b.Value["scan_frame"]'/>
+
+            <p>sterilisation_date </p> <input value='@b.Value["sterilization_date"]'/>
+        }
+    </div>
+</body>
+</html>

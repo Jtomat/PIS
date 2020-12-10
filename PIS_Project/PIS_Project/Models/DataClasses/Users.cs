@@ -8,20 +8,20 @@ using System.Web;
 
 namespace PIS_Project.Models.DataClasses
 {
-    public class Users : ApplicationUser
+    public class Users //: ApplicationUser
     {
 
-        [NotMapped]
-        public override string Id { get; set; }
-        [NotMapped]
-        public override string UserName { get; set; }
-        [NotMapped]
-        public override string Email { get; set; }
+        //[NotMapped]
+        //public override string Id { get; set; }
+        //[NotMapped]
+        //public override string UserName { get; set; }
+        //[NotMapped]
+        //public override string Email { get; set; }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ID { get { return int.Parse(Id); } set { Id = value.ToString(); } }
-        public string FIO { get { return UserName; } set { UserName = value; } }
-        public string email { get { return Email; } set { Email = value; } }
+        public int ID { get; set; } //{ return int.Parse(Id); } set { Id = value.ToString(); } }
+        public string FIO { get; set; } //{ return UserName; } set { UserName = value; } }
+        public string email { get; set; } //{ return Email; } set { Email = value; } }
         public string phone { get; set; }
         public int ID_organization { get; set; }
         [NotMapped]

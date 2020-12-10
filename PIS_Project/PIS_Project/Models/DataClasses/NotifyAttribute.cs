@@ -14,7 +14,10 @@ namespace PIS_Project.Models.DataClasses
         private static Controllers.DataControllers.NotificationController _notificator = new Controllers.DataControllers.NotificationController();
         public override void OnSuccess(MethodExecutionArgs args)
         {
-            var id_user = int.Parse(HttpContext.Current.User.Identity.GetUserId());
+            var id_s = "1";
+            if (!string.IsNullOrEmpty(HttpContext.Current.User.Identity.GetUserId()))
+                id_s = HttpContext.Current.User.Identity.GetUserId();
+            var id_user = int.Parse(id_s);
             var values = (Dictionary<string,object>)args.Arguments.FirstOrDefault();
             var card_id =(new CardsRegister()).Card.OrderBy(i => i.ID).First().ID;
             _notificator.Log("","",card_id);

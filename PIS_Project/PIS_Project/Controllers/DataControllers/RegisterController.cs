@@ -4,12 +4,63 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using PIS_Project.Models.DataClasses;
-
+using System.Web.Mvc;
+using System.Drawing;
+using System.IO;
 
 namespace PIS_Project.Controllers.DataControllers
 {
-    public class RegisterController
+    public class RegisterController : Controller
     {
+        public ActionResult Index()
+        {
+            Cards = new CardsRegister();
+            ViewBag.Table = GetCards();
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult ShowRegister(int id)
+        {
+            Cards = new CardsRegister();
+            ViewBag.Table = GetList(id);
+            ViewBag.Id_User = id;
+            var users_role = new UsersRegister().GetUserByID(id).ID_role;
+            ViewBag.User_Role = users_role;
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult GetCardByID(int id)
+        {
+            var preproc = new List<Card> { Cards.GetCardByID(id) };
+
+            var result = new Dictionary<int, Dictionary<string, object>>();
+            var prop = (new Card()).GetType().GetProperties();
+            foreach (var card in preproc)
+            {
+                var dict = new Dictionary<string, object>();
+                foreach (var pr in prop)
+                {
+                    
+                    if (pr.Name == "photo" && pr.GetValue(card) != null)
+                    {
+                        Bitmap bmp;
+                        using (var ms = new MemoryStream(pr.GetValue(card) as byte[]))
+                        {
+                            bmp = new Bitmap(ms);
+                        }
+                        dict.Add(pr.Name, bmp);
+                        continue;
+                    }
+                    dict.Add(pr.Name, pr.GetValue(card));
+                }
+                result.Add(card.ID, dict);
+            }
+            ViewBag.CardData = result;
+            return View();
+        }
+
         private CardsRegister Cards;
         public RegisterController()
         {
@@ -56,7 +107,7 @@ namespace PIS_Project.Controllers.DataControllers
 
         [Notify]
         [Logging]
-        internal void AddCard(Dictionary<string, object> values)
+        public void AddCard(Dictionary<string, object> values)
         {
             var validation = ValidationController.CheckValidation((new Card()).GetType(), values);
             if (validation.Result)
