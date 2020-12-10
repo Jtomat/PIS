@@ -11,11 +11,15 @@ namespace PIS_Project.Controllers.DataControllers
 {
     public class RegisterController : Controller
     {
-        public ActionResult Card(int id_card = 1)
+        public ActionResult Card(int id_card)
         {
             return View(Cards.GetCardByID(id_card));
         }
 
+        public ActionResult EditCard(int id_card)
+        {
+            return View(Cards.GetCardByID(id_card));
+        }
         private CardsController Cards;
         public RegisterController()
         {
@@ -63,17 +67,23 @@ namespace PIS_Project.Controllers.DataControllers
             }
             else { throw new ArgumentException(validation.Information); }
         }
-        [Logging]
-        public void UpdateCard(int id, Dictionary<string, object> changedValues)
+        //[Logging]
+        public void UpdateCard(Card card)
         {
+            var prop = (new Card()).GetType().GetProperties();
+            var changedValues = new Dictionary<string, object>();
+            foreach(var pr in prop)
+            {
+                changedValues.Add(pr.Name, pr.GetValue(card));
+            }
             var validation = ValidationController.CheckValidation((new Card()).GetType(), changedValues);
             if (validation.Result)
             {
-                var current_card = Cards.Cards.FirstOrDefault(i => i.ID == id);
+                var current_card = Cards.Cards.FirstOrDefault(i => i.ID == card.ID);
                 foreach (var change in changedValues)
                 {
-                    var prop = current_card.GetType().GetProperty(change.Key);
-                    prop.SetValue(current_card, change.Value);
+                    var pro = current_card.GetType().GetProperty(change.Key);
+                    pro.SetValue(current_card, change.Value);
                 }
                 Cards.SaveChanges();
             }
@@ -82,40 +92,42 @@ namespace PIS_Project.Controllers.DataControllers
         [Logging]
         public void UploadFile(int id, byte[] file)
         {
-            UpdateCard(id, (new Dictionary<string, object>() { { "scan_frame", file } }));
+            //UpdateCard(id, (new Dictionary<string, object>() { { "scan_frame", file } }));
         }
         [Logging]
         public void DeleteFile(int id)
         {
             UploadFile(id, new byte[] { });
         }
-        public byte[] ExportDoc(int id)
+        public void ExportDoc(int id)
         {
             var card = Cards.GetCardByID(id);
             if (card.document == null)
             {
-                UpdateCard(card.ID, new Dictionary<string, object> {
-                    {"document",ReportTemplate.GetDocByID(10, new Dictionary<string, object>()
-                    {
-                        {"Card_ID",card.ID },
-                        {"Date",DateTime.Now },
-                        {"Sex", card.sex.ToString("F")},
-                        {"Spec_mark",card.spec_mark },
-                        {"Sterilization_date",card.sterilization_date },
-                        {"Photo",card.photo },
-                        {"Town",card.local_place.Split(' ')[0] },
-                        {"Local",card.local_place },
-                    })
-                    }
+                card.document = ReportTemplate.GetDocByID(10, new Dictionary<string, object>()
+                { 
+                    { "ID_Card", card.ID.ToString() },
+                    { "Date", DateTime.Now },
+                    { "Sex", card.sex.ToString("F") },
+                    { "Spec_mark", card.spec_mark },
+                    { "Sterilization_date", card.sterilization_date },
+                    { "Photo", card.photo!=null?card.photo:new byte[0] },
+                    { "Town", card.local_place.Split(' ')[0] },
+                    { "Local", card.local_place },
+                    { "MU", card.MU },
+                    { "ID_mark", card.id_mark.ToString() },
+                    { "Date_found", DateTime.Now }
                 });
-
+                UpdateCard(card);
             }
-            return Cards.GetCardByID(card.ID).document;
+            
+            System.IO.File.WriteAllBytes(@"C:\Users\Анастасия\Desktop\ИСиТ 3 курс\ПИС\7 лаба\apple.docx", Cards.GetCardByID(card.ID).document);
+
         }
         [Logging]
         public void ChangeStatus(int id_card, int id_status)
         {
-            UpdateCard(id_card, new Dictionary<string, object>() { { "id_status", id_status } });
+            //UpdateCard(id_card, new Dictionary<string, object>() { { "id_status", id_status } });
         }
         public int[] AvailableStatuses(int id_status)
         {

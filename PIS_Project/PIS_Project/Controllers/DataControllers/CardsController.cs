@@ -86,5 +86,7 @@ namespace PIS_Project.Controllers.DataControllers
         }
 
         //public System.Data.Entity.DbSet<PIS_Project.Models.DataClasses.Card> Cards { get; set; }
+
+        //public System.Data.Entity.DbSet<PIS_Project.Models.DataClasses.Card> Cards { get; set; }
     }
 }
