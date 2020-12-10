@@ -13,7 +13,11 @@ namespace PIS_Project.Controllers.DataControllers
     {
         public UsersRegister() 
             : base("DBConnection")
-        { }
+        {
+            Users = Set<Users>();
+            Organizations = Set<Organizations>();
+            Roles = Set<Roles>();
+        }
         internal DbSet<Users> Users { get; set; }
         internal DbSet<Organizations> Organizations { get; set; }
         internal DbSet<Roles> Roles { get; set; }

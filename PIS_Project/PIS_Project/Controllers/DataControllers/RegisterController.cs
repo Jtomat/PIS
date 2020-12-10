@@ -39,7 +39,7 @@ namespace PIS_Project.Controllers.DataControllers
 
         [Notify]
         [Logging]
-        internal void AddCard(Dictionary<string, object> values)
+        public void AddCard(Dictionary<string, object> values)
         {
             var validation = ValidationController.CheckValidation((new Card()).GetType(), values);
             if (validation.Result)

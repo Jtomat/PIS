@@ -48,6 +48,8 @@ namespace PIS_Project.Controllers.DataControllers
                 id_card = (new CardsController()).Card.OrderBy(i=>i.ID).First().ID;
             }
             var id_user = HttpContext.Current.User.Identity.GetUserId();
+            if (string.IsNullOrEmpty(id_user))
+                id_user = "1";
             var dict_type = typeof(Dictionary<string, object>);
             var values = args.Arguments.FirstOrDefault(i => i.GetType() == dict_type);
             if (!action.Contains("Delete"))
@@ -78,6 +80,7 @@ namespace PIS_Project.Controllers.DataControllers
         }
         public override void OnException(MethodExecutionArgs args)
         {
+            
             var action = MethodAction(args.Method);
             var mes = $"Failure in {(action.Contains("Update")?("Update"):action.Contains("Delete")?"Remove":"Creating")}: {args.Exception.Message.Replace("\n"," ")}";
             var id_card = -1;
@@ -87,8 +90,9 @@ namespace PIS_Project.Controllers.DataControllers
             }
             catch
             {
+                id_card = (new CardsController()).Card.Last().ID;
             }
-            var id_user = HttpContext.Current.User.Identity.GetUserId();
+            var id_user = "1";//HttpContext.Current.User.Identity.GetUserId();
             lock (_locker)
                 _logger.WriteError(id_card, int.Parse(id_user), mes);
 
