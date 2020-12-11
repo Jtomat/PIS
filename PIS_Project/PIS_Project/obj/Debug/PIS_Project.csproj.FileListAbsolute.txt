@@ -508,3 +508,12 @@ C:\Users\Пользователь\Desktop\BIPIT\PISs\PIS_Project\PIS_Project\obj
 C:\Users\Пользователь\Desktop\BIPIT\PISs\PIS_Project\PIS_Project\obj\Debug\PIS_Project.dll
 C:\Users\Пользователь\Desktop\BIPIT\PISs\PIS_Project\PIS_Project\obj\Debug\PIS_Project.pdb
 C:\Users\Пользователь\Desktop\BIPIT\PISs\PIS_Project\PIS_Project\obj\Debug\PostSharp\postsharp.app.config
+C:\Users\Пользователь\Desktop\BIPIT\PISs\PIS_Project\PIS_Project\bin\System.Net.Http.Formatting.dll
+C:\Users\Пользователь\Desktop\BIPIT\PISs\PIS_Project\PIS_Project\bin\System.Web.Http.dll
+C:\Users\Пользователь\Desktop\BIPIT\PISs\PIS_Project\PIS_Project\bin\System.Web.Http.WebHost.dll
+C:\Users\Пользователь\Desktop\BIPIT\PISs\PIS_Project\PIS_Project\bin\System.Net.Http.Formatting.xml
+C:\Users\Пользователь\Desktop\BIPIT\PISs\PIS_Project\PIS_Project\bin\System.Web.Http.xml
+C:\Users\Пользователь\Desktop\BIPIT\PISs\PIS_Project\PIS_Project\bin\System.Web.Http.WebHost.xml
+C:\Users\Пользователь\Desktop\BIPIT\PISs\PIS_Project\PIS_Project\bin\ru\System.Net.Http.Formatting.resources.dll
+C:\Users\Пользователь\Desktop\BIPIT\PISs\PIS_Project\PIS_Project\bin\ru\System.Web.Http.resources.dll
+C:\Users\Пользователь\Desktop\BIPIT\PISs\PIS_Project\PIS_Project\bin\ru\System.Web.Http.WebHost.resources.dll

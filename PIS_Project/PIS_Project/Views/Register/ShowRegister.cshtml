@@ -12,45 +12,59 @@
 </head>
 <body>
     <div>
-        <a href="ShowRegister/1">Открыть</a>
         <h3>Журнал</h3>
-        <h2>Роль @ViewBag.User_Role</h2>
-        <table>
-            <tr class="header">
-                <td><p>ID </p></td>
-                <td><p>sex </p></td>
-                <td><p>type </p></td>
-                <td><p>bitrhday </p></td>
-                <td><p>id_mark </p></td>
-                <td><p>id_chip </p></td>
-                <td><p>name </p></td>
-                <td><p>photo </p></td>
-                <td><p>spec_mark </p></td>
-                <td><p>owner_traits </p></td>
-                <td><p>id_status </p></td>
-                <td><p>date_status_change </p></td>
-                <td><p>id_mu </p></td>
-                <td><p>local_place </p></td>
-                <td><p>document </p></td>
-                <td><p>scan_frame </p></td>
-                <td><p>sterilisation_date </p></td>
-                <td><p>status </p></td>
-                <td><p>MU </p></td>
-                <td></td>
-                <td></td>
-            </tr>
-            @foreach (var b in @ViewBag.Table)
+        <h3>Роль @ViewBag.User_Role</h3>
+        <p><a href="">Фильтровать</a></p>
+        <p><a href="">Сортировать</a></p>
+        <p><a href="">Экспортировать в Excel</a></p>
+        @if (@ViewBag.User_Role.ToString() == "0" || @ViewBag.User_Role.ToString() == "1" || @ViewBag.User_Role.ToString() == "2")
+        {
+            <p><a href="">Содержание животных в приюте</a></p>
+            if (@ViewBag.User_Role.ToString() == "0" || @ViewBag.User_Role.ToString() == "2")
             {
+                <p><a href="">Добавить</a></p>
+            }
+        }
+            <table>
+                <tr class="header">
+                    <td><p>ID </p></td>
+                    <td><p>sex </p></td>
+                    <td><p>type </p></td>
+                    <td><p>bitrhday </p></td>
+                    <td><p>id_mark </p></td>
+                    <td><p>id_chip </p></td>
+                    <td><p>name </p></td>
+                    <td><p>photo </p></td>
+                    <td><p>spec_mark </p></td>
+                    <td><p>owner_traits </p></td>
+                    <td><p>id_status </p></td>
+                    <td><p>date_status_change </p></td>
+                    <td><p>id_mu </p></td>
+                    <td><p>local_place </p></td>
+                    <td><p>document </p></td>
+                    <td><p>scan_frame </p></td>
+                    <td><p>sterilisation_date </p></td>
+                    <td><p>status </p></td>
+                    <td><p>MU </p></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                @foreach (var b in @ViewBag.Table)
+                {
 
                 <tr>
                     @foreach (var val in b.Value.Values)
                     {
                         <td><p>@val  </p></td>
                     }
-                    <td><p><a href="GetCardByID/@b.Key">Открыть</a></p></td>
-                </tr>
-            }
-        </table>
-    </div>
+                    <td><p><a href="/Register/GetCardByID?id=@b.Key&id_user=@ViewBag.Id_User">Открыть</a></p></td>
+                    @if (@ViewBag.User_Role.ToString() == "0" || @ViewBag.User_Role.ToString() == "1" || @ViewBag.User_Role.ToString() == "2")
+                    {
+                        <td><p><a href="">Удалить</a></p></td>
+                    }
+                    </tr>
+                }
+            </table>
+        </div>
 </body>
 </html>

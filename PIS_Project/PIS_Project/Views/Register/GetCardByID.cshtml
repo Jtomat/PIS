@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     Layout = null;
 }
 
@@ -14,40 +13,58 @@
     <div>
         @foreach (var b in @ViewBag.CardData)
         {
-            <p>ID </p> <input value='@b.Value["ID"]'/> 
+            if (@ViewBag.Id_User != 0)
+            {
+                <p><a href="">Экспорт в Word</a></p>
+                if (@ViewBag.User_Role.ToString() == "0" || @ViewBag.User_Role.ToString() == "1" || @ViewBag.User_Role.ToString() == "2")
+                {
+                    <p><a href="">Изменить</a></p>
+                    <p><a href="">Загрузить файл</a></p>
+                    <p><a href="">Удалить файл</a></p>
+                    if (@ViewBag.User_Role.ToString() == "0" || @ViewBag.User_Role.ToString() == "2")
+                    {
+                    <p><a href="">Создать паспорт домашнего животного</a></p>
+                    }
+                }
+            }
+            <p>ID </p> <input value='@b.Value["ID"]' readonly="readonly" />
 
-            <p>sex </p><input value='@b.Value["sex"]'/>
+            <p>sex </p><input value='@b.Value["sex"]' readonly="readonly" />
 
-            <p>type </p><input value='@b.Value["type"]'/>
+            <p>type </p><input value='@b.Value["type"]' readonly="readonly" />
 
-            <p>bitrhday </p><input value='@b.Value["birthday"]'/>
+            <p>bitrhday </p><input type="date" value='@b.Value["birthday"]' readonly="readonly" />
 
-            <p>id_mark </p><input value='@b.Value["id_mark"]'/>
+            <p>id_mark </p><input value='@b.Value["id_mark"]' readonly="readonly" />
 
-            <p>id_chip </p><input value='@b.Value["id_chip"]'/>
+            <p>id_chip </p><input value='@b.Value["id_chip"]' readonly="readonly" />
 
-            <p>name </p><input value='@b.Value["name"]'/>
+            <p>name </p><input value='@b.Value["name"]' readonly="readonly" />
+            if (@b.Value["photo"] != null)
+            {
+                <p>photo </p><img class="img-responsive img-thumbnail ratio-4-3" src="data:image/png;base64,@(Convert.ToBase64String(@b.Value["photo"]))" />
+            }
+            else
+            { <p>photo нет фото</p> }
+            <p>spec_mark </p><input value='@b.Value["spec_mark"]' readonly="readonly" />
 
-            <p>photo </p>@b.Value["photo"]
+            <p>owner_traits </p><input value='@b.Value["owner_traits"]' readonly="readonly" />
 
-            <p>spec_mark </p><input value='@b.Value["spec_mark"]'/>
+            <p>id_status </p><input value='@b.Value["id_status"]' readonly="readonly" />
 
-            <p>owner_traits </p><input value='@b.Value["owner_traits"]'/>
+            <p>date_status_change </p><input type="date" value='@b.Value["date_status_change"]' readonly="readonly" />
 
-            <p>id_status </p><input value='@b.Value["id_status"]'/>
+            <p>id_mu </p><input value='@b.Value["ID_MU"]' readonly="readonly" />
 
-            <p>date_status_change </p><input value='@b.Value["date_status_change"]'/>
+            <p>local_place </p><input value='@b.Value["local_place"]' readonly="readonly" />
 
-            <p>id_mu </p><input value='@b.Value["ID_MU"]'/>
+            <p>document </p><input value='@b.Value["document"]' readonly="readonly" />
 
-            <p>local_place </p><input value='@b.Value["local_place"]'/>
+            <p>scan_frame </p><input value='@b.Value["scan_frame"]' readonly="readonly" />
 
-            <p>document </p><input value='@b.Value["document"]'/>
-
-            <p>scan_frame </p><input value='@b.Value["scan_frame"]'/>
-
-            <p>sterilisation_date </p> <input value='@b.Value["sterilization_date"]'/>
+            <p>sterilisation_date </p> <input type="date" value='@b.Value["sterilization_date"]' readonly="readonly" />
         }
     </div>
 </body>
 </html>
+

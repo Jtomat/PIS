@@ -12,6 +12,8 @@ namespace PIS_Project.Controllers.DataControllers
 {
     public class RegisterController : Controller
     {
+        public int id_user;
+
         public ActionResult Index()
         {
             Cards = new CardsRegister();
@@ -22,6 +24,7 @@ namespace PIS_Project.Controllers.DataControllers
         [HttpGet]
         public ActionResult ShowRegister(int id)
         {
+            id_user = id;
             Cards = new CardsRegister();
             ViewBag.Table = GetList(id);
             ViewBag.Id_User = id;
@@ -31,10 +34,17 @@ namespace PIS_Project.Controllers.DataControllers
         }
 
         [HttpGet]
-        public ActionResult GetCardByID(int id)
+        public ActionResult GetCardByID(int id, int id_user)
         {
             var preproc = new List<Card> { Cards.GetCardByID(id) };
-
+            ViewBag.Id_User = default(int);
+            if (id_user != default(int))
+            {
+                ViewBag.Id_User = id_user;
+                var users_role = new UsersRegister().GetUserByID(id_user).ID_role;
+                ViewBag.User_Role = users_role;
+            }
+            
             var result = new Dictionary<int, Dictionary<string, object>>();
             var prop = (new Card()).GetType().GetProperties();
             foreach (var card in preproc)
@@ -42,15 +52,22 @@ namespace PIS_Project.Controllers.DataControllers
                 var dict = new Dictionary<string, object>();
                 foreach (var pr in prop)
                 {
-                    
-                    if (pr.Name == "photo" && pr.GetValue(card) != null)
+                    if (pr.Name == "date_status_change" && pr.GetValue(card) != null)
                     {
-                        Bitmap bmp;
-                        using (var ms = new MemoryStream(pr.GetValue(card) as byte[]))
-                        {
-                            bmp = new Bitmap(ms);
-                        }
-                        dict.Add(pr.Name, bmp);
+                        var date = DateTime.Parse(pr.GetValue(card).ToString()).ToString("yyyy-MM-dd");
+                        dict.Add(pr.Name, date);
+                        continue;
+                    }
+                    if (pr.Name == "birthday" && pr.GetValue(card) != null)
+                    {
+                        var date = DateTime.Parse(pr.GetValue(card).ToString()).ToString("yyyy-MM-dd");
+                        dict.Add(pr.Name, date);
+                        continue;
+                    }
+                    if (pr.Name == "sterilization_date" && pr.GetValue(card) != null)
+                    {
+                        var date = DateTime.Parse(pr.GetValue(card).ToString()).ToString("yyyy-MM-dd");
+                        dict.Add(pr.Name, date);
                         continue;
                     }
                     dict.Add(pr.Name, pr.GetValue(card));
