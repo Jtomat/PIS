@@ -22,7 +22,29 @@ namespace PIS_Project.Controllers.DataControllers
                 {
                     var prop = new_user.GetType().GetProperty(data.Key);
                     var converter = TypeDescriptor.GetConverter(prop.PropertyType);
-                    var result = converter.ConvertFrom(data.Value);
+                    //var result = converter.ConvertFrom(data.Value);
+                    //
+                    var result = new object();
+                    try
+                    {
+                        result = converter.ConvertFrom(data.Value);
+                    }
+                    catch
+                    {
+                        try {
+                            result = Convert.FromBase64String(data.Value.ToString());
+                        }
+                        catch {
+                            try
+                            {
+                                result = converter.ConvertFrom((data.Value as string[])[0]);
+                            }
+                            catch
+                            {
+                                result = Convert.FromBase64String((data.Value as string[])[0]);
+                            }
+                        }
+                    }
                     prop.SetValue(new_user, result);
                 }
                 catch { valid = false; message += $"Property value {data.Key} failed validation.\n"; }
