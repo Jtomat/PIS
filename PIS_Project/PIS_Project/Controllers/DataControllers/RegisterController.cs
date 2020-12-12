@@ -139,8 +139,8 @@ namespace PIS_Project.Controllers.DataControllers
         }
 
 
-        //[Logging]
-        //[Notify]
+       [Logging]
+        [Notify]
         [HttpPost]
         public void AddCard(Dictionary<string, object> values)
         {
