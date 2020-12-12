@@ -5,6 +5,7 @@ using System.Web;
 using PIS_Project.Models.DataClasses;
 using PIS_Project.Models.DataControllers;
 using System.Web.Mvc;
+using System.ComponentModel;
 
 namespace PIS_Project.Controllers.DataControllers
 {
@@ -20,7 +21,9 @@ namespace PIS_Project.Controllers.DataControllers
                 try
                 {
                     var prop = new_user.GetType().GetProperty(data.Key);
-                    prop.SetValue(new_user, data.Value);
+                    var converter = TypeDescriptor.GetConverter(prop.PropertyType);
+                    var result = converter.ConvertFrom(data.Value);
+                    prop.SetValue(new_user, result);
                 }
                 catch { valid = false; message += $"Property value {data.Key} failed validation.\n"; }
             }
