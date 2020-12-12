@@ -49,7 +49,7 @@ namespace PIS_Project.Controllers.DataControllers
                 foreach (var change in values)
                 {
                     var prop = new_card.GetType().GetProperty(change.Key);
-                    prop.SetValue(new_card, change.Value);
+                    prop.SetValue(new_card, prop.GetValue(validation.ValidData));
                 }
                 new_card.Status = Cards.GetStatusByID(new_card.id_status).Name;
                 new_card.MU = Cards.GetMUByID(new_card.ID_MU).Name;

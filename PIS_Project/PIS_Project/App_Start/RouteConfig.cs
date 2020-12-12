@@ -18,11 +18,7 @@ namespace PIS_Project
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
-            routes.MapRoute(
-                name: "Register",
-                url: "{controller}/{action}/{values}",
-                defaults: new { controller = "Register", action = "AddCard", values = new Dictionary<string,object>() }
-            );
+
         }
     }
 }

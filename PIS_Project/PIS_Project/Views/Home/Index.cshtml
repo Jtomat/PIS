@@ -10,18 +10,18 @@
 @{
     var d = (new PIS_Project.Controllers.DataControllers.RegisterController()).GetList(1);
     var c = 0;
-    //(new PIS_Project.Controllers.DataControllers.RegisterController()).AddCard(new Dictionary<string, object>()
-    //{
-    //    {"sex",4 },
-    //    {"type",2 },
-    //   {"birthday",DateTime.Now },
-    //    {"id_mark",567 },
-    //   {"id_chip",421 },
-    //    {"date_status_change",DateTime.Now },
-    //    {"ID_MU",3 },
-    //    {"sterilization_date",DateTime.Now },
-    //    {"id_status",1 }
-    //});
+    (new PIS_Project.Controllers.DataControllers.RegisterController()).AddCard(new Dictionary<string, object>()
+    {
+        {"sex","2" },
+        {"type","2" },
+       {"birthday",DateTime.Now.ToString() },
+        {"id_mark","567" },
+       {"id_chip","421" },
+        {"date_status_change",DateTime.Now.ToString() },
+        {"ID_MU","3" },
+        {"sterilization_date",DateTime.Now.ToString() },
+        {"id_status","1" }
+    });
     //var ds = new PIS_Project.Controllers.DataControllers.CardsController();
     //var r = new PIS_Project.Controllers.DataControllers.RegisterController();
     //foreach (var card in ds.GetCards())
