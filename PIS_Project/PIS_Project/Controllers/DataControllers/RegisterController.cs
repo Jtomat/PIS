@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using PIS_Project.Models.DataClasses;
 
 
@@ -36,7 +37,7 @@ namespace PIS_Project.Controllers.DataControllers
             }
             return result;
         }
-
+        [HttpPost]
         [Notify]
         [Logging]
         public void AddCard(Dictionary<string, object> values)
