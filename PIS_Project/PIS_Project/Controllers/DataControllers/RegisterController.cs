@@ -68,7 +68,7 @@ namespace PIS_Project.Controllers.DataControllers
                 foreach (var change in changedValues)
                 {
                     var prop = current_card.GetType().GetProperty(change.Key);
-                    prop.SetValue(current_card, change.Value);
+                    prop.SetValue(current_card, prop.GetValue(validation.ValidData));
                 }
                 Cards.SaveChanges();
             }
