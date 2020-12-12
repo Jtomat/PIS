@@ -296,6 +296,7 @@
     <Content Include="Views\Register\Index.cshtml" />
     <Content Include="Views\Register\ShowRegister.cshtml" />
     <Content Include="Views\Register\GetCardByID.cshtml" />
+    <Content Include="Views\Register\CreateNewCard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

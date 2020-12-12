@@ -34,6 +34,22 @@ namespace PIS_Project.Controllers.DataControllers
         }
 
         [HttpGet]
+        public ActionResult CreateNewCard(int id_user)
+        {
+            ViewBag.Id_User = default(int);
+            if (id_user != default(int))
+            {
+                ViewBag.Id_User = id_user;
+                var users_role = new UsersRegister().GetUserByID(id_user).ID_role;
+                ViewBag.User_Role = users_role;
+            }
+            ViewBag.MU = new UsersRegister().GetUserByID(id_user).ID_organization;
+            ViewBag.Id = GetCards().Count + 1;
+            ViewBag.Params = new Dictionary<string, object>();
+            return View();
+        }
+
+        [HttpGet]
         public ActionResult GetCardByID(int id, int id_user)
         {
             var preproc = new List<Card> { Cards.GetCardByID(id) };
@@ -122,10 +138,45 @@ namespace PIS_Project.Controllers.DataControllers
             return result;
         }
 
-        [Notify]
-        [Logging]
+
+        //[Logging]
+        //[Notify]
+        [HttpPost]
         public void AddCard(Dictionary<string, object> values)
         {
+
+            /*Dictionary<string, object> new_values = new Dictionary<string, object>();
+            foreach (var key in values.Keys)
+            {
+                if ((values[key] as string[])[0] != "")
+                {
+                    if (key == "birthday" || key == "sterilization_date" || key == "date_status_change")
+                    {
+                        new_values.Add(key, DateTime.Parse((values[key] as string[])[0]));
+                        continue;
+                    }
+                    if (key == "sex" || key == "type" || key == "id_mark" || key == "id_chip" || key == "id_status" || key == "ID_MU")
+                    {
+                        new_values.Add(key, int.Parse((values[key] as string[])[0]));
+                        continue;
+                    }
+                    if (key == "sex" || key == "type" || key == "id_mark" || key == "id_chip" || key == "id_status" || key == "ID_MU")
+                    {
+                        new_values.Add(key, int.Parse((values[key] as string[])[0]));
+                        continue;
+                    }
+                    if (key == "photo")
+                    {
+                        Image image = Image.FromFile((values[key] as string[])[0]);
+                        System.IO.MemoryStream memoryStream = new System.IO.MemoryStream();
+                        image.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Jpeg);
+                        byte[] b = memoryStream.ToArray();
+                        new_values.Add(key, b);
+                        continue;
+                    }
+                    new_values.Add(key, (values[key] as string[])[0]);
+                }
+            }*/
             var validation = ValidationController.CheckValidation((new Card()).GetType(), values);
             if (validation.Result)
             {
@@ -133,7 +184,7 @@ namespace PIS_Project.Controllers.DataControllers
                 foreach (var change in values)
                 {
                     var prop = new_card.GetType().GetProperty(change.Key);
-                    prop.SetValue(new_card, change.Value);
+                    prop.SetValue(new_card, prop.GetValue(validation.ValidData));
                 }
                 new_card.Status = Cards.GetStatusByID(new_card.id_status).Name;
                 new_card.MU = Cards.GetMUByID(new_card.ID_MU).Name;

@@ -1,0 +1,86 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>GetCardByID</title>
+</head>
+<body>
+    <script type="text/javascript">
+        var fileByteArray = [];
+
+        function fileToByteArray(file) {
+            return new Promise((resolve, reject) => {
+                try {
+                    let reader = new FileReader();
+                    let fileByteArray = [];
+                    reader.readAsArrayBuffer(file);
+                    reader.onloadend = (evt) => {
+                        if (evt.target.readyState == FileReader.DONE) {
+                            let arrayBuffer = evt.target.result,
+                                array = new Uint8Array(arrayBuffer);
+                            for (byte of array) {
+                                fileByteArray.push(byte);
+                            }
+                        }
+                        resolve(fileByteArray);
+                    }
+                }
+                catch (e) {
+                    reject(e);
+                }
+            })
+        }
+
+         async function ReadPhoto(input) {
+            let file = input.files[0];
+            let byteArray = await fileToByteArray(file);
+
+            //Do something with the byteArray
+            console.log(byteArray);
+             alert(byteArray);
+             document.getElementByID("values[photo]").value += byteArray;
+             document.getElementByID("values[photo]").innerText += byteArray;
+             let base64String = Convert.ToBase64String(byteArray, 0, byteArray);
+             document.getElementByID("img").src = "data:image/png;base64,";
+        }
+
+    </script>
+    <div>
+        @using (Html.BeginForm("AddCard", "Register", FormMethod.Post))
+        {
+            <p>ID </p> @ViewBag.ID
+            <p>Sex </p>
+            <select name="values[sex]">
+                <option value="1">М</option>
+                <option value="2">Ж</option>
+                <option value="3">Ср</option>
+            </select>
+            <p>type </p><input type="number" name="values[type]" />
+            <p>bitrhday </p><input name="values[birthday]" type="date" />
+            <p>id_mark </p><input type="number" name="values[id_mark]" />
+            <p>id_chip </p><input type="number" name="values[id_chip]" />
+            <p>name </p><input name="values[name]" />
+            <p>photo</p> <input onchange="ReadPhoto(this)" type="file" id="photo" />
+            <input hidden="hidden" id="values[photo]" name="values[photo]" />
+            <img id="img"/>
+            <p>spec_mark </p><input name="values[spec_mark]" />
+            <p>owner_traits </p><input name="values[owner_traits]" />
+            <p>status </p>
+            <select name="values[id_status]">
+                <option value="1">Жив</option>
+                <option value="2">Выбыл по причине естественной смерти</option>
+            </select>
+            <p>date_status_change </p><input type="date" name="values[date_status_change]" />
+            <p>id_mu </p><input name="values[ID_MU]" value="@ViewBag.MU" hidden="hidden" />
+            <p>local_place </p><input name="values[local_place]" />
+            <p>sterilisation_date </p> <input type="date" name="values[sterilization_date]" />
+            <input type="submit" value="Отправить" />
+        }
+    </div>
+</body>
+</html>
