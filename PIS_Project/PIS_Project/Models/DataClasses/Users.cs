@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Security.Principal;
 using System.Web;
 
 namespace PIS_Project.Models.DataClasses
 {
-    public class Users //: ApplicationUser
+    public class Users:IIdentity //: ApplicationUser
     {
 
        // [NotMapped]
@@ -33,6 +34,11 @@ namespace PIS_Project.Models.DataClasses
         public int ID_role { get; set; }
         [NotMapped]
         public string Role { get; set; }
-        
+        [NotMapped]
+        public string Name => FIO;
+        [NotMapped]
+        public string AuthenticationType => IsAuthenticated?"В сети":"Не в сети";
+        [NotMapped]
+        public bool IsAuthenticated { get; set; }
     }
 }
