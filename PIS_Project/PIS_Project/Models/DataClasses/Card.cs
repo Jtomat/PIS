@@ -122,7 +122,7 @@ namespace PIS_Project.Models.DataClasses
                         break;
                 }
                 if (sex == SexAnimal.Germafrodit)
-                    result = "У неё член! Ну на этом наши полномочия всё...";
+                    result = "Ну на этом наши полномочия всё...";
                 return result;
             }
         }
