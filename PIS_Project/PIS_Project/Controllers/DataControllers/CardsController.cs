@@ -41,17 +41,20 @@ namespace PIS_Project.Controllers.DataControllers
 
             result.ForEach(i =>
             {
-                var prop = (new Card()).GetType().GetProperty(filter.Key);
-                result = result.Where(i => prop.GetValue(i) == filter.Value).ToList();
-            }
+                string value = (string)prop.GetValue(i);
+                if (value != null && value.ToLower().Contains(filters["value"]))
+                    filtredCards.Add(i);
+            });
 
-                foreach (var card in result)
+            using (var cards = new CardsController())
+            {
+                foreach (var card in filtredCards)
                 {
                     card.Status = GetStatusByID(card.id_status).Name;
                     card.MU = GetMUByID(card.ID_MU).Name;
                 }
-            
-            return result;
+            }
+            return filtredCards;
         }
 
         public List<Card> GetSortedBy(List<Card> cards, string sortOrder, bool upper)

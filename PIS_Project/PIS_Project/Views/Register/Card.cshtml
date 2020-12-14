@@ -120,6 +120,9 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Редактировать", "EditCard", new { id_card = Model.ID }) |
+    @if (@ViewBag.User_Role.ToString() == "1" || @ViewBag.User_Role.ToString() == "2")
+    {
+        @Html.ActionLink("Edit Card", "EditCard", new { id_card = Model.ID })
+    }
     @Html.ActionLink("Back to List", "Index")
 </p>

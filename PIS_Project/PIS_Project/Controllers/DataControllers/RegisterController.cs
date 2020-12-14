@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using PIS_Project.Models.DataClasses;
-using System.Web.Mvc;
 using System.IO;
 
 namespace PIS_Project.Controllers.DataControllers
@@ -38,12 +37,31 @@ namespace PIS_Project.Controllers.DataControllers
 
         public ActionResult Card(int id_card)
         {
-            return View(Cards.GetCardByID(id_card));
+            int id_user = 2;
+            if (id_user != null)
+            {
+                var users_role = new UsersRegister().GetUserByID(id_user).ID_role;
+                ViewBag.User_Role = users_role;
+            }
+            var card = Cards.GetCardByID(id_card);
+            return View(card);
         }
 
         public ActionResult EditCard(int id_card)
         {
-            return View(Cards.GetCardByID(id_card));
+            var id_user = 2;
+            var users_role = default(int);
+
+            if (id_user != null)
+                users_role = new UsersRegister().GetUserByID(id_user).ID_role;
+
+            if (users_role == 1 || users_role == 2)
+                return View(Cards.GetCardByID(id_card));
+            else
+            {
+                ViewBag.User_Role = users_role;
+                return View("Card", Cards.GetCardByID(id_card));
+            }
         }
 
         private CardsController Cards;
@@ -121,8 +139,8 @@ namespace PIS_Project.Controllers.DataControllers
                 var current_card = Cards.Cards.FirstOrDefault(i => i.ID == card.ID);
                 foreach (var change in changedValues)
                 {
-                    var prop = current_card.GetType().GetProperty(change.Key);
-                    prop.SetValue(current_card, prop.GetValue(validation.ValidData));
+                    var property = current_card.GetType().GetProperty(change.Key);
+                    property.SetValue(current_card, property.GetValue(validation.ValidData));
                 }
                 Cards.SaveChanges();
                 return RedirectToAction("Card", "Register", new { id_card = card.ID });
