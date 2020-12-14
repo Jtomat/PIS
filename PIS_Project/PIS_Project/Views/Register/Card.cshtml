@@ -4,154 +4,122 @@
     ViewBag.Title = "Card";
 }
 
-<h2>Карта животного</h2>
+<h2>Card</h2>
 
 <div>
+    <h4>Card</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.ID)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ID)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.sex)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.sex)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.type)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.type)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.birthday)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.birthday)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.id_mark)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.id_mark)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.id_chip)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.id_chip)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.name)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.name)
         </dd>
-
+        <dt>
+            @Html.DisplayNameFor(model => model.birthday)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.birthday)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.sex)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.sex)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.type)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.type)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.id_mark)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.id_mark)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.id_chip)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.id_chip)
+        </dd>
         <dt>
             @Html.DisplayNameFor(model => model.photo)
         </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.photo)
-        </dd>
-
+        @if (@Model.photo != null)
+        {
+            <dd>
+                <div style="width: 300px;">
+                    <img class="img-responsive img-thumbnail ratio-4-3" src="data:image/png;base64,@(Convert.ToBase64String(@Model.photo))" />
+                </div>
+            </dd>
+        }
+        else
+        {
+            <dd>
+                Нет фото
+            </dd>
+        }
         <dt>
             @Html.DisplayNameFor(model => model.spec_mark)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.spec_mark)
         </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.owner_traits)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.owner_traits)
         </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.id_status)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.id_status)
         </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.date_status_change)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.date_status_change)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ID_MU)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ID_MU)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.local_place)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.local_place)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.document)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.document)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.scan_frame)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.scan_frame)
-        </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.sterilization_date)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.sterilization_date)
         </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ID_MU)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ID_MU)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.local_place)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.local_place)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.document)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.document)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.scan_frame)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.scan_frame)
+        </dd>
     </dl>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Экспорт в Word" onclick="location.href='@Url.Action("ExportDoc", "Register", new {id = Html.DisplayFor(model => model.ID)})'" class="btn btn-default" />
-        </div>
-    </div>
 </div>
 <p>
-    @Html.ActionLink("Редактировать", "EditCard") |
+    @Html.ActionLink("Редактировать", "EditCard", new { id_card = Model.ID }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

@@ -1,0 +1,141 @@
+﻿@model IEnumerable<PIS_Project.Models.DataClasses.Card>
+
+@{
+    ViewBag.Title = "Sort";
+}
+
+<h2>Sort</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+
+@using (Html.BeginForm("Sort", "Register", FormMethod.Post, new { @class = "form-inline" }))
+{
+    <div>
+        Значение для фильтрации: @Html.TextBox("filters[search]", null, new { @class = "form-control" })
+        Поле для фильтрации: @Html.DropDownList("filters[field]", ViewBag.Fields as SelectList, new { @class = "form-control" })
+        <input сlass="btn btn-primary" id="sendFilter" type="submit" value="Применить" />
+    </div>
+}
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Пол животного", "Sort", new { sortOrder = "sex", upper = ViewData["sex"] })
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.type)
+        </th>
+        <th>
+            @Html.ActionLink("Дата рождения", "Sort", new { sortOrder = "birthday", upper = ViewData["birthday"] })
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.id_mark)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.id_chip)
+        </th>
+        <th>
+            @Html.ActionLink("Кличка", "Sort", new { sortOrder = "name", upper = ViewData["name"] })
+        </th>
+        @*@<th>
+                    @Html.DisplayNameFor(model => model.photo)
+            </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.spec_mark)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.owner_traits)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.id_status)
+        </th>
+        <th>
+            @Html.ActionLink("Дата установки статуса", "Sort", new { sortOrder = "date_status_change", upper = ViewData["date_status_change"] })
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ID_MU)
+        </th>
+        <th>
+            @Html.ActionLink("Населенный пункт", "Sort", new { sortOrder = "local_place", upper = ViewData["local_place"] })
+        </th>
+        @*@<th>
+                    @Html.DisplayNameFor(model => model.document)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.scan_frame)
+            </th>*@
+        <th>
+            @Html.ActionLink("Дата стерелизации", "Sort", new { sortOrder = "sterilization_date", upper = ViewData["sterilization_date"] })
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.sex)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.birthday)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.id_mark)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.id_chip)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            @*@<td>
+                    @Html.DisplayFor(modelItem => item.photo)
+                </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.spec_mark)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.owner_traits)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.id_status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.date_status_change)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ID_MU)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.local_place)
+            </td>
+            @*@<td>
+                    @Html.DisplayFor(modelItem => item.document)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.scan_frame)
+                </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.sterilization_date)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+    }
+
+</table>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/bootstrap")
+}

@@ -1,16 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using PIS_Project.Models.DataClasses;
 using System.Web.Mvc;
-
+using System.IO;
 
 namespace PIS_Project.Controllers.DataControllers
 {
     public class RegisterController : Controller
     {
+
+        public Dictionary<string, string> fieldsDict = new Dictionary<string, string>
+        {
+            {"name", "Кличка"},
+            {"birthday", "День рождения"},
+            {"sex", "Пол"}
+        };
+
+        public ActionResult Sort(Dictionary<string, string> filters, string sortOrder, bool upper = false)
+        {
+            SelectList fields = new SelectList(fieldsDict, "Key", "Value");
+            ViewBag.Fields = fields;
+            List<Card> card;
+            if (filters.ContainsKey("field"))
+                card = Cards.GetFilteredBy(filters);
+            else
+                card = Cards.GetCards().ToList().GetRange(0, 3);
+            if (!String.IsNullOrEmpty(sortOrder))
+            {
+                ViewData[sortOrder] = !upper;
+                card = Cards.GetSortedBy(card, sortOrder, (bool)ViewData[sortOrder]);
+            }
+            return View(card);
+        }
+
         public ActionResult Card(int id_card)
         {
             return View(Cards.GetCardByID(id_card));
@@ -20,15 +44,19 @@ namespace PIS_Project.Controllers.DataControllers
         {
             return View(Cards.GetCardByID(id_card));
         }
+
         private CardsController Cards;
+
         public RegisterController()
         {
             Cards = new CardsController();
         }
+
         public RegisterController(CardsController controller)
         {
             Cards = controller;
         }
+
         public Dictionary<int, Dictionary<string, object>> GetList(int id_user)
         {
             var users = new UsersRegister().GetUserByID(id_user).ID_organization;
@@ -67,15 +95,25 @@ namespace PIS_Project.Controllers.DataControllers
             }
             else { throw new ArgumentException(validation.Information); }
         }
+
         //[Logging]
-        public void UpdateCard(Card card)
+        [HttpPost]
+        public RedirectToRouteResult UpdateCard(Card card)
         {
+            if (card.photo == null)
+            {
+                DeleteFile(card, "photo");
+            }
+
             var prop = (new Card()).GetType().GetProperties();
             var changedValues = new Dictionary<string, object>();
-            foreach(var pr in prop)
+
+
+            foreach (var pr in prop)
             {
                 changedValues.Add(pr.Name, pr.GetValue(card));
             }
+
             var validation = ValidationController.CheckValidation((new Card()).GetType(), changedValues);
             if (validation.Result)
             {
@@ -86,26 +124,34 @@ namespace PIS_Project.Controllers.DataControllers
                     pro.SetValue(current_card, change.Value);
                 }
                 Cards.SaveChanges();
+                return RedirectToAction("Card", "Register", new { id_card = card.ID });
             }
             else { throw new ArgumentException(validation.Information); }
         }
-        [Logging]
-        public void UploadFile(int id, byte[] file)
+
+        // [Logging]
+        [HttpPost]
+        public String UploadFile(Card card, string prop)
         {
-            //UpdateCard(id, (new Dictionary<string, object>() { { "scan_frame", file } }));
+            HttpPostedFileBase file = Request.Files["FileData"];
+            BinaryReader reader = new BinaryReader(file.InputStream);
+
+            return Convert.ToBase64String(reader.ReadBytes((int)file.ContentLength));
         }
-        [Logging]
-        public void DeleteFile(int id)
+
+        // [Logging]
+        public void DeleteFile(Card card, string prop)
         {
-            UploadFile(id, new byte[] { });
+            typeof(Card).GetProperty(prop).SetValue(card, new byte[] { });
         }
+
         public void ExportDoc(int id)
         {
             var card = Cards.GetCardByID(id);
             if (card.document == null)
             {
                 card.document = ReportTemplate.GetDocByID(10, new Dictionary<string, object>()
-                { 
+                {
                     { "ID_Card", card.ID.ToString() },
                     { "Date", DateTime.Now },
                     { "Sex", card.sex.ToString("F") },
@@ -120,15 +166,17 @@ namespace PIS_Project.Controllers.DataControllers
                 });
                 UpdateCard(card);
             }
-            
+
             System.IO.File.WriteAllBytes(@"C:\Users\Анастасия\Desktop\ИСиТ 3 курс\ПИС\7 лаба\apple.docx", Cards.GetCardByID(card.ID).document);
 
         }
+
         [Logging]
         public void ChangeStatus(int id_card, int id_status)
         {
             //UpdateCard(id_card, new Dictionary<string, object>() { { "id_status", id_status } });
         }
+
         public int[] AvailableStatuses(int id_status)
         {
             if (id_status == 0)
@@ -142,10 +190,11 @@ namespace PIS_Project.Controllers.DataControllers
                 return result.ToArray();
             }
         }
+
         [Logging]
         public void DeleteEntry(int id_card)
         {
-            Cards.Cards.Remove(Cards.Cards.Where(i=>i.ID== id_card).FirstOrDefault());
+            Cards.Cards.Remove(Cards.Cards.Where(i => i.ID == id_card).FirstOrDefault());
             Cards.SaveChanges();
         }
     }

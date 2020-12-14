@@ -48,7 +48,7 @@ namespace PIS_Project.Controllers.DataControllers
             if (id_card != -1)
                 record.ID_card = id_card;
             else
-                record.ID_card = (new CardsController()).Card.OrderBy(i => i.ID).ToList().Last().ID;
+                record.ID_card = (new CardsController()).Cards.OrderBy(i => i.ID).ToList().Last().ID;
             LogRecords.Add(record);
             SaveChanges();
         }

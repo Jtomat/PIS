@@ -16,10 +16,12 @@ namespace PIS_Project.Controllers.DataControllers
         {
             return Status.FirstOrDefault(i => i.ID == id);
         }
+        
         internal MUS GetMUByID(int id)
         {
             return MUS.FirstOrDefault(i => i.ID == id);
         }
+
         public virtual List<Card> GetCards()
         {
             var result = Cards.ToList();
@@ -31,48 +33,51 @@ namespace PIS_Project.Controllers.DataControllers
             return result;
         }
 
-        public List<Card> GetFilteredBy(Dictionary<string, object> filters)
+        public List<Card> GetFilteredBy(Dictionary<string, string> filters)
         {
             var result = GetCards();
-            foreach (var filter in filters)
+            var prop = (new Card()).GetType().GetProperty(filters["field"]);
+            List<Card> filtredCards = new List<Card>();
+
+            result.ForEach(i =>
             {
-                var prop = (new Card()).GetType().GetProperty(filter.Key);
-                result = result.Where(i => prop.GetValue(i) == filter.Value).ToList();
-            }
+                string value = (string)prop.GetValue(i);
+                if (value != null && value.ToLower().Contains(filters["search"]))
+                    filtredCards.Add(i);
+            });
+
             using (var cards = new CardsController())
             {
-                foreach (var card in result)
+                foreach (var card in filtredCards)
                 {
                     card.Status = GetStatusByID(card.id_status).Name;
                     card.MU = GetMUByID(card.ID_MU).Name;
                 }
             }
-            return result;
+            return filtredCards;
         }
-        public List<Card> GetSortedBy(Dictionary<string, bool> filters)
+
+        public List<Card> GetSortedBy(List<Card> cards, string sortOrder, bool upper)
         {
-            var result = Cards.ToList();
-            foreach (var filter in filters)
+            var result = cards;
+            var prop = (new Card()).GetType().GetProperty(sortOrder);
+            if (upper)
+                result = result.OrderBy(i => prop.GetValue(i)).ToList();
+            else
+                result = result.OrderBy(i => prop.GetValue(i)).Reverse().ToList();
+
+            foreach (var card in result)
             {
-                var prop = (new Card()).GetType().GetProperty(filter.Key);
-                if (filter.Value)
-                    result = result.OrderBy(i => prop.GetValue(i)).ToList();
-                else
-                    result = result.OrderBy(i => prop.GetValue(i)).Reverse().ToList();
+                card.Status = GetStatusByID(card.id_status).Name;
+                card.MU = GetMUByID(card.ID_MU).Name;
             }
 
-                foreach (var card in result)
-                {
-                    card.Status = GetStatusByID(card.id_status).Name;
-                    card.MU = GetMUByID(card.ID_MU).Name;
-                }
-            
             return result;
         }
         public CardsController()
-            : base("DBConnection") 
+            : base("DBConnection")
         {
-           
+
             Cards = Set<Card>();
             Status = Set<Status>();
             MUS = Set<MUS>();
@@ -84,6 +89,8 @@ namespace PIS_Project.Controllers.DataControllers
             card.MU = GetMUByID(card.ID_MU).Name;
             return card;
         }
+
+        //public System.Data.Entity.DbSet<PIS_Project.Models.DataClasses.Card> Cards { get; set; }
 
         //public System.Data.Entity.DbSet<PIS_Project.Models.DataClasses.Card> Cards { get; set; }
 

@@ -286,6 +286,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Register\EditCard.cshtml" />
     <Content Include="Views\Register\Card.cshtml" />
+    <Content Include="Views\Register\Sort.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
