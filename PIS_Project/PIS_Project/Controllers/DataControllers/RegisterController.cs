@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using PIS_Project.Models.DataClasses;
 using System.Web.Mvc;
 using System.IO;
@@ -74,7 +75,7 @@ namespace PIS_Project.Controllers.DataControllers
             }
             return result;
         }
-
+        [HttpPost]
         [Notify]
         [Logging]
         public void AddCard(Dictionary<string, object> values)
@@ -86,7 +87,7 @@ namespace PIS_Project.Controllers.DataControllers
                 foreach (var change in values)
                 {
                     var prop = new_card.GetType().GetProperty(change.Key);
-                    prop.SetValue(new_card, change.Value);
+                    prop.SetValue(new_card, prop.GetValue(validation.ValidData));
                 }
                 new_card.Status = Cards.GetStatusByID(new_card.id_status).Name;
                 new_card.MU = Cards.GetMUByID(new_card.ID_MU).Name;
@@ -120,8 +121,8 @@ namespace PIS_Project.Controllers.DataControllers
                 var current_card = Cards.Cards.FirstOrDefault(i => i.ID == card.ID);
                 foreach (var change in changedValues)
                 {
-                    var pro = current_card.GetType().GetProperty(change.Key);
-                    pro.SetValue(current_card, change.Value);
+                    var prop = current_card.GetType().GetProperty(change.Key);
+                    prop.SetValue(current_card, prop.GetValue(validation.ValidData));
                 }
                 Cards.SaveChanges();
                 return RedirectToAction("Card", "Register", new { id_card = card.ID });

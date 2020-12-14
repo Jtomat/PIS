@@ -8,21 +8,29 @@
     <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
 </div>
 @{
-    var d=  (new PIS_Project.Controllers.DataControllers.RegisterController()).GetList(1);
+    var d = (new PIS_Project.Controllers.DataControllers.RegisterController()).GetList(1);
     var c = 0;
-    //(new PIS_Project.Controllers.DataControllers.RegisterController()).AddCard(new Dictionary<string, object>()
+    (new PIS_Project.Controllers.DataControllers.RegisterController()).AddCard(new Dictionary<string, object>()
+    {
+        {"sex","2" },
+        {"type","2" },
+       {"birthday",DateTime.Now.ToString() },
+        {"id_mark","567" },
+       {"id_chip","421" },
+        {"date_status_change",DateTime.Now.ToString() },
+        {"ID_MU","3" },
+        {"sterilization_date",DateTime.Now.ToString() },
+        {"id_status","1" }
+    });
+    //var ds = new PIS_Project.Controllers.DataControllers.CardsController();
+    //var r = new PIS_Project.Controllers.DataControllers.RegisterController();
+    //foreach (var card in ds.GetCards())
     //{
-    //    {"sex",4 },
-    //    {"type",2 },
-    //   {"birthday",DateTime.Now },
-    //    {"id_mark",567 },
-    //    {"id_chip",421 },
-    //    {"date_status_change",DateTime.Now },
-    //    {"ID_MU",3 },
-    //    {"sterilization_date",DateTime.Now },
-    //    {"id_status",1 }
-    // });
+    //    r.UpdateCard(card.ID, new Dictionary<string, object> {
+    //        { "photo", File.ReadAllBytes(@"C:\Users\Михаил\Downloads\A3CscxBuihU.jpg") } });
+    //}
 }
+
 <div class="row">
     <div class="col-md-4">
         <h2>Getting started</h2>
