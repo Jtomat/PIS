@@ -39,14 +39,13 @@ namespace PIS_Project.Controllers.DataControllers
                 var prop = (new Card()).GetType().GetProperty(filter.Key);
                 result = result.Where(i => prop.GetValue(i) == filter.Value).ToList();
             }
-            using (var cards = new CardsController())
-            {
+
                 foreach (var card in result)
                 {
                     card.Status = GetStatusByID(card.id_status).Name;
                     card.MU = GetMUByID(card.ID_MU).Name;
                 }
-            }
+            
             return result;
         }
         public List<Card> GetSortedBy(Dictionary<string, bool> filters)

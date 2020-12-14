@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using PIS_Project.Models.DataClasses;
 
 
@@ -36,7 +37,7 @@ namespace PIS_Project.Controllers.DataControllers
             }
             return result;
         }
-
+        [HttpPost]
         [Notify]
         [Logging]
         public void AddCard(Dictionary<string, object> values)
@@ -48,7 +49,7 @@ namespace PIS_Project.Controllers.DataControllers
                 foreach (var change in values)
                 {
                     var prop = new_card.GetType().GetProperty(change.Key);
-                    prop.SetValue(new_card, change.Value);
+                    prop.SetValue(new_card, prop.GetValue(validation.ValidData));
                 }
                 new_card.Status = Cards.GetStatusByID(new_card.id_status).Name;
                 new_card.MU = Cards.GetMUByID(new_card.ID_MU).Name;
@@ -67,7 +68,7 @@ namespace PIS_Project.Controllers.DataControllers
                 foreach (var change in changedValues)
                 {
                     var prop = current_card.GetType().GetProperty(change.Key);
-                    prop.SetValue(current_card, change.Value);
+                    prop.SetValue(current_card, prop.GetValue(validation.ValidData));
                 }
                 Cards.SaveChanges();
             }
