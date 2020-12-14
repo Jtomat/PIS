@@ -60,8 +60,8 @@ namespace PIS_Project.Controllers.DataControllers
                 client.EnableSsl = true;
                 //client.DeliveryMethod = SmtpDeliveryMethod.Network;
 
-   
-                client.Send(mail);
+                if(!string.IsNullOrEmpty(mail.From.DisplayName))
+                    client.Send(mail);
             }
         }
     }
