@@ -200,6 +200,7 @@
     <Compile Include="Controllers\DataControllers\NotificationController.cs" />
     <Compile Include="Controllers\DataControllers\NotifyAttribute.cs" />
     <Compile Include="Controllers\DataControllers\RegisterOfCatched.cs" />
+    <Compile Include="Controllers\DataControllers\UsersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
