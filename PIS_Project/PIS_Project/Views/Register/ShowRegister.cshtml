@@ -11,6 +11,15 @@
     <title>ShowRegister</title>
 </head>
 <body>
+    <script>
+        function ChangeColor(Element, id) {
+            let perem_2 = document.querySelectorAll("tr");
+            for (let i = 0; i < perem_2.length; i++) {
+                perem_2[i].style.backgroundColor = 'white';
+            }
+            document.getElementById(id).style.backgroundColor = "#a7d4d0";
+        }
+    </script>
     <div>
         <h3>Журнал</h3>
         <h3>Роль @ViewBag.User_Role</h3>
@@ -53,17 +62,28 @@
             @foreach (var b in @ViewBag.Table)
             {
 
-                <tr>
-                    @foreach (var val in b.Value.Values)
+            <tr id="@b.Key">
+                @foreach (var val in b.Value)
+                {
+                    if (@val.Key != "type")
                     {
-                        <td><p>@val  </p></td>
+                        if ((@val.Key == "photo" || @val.Key == "scan_frame" || @val.Key == "document") && @val.Value != null)
+                        {
+                            <td><p>Имеется  </p></td>
+                        }
+                        else
+                        {
+                            <td><p>@val.Value  </p></td>
+                        }
                     }
-                    <td><p><a href="/Register/GetCardByID?id=@b.Key&id_user=@ViewBag.Id_User">Открыть</a></p></td>
-                    @if (@ViewBag.User_Role.ToString() == "0" || @ViewBag.User_Role.ToString() == "1" || @ViewBag.User_Role.ToString() == "2")
-                    {
-                        <td><p><a href="">Удалить</a></p></td>
-                    }
-                </tr>
+                }
+                <td><p><a href="" onclick="ChangeColor(this, @b.Key)" value ="@b.Key">Выбрать</a></p></td>
+                <td><p><a href="/Register/GetCardByID?id=@b.Key&id_user=@ViewBag.Id_User">Открыть</a></p></td>
+                @if (@ViewBag.User_Role.ToString() == "0" || @ViewBag.User_Role.ToString() == "1" || @ViewBag.User_Role.ToString() == "2")
+                {
+                    <td><p><a href="">Удалить</a></p></td>
+                }
+            </tr>
             }
         </table>
     </div>
