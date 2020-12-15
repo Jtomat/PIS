@@ -22,28 +22,24 @@ namespace PIS_Project.Controllers.DataControllers
                 {
                     var prop = new_user.GetType().GetProperty(data.Key);
                     var converter = TypeDescriptor.GetConverter(prop.PropertyType);
-                    //var result = converter.ConvertFrom(data.Value);
-                    //
                     var result = new object();
+                    if (data.Value.GetType().IsArray)
+                    {
+                        result = (object)"";
+                        foreach (var val in ((Array)data.Value))
+                        {
+                            result = result.ToString() + (string)val;
+                        }
+                    }
+                    else
+                        result = data.Value;
                     try
                     {
-                        result = converter.ConvertFrom(data.Value);
+                        result = converter.ConvertFrom(result);
                     }
                     catch
                     {
-                        try {
-                            result = Convert.FromBase64String(data.Value.ToString());
-                        }
-                        catch {
-                            try
-                            {
-                                result = converter.ConvertFrom((data.Value as string[])[0]);
-                            }
-                            catch
-                            {
-                                result = Convert.FromBase64String((data.Value as string[])[0]);
-                            }
-                        }
+                        result = Convert.FromBase64String(result.ToString());
                     }
                     prop.SetValue(new_user, result);
                 }

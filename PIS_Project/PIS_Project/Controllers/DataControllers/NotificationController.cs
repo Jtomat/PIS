@@ -59,7 +59,8 @@ namespace PIS_Project.Controllers.DataControllers
                 //        };
                 client.Credentials = new NetworkCredential("pisprojectsender@gmail.com", "gbcghjtrn");
                 client.EnableSsl = true;
-                client.Send(mail);
+                if (!string.IsNullOrEmpty(mail.From.DisplayName))
+                    client.Send(mail);
             }
         }
     }
