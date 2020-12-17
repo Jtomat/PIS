@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using PIS_Project.Models.DataClasses;
+using System.Drawing;
 using System.IO;
 
 namespace PIS_Project.Controllers.DataControllers
@@ -22,9 +24,12 @@ namespace PIS_Project.Controllers.DataControllers
         {
             SelectList fields = new SelectList(fieldsDict, "Key", "Value");
             ViewBag.Fields = fields;
+
             List<Card> card;
             if (filters.ContainsKey("field"))
+            {
                 card = Cards.GetFilteredBy(filters);
+            }
             else
                 card = Cards.GetCards().ToList().GetRange(0, 3);
             if (!String.IsNullOrEmpty(sortOrder))
@@ -37,45 +42,48 @@ namespace PIS_Project.Controllers.DataControllers
 
         public ActionResult Card(int id_card)
         {
-            int id_user = 2;
-            if (id_user != null)
+            int id_user = 1;
+            ViewBag.Id_User = default(int);
+            if (id_user != default(int))
             {
+                ViewBag.Id_User = id_user;
                 var users_role = new UsersRegister().GetUserByID(id_user).ID_role;
                 ViewBag.User_Role = users_role;
-            }
+            }         
             var card = Cards.GetCardByID(id_card);
+            ViewBag.Sex = card.sex == Models.DataClasses.Card.SexAnimal.Male ? "Мужской" : "Женский";
             return View(card);
         }
 
         public ActionResult EditCard(int id_card)
         {
-            var id_user = 2;
-            var users_role = default(int);
-
-            if (id_user != null)
+            int id_user = 1;
+            int users_role = 0;
+            if (id_user != default(int))
+            {
                 users_role = new UsersRegister().GetUserByID(id_user).ID_role;
-
+                ViewBag.User_Role = users_role;
+            }
             if (users_role == 1 || users_role == 2)
-                return View(Cards.GetCardByID(id_card));
+            {
+                var card = Cards.GetCardByID(id_card);
+                return View(card);
+            }
             else
             {
                 ViewBag.User_Role = users_role;
                 return View("Card", Cards.GetCardByID(id_card));
             }
         }
-
         private CardsController Cards;
-
         public RegisterController()
         {
             Cards = new CardsController();
         }
-
         public RegisterController(CardsController controller)
         {
             Cards = controller;
         }
-
         public Dictionary<int, Dictionary<string, object>> GetList(int id_user)
         {
             var users = new UsersRegister().GetUserByID(id_user).ID_organization;
@@ -114,7 +122,6 @@ namespace PIS_Project.Controllers.DataControllers
             }
             else { throw new ArgumentException(validation.Information); }
         }
-
         //[Logging]
         [HttpPost]
         public RedirectToRouteResult UpdateCard(Card card)
@@ -124,9 +131,41 @@ namespace PIS_Project.Controllers.DataControllers
                 DeleteFile(card, "photo");
             }
 
+            if (card.document == null)
+            {
+                DeleteFile(card, "document");
+            }
+
+            string ownerTraitString = "";
+
+            Dictionary<string, string> traitsLocal = new Dictionary<string, string>();
+            traitsLocal["1"] = "ошейник";
+            traitsLocal["2"] = "одежда";
+            traitsLocal["3"] = "шлейка";
+            traitsLocal["4"] = "чип";
+
+            foreach (KeyValuePair<string, bool> pair in card.SetOwnerTraits)
+            {
+                if (pair.Value)
+                {
+                    ownerTraitString += traitsLocal[pair.Key] + ", ";
+                }
+            }
+
+            if (ownerTraitString == "")
+            {
+                card.owner_traits = "нет";
+            }
+            else
+            {
+                card.owner_traits = ownerTraitString.Remove(ownerTraitString.Length - 2, 2);
+            }
+
+            uint animalType = Convert.ToUInt32($"000{card.SetAnimalTypeValues["species"]}{card.SetAnimalTypeValues["size"]}{card.SetAnimalTypeValues["hire_size"]}{card.SetAnimalTypeValues["hire_type"]}", 2);
+            card.type = (Card.AnimalType)animalType;
+
             var prop = (new Card()).GetType().GetProperties();
             var changedValues = new Dictionary<string, object>();
-
 
             foreach (var pr in prop)
             {
@@ -137,17 +176,26 @@ namespace PIS_Project.Controllers.DataControllers
             if (validation.Result)
             {
                 var current_card = Cards.Cards.FirstOrDefault(i => i.ID == card.ID);
+                List<string> execFields = new List<string>(
+                    new string[] {
+                        "StringAnimalType",
+                        "GetAnimalTypeValue",
+                        "SetAnimalTypeValues",
+                        "SetOwnerTraits",
+                        "GetOwnerTraits",
+                    });
+
                 foreach (var change in changedValues)
                 {
-                    var property = current_card.GetType().GetProperty(change.Key);
-                    property.SetValue(current_card, property.GetValue(validation.ValidData));
+                    var pro = current_card.GetType().GetProperty(change.Key);
+                    if (!execFields.Contains(pro.Name))
+                        pro.SetValue(current_card, change.Value);
                 }
                 Cards.SaveChanges();
                 return RedirectToAction("Card", "Register", new { id_card = card.ID });
             }
             else { throw new ArgumentException(validation.Information); }
         }
-
         // [Logging]
         [HttpPost]
         public String UploadFile(Card card, string prop)
@@ -157,13 +205,11 @@ namespace PIS_Project.Controllers.DataControllers
 
             return Convert.ToBase64String(reader.ReadBytes((int)file.ContentLength));
         }
-
         // [Logging]
         public void DeleteFile(Card card, string prop)
         {
             typeof(Card).GetProperty(prop).SetValue(card, new byte[] { });
         }
-
         public void ExportDoc(int id)
         {
             var card = Cards.GetCardByID(id);
@@ -189,13 +235,11 @@ namespace PIS_Project.Controllers.DataControllers
             System.IO.File.WriteAllBytes(@"C:\Users\Анастасия\Desktop\ИСиТ 3 курс\ПИС\7 лаба\apple.docx", Cards.GetCardByID(card.ID).document);
 
         }
-
         [Logging]
         public void ChangeStatus(int id_card, int id_status)
         {
             //UpdateCard(id_card, new Dictionary<string, object>() { { "id_status", id_status } });
         }
-
         public int[] AvailableStatuses(int id_status)
         {
             if (id_status == 0)
@@ -209,7 +253,6 @@ namespace PIS_Project.Controllers.DataControllers
                 return result.ToArray();
             }
         }
-
         [Logging]
         public void DeleteEntry(int id_card)
         {

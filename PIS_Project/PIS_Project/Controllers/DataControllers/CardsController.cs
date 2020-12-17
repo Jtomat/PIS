@@ -12,11 +12,12 @@ namespace PIS_Project.Controllers.DataControllers
         internal DbSet<Card> Cards { get; set; }
         internal DbSet<Status> Status { get; private set; }
         internal DbSet<MUS> MUS { get; private set; }
+
         internal Status GetStatusByID(int id)
         {
             return Status.FirstOrDefault(i => i.ID == id);
         }
-        
+
         internal MUS GetMUByID(int id)
         {
             return MUS.FirstOrDefault(i => i.ID == id);
@@ -74,6 +75,7 @@ namespace PIS_Project.Controllers.DataControllers
 
             return result;
         }
+
         public CardsController()
             : base("DBConnection")
         {
@@ -82,6 +84,7 @@ namespace PIS_Project.Controllers.DataControllers
             Status = Set<Status>();
             MUS = Set<MUS>();
         }
+
         public virtual Card GetCardByID(int id)
         {
             var card = Cards.FirstOrDefault(i => i.ID == id);

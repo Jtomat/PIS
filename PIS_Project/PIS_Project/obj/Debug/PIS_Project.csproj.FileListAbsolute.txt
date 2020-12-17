@@ -274,7 +274,6 @@ D:\Repos\PIS\PIS_Project\PIS_Project\obj\Debug\PostSharp\touch
 D:\Repos\PIS\PIS_Project\PIS_Project\obj\Debug\PostSharp\dependencies.txt
 D:\Repos\PIS\PIS_Project\PIS_Project\obj\Debug\PIS_Project.csproj.CopyComplete
 D:\Repos\PIS\PIS_Project\PIS_Project\obj\Debug\PostSharp\postsharp.app.config
-C:\Users\Анастасия\Desktop\ИСиТ 3 курс\ПИС\7 лаба\PIS\PIS_Project\PIS_Project\obj\Debug\PIS_Project.csprojAssemblyReference.cache
 C:\Users\Анастасия\Desktop\ИСиТ 3 курс\ПИС\7 лаба\PIS\PIS_Project\PIS_Project\obj\Debug\PIS_Project.csproj.CoreCompileInputs.cache
 C:\Users\Анастасия\Desktop\ИСиТ 3 курс\ПИС\7 лаба\PIS\PIS_Project\PIS_Project\bin\PIS_Project.pssym
 C:\Users\Анастасия\Desktop\ИСиТ 3 курс\ПИС\7 лаба\PIS\PIS_Project\PIS_Project\bin\PIS_Project.pspdb
@@ -412,3 +411,4 @@ C:\Users\Анастасия\Desktop\ИСиТ 3 курс\ПИС\7 лаба\PIS\PI
 C:\Users\Анастасия\Desktop\ИСиТ 3 курс\ПИС\7 лаба\PIS\PIS_Project\PIS_Project\obj\Debug\PIS_Project.dll
 C:\Users\Анастасия\Desktop\ИСиТ 3 курс\ПИС\7 лаба\PIS\PIS_Project\PIS_Project\obj\Debug\PIS_Project.pdb
 C:\Users\Анастасия\Desktop\ИСиТ 3 курс\ПИС\7 лаба\PIS\PIS_Project\PIS_Project\obj\Debug\PostSharp\postsharp.app.config
+C:\Users\Анастасия\Desktop\ИСиТ 3 курс\ПИС\7 лаба\PIS\PIS_Project\PIS_Project\obj\Debug\PIS_Project.csprojAssemblyReference.cache

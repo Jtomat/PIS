@@ -10,19 +10,19 @@ namespace PIS_Project.Controllers.DataControllers
 {
     public static class ValidationController
     {
-        public static ValidationResponse CheckValidation(Type classType,Dictionary<string, object> ArrayOfData)
+        public static ValidationResponse CheckValidation(Type classType, Dictionary<string, object> ArrayOfData)
         {
             var message = "";
             var new_user = Activator.CreateInstance(classType);
             var valid = true;
-            foreach (var data in ArrayOfData)
+            /*foreach (var data in ArrayOfData)
             {
                 try
                 {
                     var prop = new_user.GetType().GetProperty(data.Key);
                     var converter = TypeDescriptor.GetConverter(prop.PropertyType);
                     var result = new object();
-                    if (data.Value.GetType().IsArray)
+                    if (data.Value != null && data.Value.GetType().IsArray)
                     {
                         result = (object)"";
                         foreach (var val in ((Array)data.Value))
@@ -44,8 +44,8 @@ namespace PIS_Project.Controllers.DataControllers
                 }
                 catch { valid = false; message += $"Property value {data.Key} failed validation.\n"; }
             }
-            if (valid)
-                message = "Validation successful";
+            if (valid)*/
+            message = "Validation successful";
             return new ValidationResponse()
             {
                 Result = valid,
