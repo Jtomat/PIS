@@ -1,0 +1,56 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>GetCardByID</title>
+</head>
+<body>
+    <div>
+        <p><a href="">Изменить</a></p>
+        @using (Html.BeginForm("AddCard", "Register", FormMethod.Post))
+        {
+            <p>ID @ViewBag.Id</p>
+                <p>sex </p><input value='@ViewBag.Card["sex"]' name="values[sex]" readonly="readonly" />
+
+                <p>type </p><input hidden="hidden" value='@ViewBag.Card["type"]' name="values[type]" readonly="readonly" />
+
+                <p>Type </p><input value='@ViewBag.Card["Type"]' readonly="readonly" />
+
+                <p>bitrhday </p><input type="date" value='@ViewBag.Card["birthday"]' name="values[birthday]" readonly="readonly" />
+
+                <p>id_mark </p><input value='@ViewBag.Card["id_mark"]' name="values[id_mark]" readonly="readonly" />
+
+                <p>id_chip </p><input value='@ViewBag.Card["id_chip"]' name="values[id_chip]" readonly="readonly" />
+
+                <p>name </p><input value='@ViewBag.Card["name"]' name="values[name]" readonly="readonly" />
+                if (@ViewBag.Card["photo"] != null)
+                {
+                    <p>photo </p><img class="img-responsive img-thumbnail ratio-4-3" src="data:image/png;base64,@(Convert.ToBase64String(@ViewBag.Card["photo"]))" />
+                    <input hidden="hidden" id="values[photo]" value="@(Convert.ToBase64String(@ViewBag.Card["photo"]))"  name="values[photo]"/>
+                }
+                else
+                { <p>photo нет фото</p> }
+                <p>spec_mark </p><input value='@ViewBag.Card["spec_mark"]' name="values[spec_mark]" readonly="readonly" />
+
+                <p>owner_traits </p><input value='@ViewBag.Card["owner_traits"]' name="values[owner_traits]" readonly="readonly" />
+
+                <p>id_status </p><input value='@ViewBag.Card["id_status"]' name="values[id_status]" readonly="readonly" />
+
+                <p>date_status_change </p><input type="date" name="values[date_status_change]" value='@ViewBag.Card["date_status_change"]' readonly="readonly" />
+
+                <p>id_mu </p><input value='@ViewBag.MU' name="values[date_status_change]" readonly="readonly" />
+
+                <p>local_place </p><input value='@ViewBag.Card["local_place"]' name="values[local_place]" readonly="readonly" />
+
+                <p>sterilisation_date </p> <input type="date" value='@ViewBag.Card["sterilization_date"]' name="values[sterilization_date]" readonly="readonly" />
+
+                <input type="submit" value="Отправить" />
+        }
+    </div>
+</body>
+</html>

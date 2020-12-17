@@ -300,6 +300,8 @@
     <Content Include="Views\Register\ShowRegister.cshtml" />
     <Content Include="Views\Register\GetCardByID.cshtml" />
     <Content Include="Views\Register\CreateNewCard.cshtml" />
+    <Content Include="Views\Register\ShowRegisterCatched.cshtml" />
+    <Content Include="Views\Register\RegisterCatchedGetCardByID.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

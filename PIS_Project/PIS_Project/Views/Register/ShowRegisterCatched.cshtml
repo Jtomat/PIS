@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     Layout = null;
 }
 
@@ -21,20 +20,9 @@
         }
     </script>
     <div>
-        <h3>Журнал</h3>
-        <h3>Роль @ViewBag.User_Role</h3>
+        <h3>Журнал отлова</h3>
         <p><a href="">Фильтровать</a></p>
         <p><a href="">Сортировать</a></p>
-        <p><a href="">Экспортировать в Excel</a></p>
-        @if (@ViewBag.User_Role.ToString() == "0" || @ViewBag.User_Role.ToString() == "1" || @ViewBag.User_Role.ToString() == "2")
-        {
-            <p><a href="">Содержание животных в приюте</a></p>
-            if (@ViewBag.User_Role.ToString() == "0" || @ViewBag.User_Role.ToString() == "2")
-            {
-                <p><a href="/Register/CreateNewCard?id_user=@ViewBag.Id_User">Добавить новую</a></p>
-                <p><a href="/Register/ShowRegisterCatched?id_user=@ViewBag.Id_User">Добавить из журнала отладки</a></p>
-            }
-        }
         <table>
             <tr class="header">
                 <td><p>ID </p></td>
@@ -62,30 +50,27 @@
             @foreach (var b in @ViewBag.Table)
             {
 
-            <tr id="@b.Key">
-                @foreach (var val in b.Value)
-                {
-                    if (@val.Key != "type")
+                <tr id="@b.Key">
+                    @foreach (var val in b.Value)
                     {
-                        if ((@val.Key == "photo" || @val.Key == "scan_frame" || @val.Key == "document") && @val.Value != null)
+                        if (@val.Key != "type")
                         {
-                            <td><p>Имеется  </p></td>
-                        }
-                        else
-                        {
-                            <td><p>@val.Value  </p></td>
+                            if ((@val.Key == "photo" || @val.Key == "scan_frame" || @val.Key == "document") && @val.Value != null)
+                            {
+                                <td><p>Имеется  </p></td>
+                            }
+                            else
+                            {
+                                <td><p>@val.Value  </p></td>
+                            }
                         }
                     }
-                }
-                <td><p><a href="" onclick="ChangeColor(this, @b.Key)" value ="@b.Key">Выбрать</a></p></td>
-                <td><p><a href="/Register/GetCardByID?id=@b.Key&id_user=@ViewBag.Id_User">Открыть</a></p></td>
-                @if (@ViewBag.User_Role.ToString() == "0" || @ViewBag.User_Role.ToString() == "1" || @ViewBag.User_Role.ToString() == "2")
-                {
-                    <td><p><a href="">Удалить</a></p></td>
-                }
-            </tr>
+                    <td><p><a href="" onclick="ChangeColor(this, @b.Key)" value="@b.Key">Выбрать</a></p></td>
+                    <td><p><a href="/Register/RegisterCatchedGetCardByID?id=@b.Key&user_id=@ViewBag.Id_User">Открыть</a></p></td>
+                </tr>
             }
         </table>
     </div>
 </body>
 </html>
+
