@@ -90,7 +90,7 @@ namespace PIS_Project.Controllers.DataControllers
             }
             catch
             {
-                id_card = (new CardsController()).Cards.Last().ID;
+                id_card = (new CardsController()).Card.OrderBy(i=>i.ID).Reverse().FirstOrDefault().ID;
             }
             var id_user = "1";//HttpContext.Current.User.Identity.GetUserId();
             lock (_locker)
