@@ -24,18 +24,31 @@ namespace PIS_Project.Controllers.DataControllers
 
         public Users GetUserByID(int id)
         {
-            return Users.Where(i=>i.Confirmed).FirstOrDefault(i=>i.ID==id);
+            var result = Users.Where(i => i.Confirmed).FirstOrDefault(i => i.ID == id);
+            if (result != null)
+            {
+                result.Organization = Organizations.FirstOrDefault(i=>i.ID==result.ID_organization).Name;
+                result.Role = Roles.FirstOrDefault(i=>i.ID==result.ID_role).Name;
+            }
+            return result;
         }
         public List<Users> Requests 
         {
             get
             {
-                return Users.Where(i => !i.Confirmed).ToList();
+                var list = Users.Where(i => !i.Confirmed).ToList();
+                foreach (var result in list) {
+                    if(result.ID_organization>-1)
+                        result.Organization = Organizations.FirstOrDefault(i => i.ID == result.ID_organization).Name;
+                    if(result.ID>-1)
+                        result.Role = Roles.FirstOrDefault(i => i.ID == result.ID_role).Name;
+                }
+                return list;
             }
         }
         public Users GetRegReqByID(int reqId)
         {
-            return Users.FirstOrDefault(i=>i.ID==reqId);
+            return Requests.FirstOrDefault(i=>i.ID==reqId);
         }
         public Users EditReqRole(int reqID, int newRole)
         {
