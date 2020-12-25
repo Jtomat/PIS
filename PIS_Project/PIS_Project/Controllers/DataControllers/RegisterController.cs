@@ -4,54 +4,66 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using PIS_Project.Models.DataClasses;
+using System.Web.Mvc;
+using System.Drawing;
 using System.IO;
 
 namespace PIS_Project.Controllers.DataControllers
 {
     public class RegisterController : Controller
     {
+        public int id_user;
 
-        public Dictionary<string, string> fieldsDict = new Dictionary<string, string>
+        public ActionResult Index()
         {
-            {"name", "Кличка"},
-            {"birthday", "День рождения"},
-            {"sex", "Пол"}
-        };
-
-        public ActionResult Sort(Dictionary<string, string> filters, string sortOrder, string action, bool upper = false)
-        {
-            SelectList fields = new SelectList(fieldsDict, "Key", "Value");
-            ViewBag.Fields = fields;
-
-            bool checkFilters = false;
-            if (filters != null && (filters.Count > 2 || filters.ContainsKey("field")))
-            {
-                foreach(KeyValuePair<string, string> pair in filters)
-                {
-                    if (pair.Key != "field" && !string.IsNullOrEmpty(pair.Value))
-                        checkFilters = true;
-                }
-            }
-
-
-            List<Card> card;
-            if (checkFilters)
-            {
-                card = Cards.GetFilteredBy(filters, action);
-            }
-            else
-                card = Cards.GetCards().ToList().GetRange(0, 3);
-            if (!String.IsNullOrEmpty(sortOrder))
-            {
-                ViewData[sortOrder] = !upper;
-                card = Cards.GetSortedBy(card, sortOrder, (bool)ViewData[sortOrder]);
-            }
-            return View(card);
+            Cards = new CardsRegister();
+            ViewBag.Table = GetCards();
+            return View();
         }
 
-        public ActionResult Card(int id_card)
+        [HttpGet]
+        public ActionResult ShowRegister(int id)
         {
-            int id_user = 1;
+            id_user = id;
+            Cards = new CardsRegister();
+            ViewBag.Table = GetList(id);
+            ViewBag.Id_User = id;
+            var users_role = new UsersRegister().GetUserByID(id).ID_role;
+            ViewBag.User_Role = users_role;
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult ShowRegisterCatched(int user_id)
+        {
+            id_user = user_id;
+            Cards = new RegisterOfCatched();
+            var preproc = new RegisterOfCatched().GetCards();
+            var result = new Dictionary<int, Dictionary<string, object>>();
+            var prop = (new Card()).GetType().GetProperties();
+            foreach (var card in preproc)
+            {
+                var dict = new Dictionary<string, object>();
+                foreach (var pr in prop)
+                {
+                    dict.Add(pr.Name, pr.GetValue(card));
+                }
+                result.Add(card.ID, dict);
+            }
+
+            ViewBag.Table = result;
+            ViewBag.Id_User = user_id;
+            var users_role = new UsersRegister().GetUserByID(user_id).ID_role;
+            ViewBag.User_Role = users_role;
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult RegisterCatchedGetCardByID(int id, int user_id)
+        {
+            id_user = user_id;
+            Cards = new RegisterOfCatched();
+            var preproc = new List<Card> { Cards.GetCardByID(id) };
             ViewBag.Id_User = default(int);
             if (id_user != default(int))
             {
@@ -59,38 +71,121 @@ namespace PIS_Project.Controllers.DataControllers
                 var users_role = new UsersRegister().GetUserByID(id_user).ID_role;
                 ViewBag.User_Role = users_role;
             }
-            var card = Cards.GetCardByID(id_card);
-            ViewBag.Sex = card.sex == Models.DataClasses.Card.SexAnimal.Male ? "Мужской" : "Женский";
-            return View(card);
+
+            var result = new Dictionary<int, Dictionary<string, object>>();
+            var prop = (new Card()).GetType().GetProperties();
+            foreach (var card in preproc)
+            {
+                var dict = new Dictionary<string, object>();
+                foreach (var pr in prop)
+                {
+                    if (pr.Name == "type" && pr.GetValue(card) != null)
+                    {
+                        var type = (int)pr.GetValue(card);
+                        dict.Add(pr.Name, type);
+                        continue;
+                    }
+                    if (pr.Name == "date_status_change" && pr.GetValue(card) != null)
+                    {
+                        var date = DateTime.Parse(pr.GetValue(card).ToString()).ToString("yyyy-MM-dd");
+                        dict.Add(pr.Name, date);
+                        continue;
+                    }
+                    if (pr.Name == "birthday" && pr.GetValue(card) != null)
+                    {
+                        var date = DateTime.Parse(pr.GetValue(card).ToString()).ToString("yyyy-MM-dd");
+                        dict.Add(pr.Name, date);
+                        continue;
+                    }
+                    if (pr.Name == "sterilization_date" && pr.GetValue(card) != null)
+                    {
+                        var date = DateTime.Parse(pr.GetValue(card).ToString()).ToString("yyyy-MM-dd");
+                        dict.Add(pr.Name, date);
+                        continue;
+                    }
+                    dict.Add(pr.Name, pr.GetValue(card));
+                }
+                result.Add(card.ID, dict);
+            }
+            ViewBag.CardData = result;
+            foreach (var b in ViewBag.CardData.Values)
+            {
+                ViewBag.Card = b;
+                continue;
+            }
+            ViewBag.Id = ViewBag.Id = GetCards().Count + 1;
+            ViewBag.MU = new UsersRegister().GetUserByID(id_user).ID_organization;
+            ViewBag.Params = new Dictionary<string, object>();
+            return View();
         }
 
-        public ActionResult EditCard(int id_card)
+        [HttpGet]
+        public ActionResult CreateNewCard(int id_user)
         {
-            
-            int id_user = 1;
-            int users_role = 0;
+            ViewBag.Id_User = default(int);
             if (id_user != default(int))
             {
-                users_role = new UsersRegister().GetUserByID(id_user).ID_role;
+                ViewBag.Id_User = id_user;
+                var users_role = new UsersRegister().GetUserByID(id_user).ID_role;
                 ViewBag.User_Role = users_role;
             }
-            if (users_role == 1 || users_role == 2)
-            {
-                var card = Cards.GetCardByID(id_card);
-                return View(card);
-            }
-            else
-            {
-                ViewBag.User_Role = users_role;
-                return View("Card", Cards.GetCardByID(id_card));
-            }
+            ViewBag.MU = new UsersRegister().GetUserByID(id_user).ID_organization;
+            ViewBag.Id = GetCards().Count + 1;
+            ViewBag.Params = new Dictionary<string, object>();
+            return View();
         }
-        private CardsController Cards;
+
+        [HttpGet]
+        public ActionResult GetCardByID(int id, int id_user)
+        {
+            var preproc = new List<Card> { Cards.GetCardByID(id) };
+            ViewBag.Id_User = default(int);
+            if (id_user != default(int))
+            {
+                ViewBag.Id_User = id_user;
+                var users_role = new UsersRegister().GetUserByID(id_user).ID_role;
+                ViewBag.User_Role = users_role;
+            }
+            
+            var result = new Dictionary<int, Dictionary<string, object>>();
+            var prop = (new Card()).GetType().GetProperties();
+            foreach (var card in preproc)
+            {
+                var dict = new Dictionary<string, object>();
+                foreach (var pr in prop)
+                {
+                    if (pr.Name == "date_status_change" && pr.GetValue(card) != null)
+                    {
+                        var date = DateTime.Parse(pr.GetValue(card).ToString()).ToString("yyyy-MM-dd");
+                        dict.Add(pr.Name, date);
+                        continue;
+                    }
+                    if (pr.Name == "birthday" && pr.GetValue(card) != null)
+                    {
+                        var date = DateTime.Parse(pr.GetValue(card).ToString()).ToString("yyyy-MM-dd");
+                        dict.Add(pr.Name, date);
+                        continue;
+                    }
+                    if (pr.Name == "sterilization_date" && pr.GetValue(card) != null)
+                    {
+                        var date = DateTime.Parse(pr.GetValue(card).ToString()).ToString("yyyy-MM-dd");
+                        dict.Add(pr.Name, date);
+                        continue;
+                    }
+                    dict.Add(pr.Name, pr.GetValue(card));
+                }
+                result.Add(card.ID, dict);
+            }
+            ViewBag.CardData = result;
+            return View();
+        }
+
+        private CardsRegister Cards;
         public RegisterController()
         {
-            Cards = new CardsController();
+            Cards = new CardsRegister();
         }
-        public RegisterController(CardsController controller)
+        public RegisterController(CardsRegister controller)
         {
             Cards = controller;
         }
@@ -111,9 +206,27 @@ namespace PIS_Project.Controllers.DataControllers
             }
             return result;
         }
-        [HttpPost]
+
+        public Dictionary<int, Dictionary<string, object>> GetCards()
+        {
+            var preproc = Cards.GetCards().ToList();
+            var result = new Dictionary<int, Dictionary<string, object>>();
+            var prop = (new Card()).GetType().GetProperties();
+            foreach (var card in preproc)
+            {
+                var dict = new Dictionary<string, object>();
+                foreach (var pr in prop)
+                {
+                    dict.Add(pr.Name, pr.GetValue(card));
+                }
+                result.Add(card.ID, dict);
+            }
+            return result;
+        }
+
+       [Logging]
         [Notify]
-        [Logging]
+        [HttpPost]
         public void AddCard(Dictionary<string, object> values)
         {
             var validation = ValidationController.CheckValidation((new Card()).GetType(), values);

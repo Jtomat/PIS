@@ -1,0 +1,76 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ShowRegister</title>
+</head>
+<body>
+    <script>
+        function ChangeColor(Element, id) {
+            let perem_2 = document.querySelectorAll("tr");
+            for (let i = 0; i < perem_2.length; i++) {
+                perem_2[i].style.backgroundColor = 'white';
+            }
+            document.getElementById(id).style.backgroundColor = "#a7d4d0";
+        }
+    </script>
+    <div>
+        <h3>Журнал отлова</h3>
+        <p><a href="">Фильтровать</a></p>
+        <p><a href="">Сортировать</a></p>
+        <table>
+            <tr class="header">
+                <td><p>ID </p></td>
+                <td><p>sex </p></td>
+                <td><p>type </p></td>
+                <td><p>bitrhday </p></td>
+                <td><p>id_mark </p></td>
+                <td><p>id_chip </p></td>
+                <td><p>name </p></td>
+                <td><p>photo </p></td>
+                <td><p>spec_mark </p></td>
+                <td><p>owner_traits </p></td>
+                <td><p>id_status </p></td>
+                <td><p>date_status_change </p></td>
+                <td><p>id_mu </p></td>
+                <td><p>local_place </p></td>
+                <td><p>document </p></td>
+                <td><p>scan_frame </p></td>
+                <td><p>sterilisation_date </p></td>
+                <td><p>status </p></td>
+                <td><p>MU </p></td>
+                <td></td>
+                <td></td>
+            </tr>
+            @foreach (var b in @ViewBag.Table)
+            {
+
+                <tr id="@b.Key">
+                    @foreach (var val in b.Value)
+                    {
+                        if (@val.Key != "type")
+                        {
+                            if ((@val.Key == "photo" || @val.Key == "scan_frame" || @val.Key == "document") && @val.Value != null)
+                            {
+                                <td><p>Имеется  </p></td>
+                            }
+                            else
+                            {
+                                <td><p>@val.Value  </p></td>
+                            }
+                        }
+                    }
+                    <td><p><a href="" onclick="ChangeColor(this, @b.Key)" value="@b.Key">Выбрать</a></p></td>
+                    <td><p><a href="/Register/RegisterCatchedGetCardByID?id=@b.Key&user_id=@ViewBag.Id_User">Открыть</a></p></td>
+                </tr>
+            }
+        </table>
+    </div>
+</body>
+</html>
+

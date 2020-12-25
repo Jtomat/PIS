@@ -5,6 +5,8 @@ using System.Linq;
 using System.Web;
 using PIS_Project.Models.DataClasses;
 using PIS_Project.Models.DataControllers;
+using System.Web.Mvc;
+using System.ComponentModel;
 
 namespace PIS_Project.Controllers.DataControllers
 {
@@ -22,12 +24,12 @@ namespace PIS_Project.Controllers.DataControllers
                     var prop = new_user.GetType().GetProperty(data.Key);
                     var converter = TypeDescriptor.GetConverter(prop.PropertyType);
                     var result = new object();
-                    if (data.Value != null && data.Value.GetType().IsArray)
+                    if (data.Value.GetType().IsArray)
                     {
                         result = (object)"";
                         foreach (var val in ((Array)data.Value))
                         {
-                            result = result.ToString()+(string)val;
+                            result = result.ToString() + (string)val;
                         }
                     }
                     else

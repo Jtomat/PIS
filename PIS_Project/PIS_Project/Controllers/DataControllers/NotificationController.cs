@@ -8,10 +8,13 @@ using System.Web;
 
 using System.Net;
 using System.Net.Mail;
+using System.Web;
+using PIS_Project.Models.DataControllers;
+using System.Web.Mvc;
 
 namespace PIS_Project.Controllers.DataControllers
 {
-    public class NotificationController:DbContext
+    public class NotificationController: DbContext
     {
         public DbSet<Notifications> Notifications { get; set; }
         public void Log(string logName, string logText,int id_card)
@@ -44,8 +47,8 @@ namespace PIS_Project.Controllers.DataControllers
                 using (var users = new UsersRegister())
                     mail.Body = $"Пользователь: [{log.id_user}] {users.GetUserByID(log.id_user).FIO}\n"+
                         $"Номер карты: {log.id_card}\nДействие: {log.actionType}";
-                
-                SmtpClient client = new SmtpClient("smtp.gmail.com",587);
+
+                SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
                 //client.UseDefaultCredentials = false; 
 
                 //client.Host = "smtp.yandex.ru";
@@ -58,9 +61,7 @@ namespace PIS_Project.Controllers.DataControllers
                 //        };
                 client.Credentials = new NetworkCredential("pisprojectsender@gmail.com", "gbcghjtrn");
                 client.EnableSsl = true;
-                //client.DeliveryMethod = SmtpDeliveryMethod.Network;
-
-                if(!string.IsNullOrEmpty(mail.From.DisplayName))
+                if (!string.IsNullOrEmpty(mail.From.DisplayName))
                     client.Send(mail);
             }
         }

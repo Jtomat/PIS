@@ -9,15 +9,15 @@ using System.Web;
 
 namespace PIS_Project.Models.DataClasses
 {
-    public class Users:IIdentity //: ApplicationUser
+    public class Users: IIdentity //: ApplicationUser
     {
 
-       // [NotMapped]
+        //[NotMapped]
         //public override string Id { get; set; }
-       // [NotMapped]
-       // public override string UserName { get; set; }
-       // [NotMapped]
-       // public override string Email { get; set; }
+        //[NotMapped]
+        //public override string UserName { get; set; }
+        //[NotMapped]
+        //public override string Email { get; set; }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; } //{ return int.Parse(Id); } set { Id = value.ToString(); } }
@@ -37,7 +37,7 @@ namespace PIS_Project.Models.DataClasses
         [NotMapped]
         public string Name => FIO;
         [NotMapped]
-        public string AuthenticationType => IsAuthenticated?"В сети":"Не в сети";
+        public string AuthenticationType => IsAuthenticated ? "В сети" : "Не в сети";
         [NotMapped]
         public bool IsAuthenticated { get; set; }
     }
