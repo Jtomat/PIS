@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using PIS_Project.Models.DataClasses;
-using System.Drawing;
 using System.IO;
 
 namespace PIS_Project.Controllers.DataControllers
@@ -20,15 +18,26 @@ namespace PIS_Project.Controllers.DataControllers
             {"sex", "Пол"}
         };
 
-        public ActionResult Sort(Dictionary<string, string> filters, string sortOrder, bool upper = false)
+        public ActionResult Sort(Dictionary<string, string> filters, string sortOrder, string action, bool upper = false)
         {
             SelectList fields = new SelectList(fieldsDict, "Key", "Value");
             ViewBag.Fields = fields;
 
-            List<Card> card;
-            if (filters.ContainsKey("field"))
+            bool checkFilters = false;
+            if (filters != null && (filters.Count > 2 || filters.ContainsKey("field")))
             {
-                card = Cards.GetFilteredBy(filters);
+                foreach(KeyValuePair<string, string> pair in filters)
+                {
+                    if (pair.Key != "field" && !string.IsNullOrEmpty(pair.Value))
+                        checkFilters = true;
+                }
+            }
+
+
+            List<Card> card;
+            if (checkFilters)
+            {
+                card = Cards.GetFilteredBy(filters, action);
             }
             else
                 card = Cards.GetCards().ToList().GetRange(0, 3);
@@ -49,7 +58,7 @@ namespace PIS_Project.Controllers.DataControllers
                 ViewBag.Id_User = id_user;
                 var users_role = new UsersRegister().GetUserByID(id_user).ID_role;
                 ViewBag.User_Role = users_role;
-            }         
+            }
             var card = Cards.GetCardByID(id_card);
             ViewBag.Sex = card.sex == Models.DataClasses.Card.SexAnimal.Male ? "Мужской" : "Женский";
             return View(card);
@@ -57,6 +66,7 @@ namespace PIS_Project.Controllers.DataControllers
 
         public ActionResult EditCard(int id_card)
         {
+            
             int id_user = 1;
             int users_role = 0;
             if (id_user != default(int))
@@ -131,9 +141,14 @@ namespace PIS_Project.Controllers.DataControllers
                 DeleteFile(card, "photo");
             }
 
-            if (card.document == null)
+            if (card.scan_frame_1 == null)
             {
-                DeleteFile(card, "document");
+                DeleteFile(card, "scan_frame_1");
+            }
+
+            if (card.scan_frame_2 == null)
+            {
+                DeleteFile(card, "scan_frame_2");
             }
 
             string ownerTraitString = "";
@@ -144,25 +159,30 @@ namespace PIS_Project.Controllers.DataControllers
             traitsLocal["3"] = "шлейка";
             traitsLocal["4"] = "чип";
 
-            foreach (KeyValuePair<string, bool> pair in card.SetOwnerTraits)
+            if (card.setOwnerTraits != null)
             {
-                if (pair.Value)
+                foreach (KeyValuePair<string, bool> pair in card.setOwnerTraits)
                 {
-                    ownerTraitString += traitsLocal[pair.Key] + ", ";
+                    if (pair.Value)
+                    {
+                        ownerTraitString += traitsLocal[pair.Key] + ", ";
+                    }
+                }
+
+                if (ownerTraitString == "")
+                {
+                    card.owner_traits = "нет";
+                }
+                else
+                {
+                    card.owner_traits = ownerTraitString.Remove(ownerTraitString.Length - 2, 2);
                 }
             }
-
-            if (ownerTraitString == "")
+            if (card.setAnimalTypeValues != null)
             {
-                card.owner_traits = "нет";
+                uint animalType = Convert.ToUInt32($"000{card.setAnimalTypeValues["species"]}{card.setAnimalTypeValues["size"]}{card.setAnimalTypeValues["hire_size"]}{card.setAnimalTypeValues["hire_type"]}", 2);
+                card.type = (Card.AnimalType)animalType;
             }
-            else
-            {
-                card.owner_traits = ownerTraitString.Remove(ownerTraitString.Length - 2, 2);
-            }
-
-            uint animalType = Convert.ToUInt32($"000{card.SetAnimalTypeValues["species"]}{card.SetAnimalTypeValues["size"]}{card.SetAnimalTypeValues["hire_size"]}{card.SetAnimalTypeValues["hire_type"]}", 2);
-            card.type = (Card.AnimalType)animalType;
 
             var prop = (new Card()).GetType().GetProperties();
             var changedValues = new Dictionary<string, object>();
@@ -178,11 +198,11 @@ namespace PIS_Project.Controllers.DataControllers
                 var current_card = Cards.Cards.FirstOrDefault(i => i.ID == card.ID);
                 List<string> execFields = new List<string>(
                     new string[] {
-                        "StringAnimalType",
-                        "GetAnimalTypeValue",
-                        "SetAnimalTypeValues",
-                        "SetOwnerTraits",
-                        "GetOwnerTraits",
+                        "stringAnimalType",
+                        "getAnimalTypeValue",
+                        "setAnimalTypeValues",
+                        "setOwnerTraits",
+                        "getOwnerTraits",
                     });
 
                 foreach (var change in changedValues)
@@ -198,11 +218,10 @@ namespace PIS_Project.Controllers.DataControllers
         }
         // [Logging]
         [HttpPost]
-        public String UploadFile(Card card, string prop)
+        public String UploadFile()
         {
             HttpPostedFileBase file = Request.Files["FileData"];
             BinaryReader reader = new BinaryReader(file.InputStream);
-
             return Convert.ToBase64String(reader.ReadBytes((int)file.ContentLength));
         }
         // [Logging]
@@ -210,16 +229,43 @@ namespace PIS_Project.Controllers.DataControllers
         {
             typeof(Card).GetProperty(prop).SetValue(card, new byte[] { });
         }
-        public void ExportDoc(int id)
+        public void ExportDoc(int id,int doc_id)
         {
             var card = Cards.GetCardByID(id);
-            if (card.document == null)
+
+            string wool = "";
+            string size = "";
+
+            switch (card.getAnimalTypeValues["size"])
             {
-                card.document = ReportTemplate.GetDocByID(10, new Dictionary<string, object>()
+                case "11":
+                    size = "Большой";
+                    break;
+                case "10":
+                    size = "Средний";
+                    break;
+                case "1":
+                    size = "Маленький";
+                    break;
+
+            }
+            switch (card.getAnimalTypeValues["hire_type"])
+            {
+                case "1":
+                    wool = "Прямая";
+                    break;
+                case "0":
+                    wool = "Волнистая";
+                    break;
+            }
+
+            if (doc_id == 10)
+            {
+                card.document = ReportTemplate.GetDocByID(doc_id, new Dictionary<string, object>()
                 {
                     { "ID_Card", card.ID.ToString() },
                     { "Date", DateTime.Now },
-                    { "Sex", card.sex.ToString("F") },
+                    { "Sex", (int)card.sex == 1?"М":"Ж" },
                     { "Spec_mark", card.spec_mark },
                     { "Sterilization_date", card.sterilization_date },
                     { "Photo", card.photo!=null?card.photo:new byte[0] },
@@ -227,12 +273,29 @@ namespace PIS_Project.Controllers.DataControllers
                     { "Local", card.local_place },
                     { "MU", card.MU },
                     { "ID_mark", card.id_mark.ToString() },
-                    { "Date_found", DateTime.Now }
+                    { "Date_found", DateTime.Now },
+                    { "Wool", wool},
+                    { "Size", size},
                 });
                 UpdateCard(card);
+           
+                System.IO.File.WriteAllBytes(@"C:\Users\Анастасия\Desktop\ИСиТ 3 курс\ПИС\7 лаба\Карточка учета животного №" + card.ID.ToString() + ".docx", Cards.GetCardByID(card.ID).document);
             }
+            else
+            {
+                card.document = ReportTemplate.GetDocByID(doc_id, new Dictionary<string, object>()
+                {
+                    { "ID_Card", card.ID.ToString() },
+                    { "Sex", (int)card.sex == 1?"М":"Ж" },
+                    { "Birthday", card.birthday.ToString("MM.yyyy")},
+                    { "MU", card.MU },
+                    { "ID_Chip", card.id_chip.ToString()},
+                    { "Wool", wool},
+                });
+                UpdateCard(card);
 
-            System.IO.File.WriteAllBytes(@"C:\Users\Анастасия\Desktop\ИСиТ 3 курс\ПИС\7 лаба\apple.docx", Cards.GetCardByID(card.ID).document);
+                System.IO.File.WriteAllBytes(@"C:\Users\Анастасия\Desktop\ИСиТ 3 курс\ПИС\7 лаба\Акт первичного осмотра животного №" + card.ID.ToString() + ".docx", Cards.GetCardByID(card.ID).document);
+            }
 
         }
         [Logging]

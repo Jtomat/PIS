@@ -6,20 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>@ViewBag.Title - приложение ASP.NET</title>
-    @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body style="background-color: #ffffff">
     <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #aebfbe; padding-top: 15px; padding-bottom: 15px">
-        @Html.ActionLink("Имя приложения", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+        @Html.ActionLink("Приют для животных", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="navbar-collapse collapse">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item">@Html.ActionLink("Домашняя страница", "Index", "Home", new { @class = "nav-link" })</li>
-                <li class="nav-item">@Html.ActionLink("Информация", "About", "Home", new { @class = "nav-link" })</li>
-                <li class="nav-item">@Html.ActionLink("Чекнуть карточку", "Card", "Register", new { @class = "nav-link" })</li>
+                <li class="nav-item">@Html.ActionLink("Реестр животных", "Sort", "Register", null, new { @class = "nav-link" })</li>
             </ul>
             @Html.Partial("_LoginPartial")
         </div>
@@ -28,7 +25,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p class="text-center">&copy; @DateTime.Now.Year - приют животных ASP.NET</p>
+            <p class="text-center">&copy; @DateTime.Now.Year - приют для животных ASP.NET</p>
         </footer>
     </div>
 

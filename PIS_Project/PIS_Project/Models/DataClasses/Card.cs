@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using PIS_Project.CustomValidate;
 using System.Linq;
 using System.Web;
 
@@ -60,7 +61,7 @@ namespace PIS_Project.Models.DataClasses
         [Display(Name = "Характеристика животного")]
         public AnimalType type { get; set; }
         [NotMapped]
-        public string StringAnimalType
+        public string stringAnimalType
         {
             get
             {
@@ -129,11 +130,11 @@ namespace PIS_Project.Models.DataClasses
             }
         }
         [NotMapped]
-        public Dictionary<string, string> SetAnimalTypeValues
+        public Dictionary<string, string> setAnimalTypeValues
         { get; set; }
 
         [NotMapped]
-        public Dictionary<string, string> GetAnimalTypeValues
+        public Dictionary<string, string> getAnimalTypeValues
         {
             get
             {
@@ -194,15 +195,21 @@ namespace PIS_Project.Models.DataClasses
         }
         [Display(Name = "Дата рождения")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DateLimit(ErrorMessage = "Дата рождения должна быть меньше или равна текущей")]
         public DateTime birthday { get; set; }
         [Display(Name = "Идентификационная метка")]
+        [Range(1, int.MaxValue, ErrorMessage = "Значение должно быть больше 0")]
         public int id_mark { get; set; }
         [Display(Name = "Номер чипа")]
+        [Range(0, int.MaxValue, ErrorMessage = "Значение должно быть больше 0")]
         public int id_chip { get; set; }
         [Display(Name = "Кличка")]
+        [Required]
+        [RegularExpression("([А-ЯA-Z][а-яa-zА-ЯA-Z-' ]+)", ErrorMessage = "Некорректное имя. Должно начинаться с заглавной буквы и не содержать цифры")]
         public string name { get; set; }
         [Display(Name = "Фото")]
         public byte[] photo { get; set; }
+        [RegularExpression("([А-ЯA-Z][а-яa-zА-ЯA-Z-',;!. ]+)", ErrorMessage = "Некорректное значение. Приметы не должны содержать цифры")]
         [Display(Name = "Приметы")]
         public string spec_mark { get; set; }
         [Display(Name = "Признаки наличия владельца")]
@@ -210,7 +217,7 @@ namespace PIS_Project.Models.DataClasses
 
 
         [NotMapped]
-        public Dictionary<string, bool> GetOwnerTraits
+        public Dictionary<string, bool> getOwnerTraits
         {
             get
             {
@@ -251,21 +258,29 @@ namespace PIS_Project.Models.DataClasses
         }
 
         [NotMapped]
-        public Dictionary<string, bool> SetOwnerTraits { get; set; }
+        public Dictionary<string, bool> setOwnerTraits { get; set; }
         [Display(Name = "Текущий статус")]
+        [Range(0, int.MaxValue, ErrorMessage = "Значение должно быть больше 0")]
         public int id_status { get; set; }
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DateLimitAttribute(ErrorMessage = "Дата установки статуса должна быть меньше или равна текущей")]
         [Display(Name = "Дата установки статуса")]
         public DateTime date_status_change { get; set; }
         [Display(Name = "ID Муниципального образования")]
+        [Range(0, int.MaxValue, ErrorMessage = "Значение должно быть больше или равно 1")]
+        [Required]
         public int ID_MU { get; set; }
         [Display(Name = "Населенный пункт")]
+        [Required]
         public string local_place { get; set; }
         [Display(Name = "Документ")]
         public byte[] document { get; set; }
-        [Display(Name = "Скан-образ документа")]
-        public byte[] scan_frame { get; set; }
+        [Display(Name = "Скан-образ акта первичного осмотра")]
+        public byte[] scan_frame_1 { get; set; }
+        [Display(Name = "Скан-образ акта первичного осмотра")]
+        public byte[] scan_frame_2 { get; set; }
         [Display(Name = "Дата стерелизации")]
+        [DateLimit(ErrorMessage = "Дата стерилизации статуса должна быть меньше или равна текущей")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime sterilization_date { get; set; }
 
