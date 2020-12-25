@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
@@ -12,6 +13,7 @@ using PIS_Project.Models;
 
 namespace PIS_Project.Controllers
 {
+
     [Authorize]
     public class AccountController : Controller
     {
@@ -75,19 +77,27 @@ namespace PIS_Project.Controllers
 
             // Сбои при входе не приводят к блокированию учетной записи
             // Чтобы ошибки при вводе пароля инициировали блокирование учетной записи, замените на shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-            switch (result)
+            var us = (new ApplicationDbContext()).Users.FirstOrDefault(i=>i.Email==model.Email);
+            if (us != null)
             {
-                case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Неудачная попытка входа.");
-                    return View(model);
+                var result = await SignInManager.PasswordSignInAsync(us.UserName, model.Password, model.RememberMe, shouldLockout: false);
+                switch (result)
+                {
+                    case SignInStatus.Success:
+                        return RedirectToLocal(returnUrl);
+                    case SignInStatus.LockedOut:
+                        return View("Lockout");
+                    case SignInStatus.RequiresVerification:
+                        return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                    case SignInStatus.Failure:
+                    default:
+                        ModelState.AddModelError("", "Неудачная попытка входа.");
+                        return View(model);
+                }
+            }else 
+            {
+                ModelState.AddModelError("", "Неудачная попытка входа.");
+                return View(model);
             }
         }
 
@@ -151,7 +161,11 @@ namespace PIS_Project.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var d = (new DataControllers.UsersController());
+                d.AddRegReq(new Dictionary<string,object>{ {"SIN",model.Email },{"FIO",model.UserName},{ "email",model.Email },{"password",model.Password},
+                    {"ID_organization",2 },{"ID_role",4 } });
+                var id = new DataControllers.UsersRegister().Requests.ToArray().Last().ID;
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, ID_info = id };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

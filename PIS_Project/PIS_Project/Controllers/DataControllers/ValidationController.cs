@@ -34,7 +34,8 @@ namespace PIS_Project.Controllers.DataControllers
                         result = data.Value;
                     try
                     {
-                        result = converter.ConvertFrom(result);
+                        if(result.GetType()!=prop.PropertyType)
+                            result = converter.ConvertFrom(result);
                     }
                     catch
                     {

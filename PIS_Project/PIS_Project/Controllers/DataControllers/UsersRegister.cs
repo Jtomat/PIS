@@ -21,7 +21,14 @@ namespace PIS_Project.Controllers.DataControllers
         internal DbSet<Users> Users { get; set; }
         internal DbSet<Organizations> Organizations { get; set; }
         internal DbSet<Roles> Roles { get; set; }
-
+        public int GetIDByName(string name)
+        {
+            var us = Users.ToArray();
+            var ds = us.FirstOrDefault(i => string.Compare(i.Name, name) == 0);
+            if(ds!=null)
+                return ds.ID;
+            return -1;
+        }
         public Users GetUserByID(int id)
         {
             var result = Users.Where(i => i.Confirmed).FirstOrDefault(i => i.ID == id);

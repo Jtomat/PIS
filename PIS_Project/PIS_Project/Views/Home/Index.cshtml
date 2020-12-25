@@ -29,11 +29,8 @@
         ps += (char)(b);
     }
 
-    (new PIS_Project.Controllers.DataControllers.UsersController()).Auth(algs/*логин*/, ps/*пароль*/);
-    var id = HttpContext.Current.Items["ID"];
-    var FIO = HttpContext.Current.Items["FIO"];
-    var id_r = HttpContext.Current.Items["ID_role"];
 
+    var id = (new PIS_Project.Controllers.DataControllers.UsersRegister()).GetIDByName(HttpContext.Current.User.Identity.Name);
     //File.WriteAllBytes(@"C:\Users\Михаил\Downloads\doc24.docx", PIS_Project.Controllers.DataControllers.ReportTemplate.GetDocByID(11, new Dictionary<string, object>
     //{
     //        { "ID_Chip", "4324" },

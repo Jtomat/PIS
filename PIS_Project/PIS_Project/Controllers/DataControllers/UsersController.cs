@@ -27,7 +27,7 @@ namespace PIS_Project.Controllers.DataControllers
         {
             if (ArrayOfData.ContainsKey("SIN"))
             {
-                ArrayOfData["SIN"] = ConvertToGuid(ArrayOfData["SIN"].ToString());
+                ArrayOfData["SIN"] = ConvertToGuid(ArrayOfData["SIN"].ToString().Substring(0, 15));
             }
             if (ArrayOfData.ContainsKey("password"))
             {
@@ -63,7 +63,7 @@ namespace PIS_Project.Controllers.DataControllers
         }
         public bool Auth(string login, string pass)
         {
-            var sin = ConvertToGuid(login);
+            var sin = ConvertToGuid(login.Substring(0,15));
             var password = "";
             var sp_pass = Split(pass,16);
             foreach (var p_chunk in sp_pass)
