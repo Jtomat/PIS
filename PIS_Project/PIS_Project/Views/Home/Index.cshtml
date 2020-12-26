@@ -1,40 +1,7 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
-
-<div>
-    <h3>Всякая скотина</h3>
-    <table>
-        <tr class="header">
-            <td><p>ID </p></td>
-            <td><p>sex </p></td>
-            <td><p>type </p></td>
-            <td><p>bitrhday </p></td>
-            <td><p>id_mark </p></td>
-            <td><p>id_chip </p></td>
-            <td><p>name </p></td>
-            <td><p>photo </p></td>
-            <td><p>spec_mark </p></td>
-            <td><p>owner_traits </p></td>
-            <td><p>id_status </p></td>
-            <td><p>date_status_change </p></td>
-            <td><p>id_mu </p></td>
-            <td><p>local_place </p></td>
-            <td><p>document </p></td>
-            <td><p>scan_frame </p></td>
-            <td><p>sterilisation_date </p></td>
-            <td></td>
-            <td></td>
-        </tr>
-        @foreach(var b in (new PIS_Project.Controllers.DataControllers.RegisterController()).GetCards())
-        {
-        <tr>
-            @foreach (var val in b.Value.Values)
-            {
-                <td><p>@val  </p></td>
-            }
-            <td><p><a href="/Home/ShowCard/@b.Key">Открыть</a></p></td>
-        </tr>
-        }
-    </table>
+<div class="jumbotron">
+    <h1>Добро пожаловать!</h1>
+    <p class="lead">Реестр учета животных без владельцев.</p>
 </div>

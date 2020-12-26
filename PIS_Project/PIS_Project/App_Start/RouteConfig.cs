@@ -13,8 +13,8 @@ namespace PIS_Project
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.MapRoute("Register/Sort", "Register/Sort", new { controller = "Register", action = "Sort" });
-            routes.MapRoute("Register/Card", "Register/Card/{id_card}", new { controller = "Register", action = "Card", index = UrlParameter.Optional });
-            routes.MapRoute("Register/EditCard", "Register/EditCard/{id_card}", new { controller = "Register", action = "EditCard", index = UrlParameter.Optional });
+            routes.MapRoute("Register/Card", "Register/Card/{id_card}/{user_id}", new { controller = "Register", action = "Card", index = UrlParameter.Optional, user_id = 0 });
+            routes.MapRoute("Register/EditCard", "Register/EditCard/{id_card}/{user_id}", new { controller = "Register", action = "EditCard", index = UrlParameter.Optional, user_id = 0 });
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

@@ -19,7 +19,7 @@ namespace PIS_Project.Models.DataClasses
                 id_s = HttpContext.Current.User.Identity.GetUserId();
             var id_user = int.Parse(id_s);
             var values = (Dictionary<string,object>)args.Arguments.FirstOrDefault();
-            var card_id =(new CardsRegister()).Card.OrderBy(i => i.ID).First().ID;
+            var card_id =(new CardsRegister()).Cards.OrderBy(i => i.ID).First().ID;
             _notificator.Log("","",card_id);
 
         }

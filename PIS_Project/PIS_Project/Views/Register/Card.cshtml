@@ -40,7 +40,14 @@
             <div class="col-lg-12 col-md-12">
                 <label class="font-weight-bold">@Html.DisplayNameFor(model => model.spec_mark)</label>
                 <div style="background-color: #e0f2f1; padding: 5px 0px 5px 5px; border-radius: 5px; border: 1px solid rgba(0,0,0,.1);">
-                    @Html.DisplayFor(model => model.spec_mark)
+                    @if (!string.IsNullOrEmpty(Model.spec_mark))
+                    {
+                        @Html.DisplayFor(model => model.spec_mark)
+                    }
+                    else
+                    {
+                        <span>нет</span>
+                    }
                 </div>
             </div>
         </div>
@@ -85,7 +92,7 @@
             <div class="col-lg-6">
                 <label class="font-weight-bold">@Html.DisplayNameFor(model => model.id_status)</label>
                 <div style="background-color: #e0f2f1; padding: 5px 0px 5px 5px; border-radius: 5px; border: 1px solid rgba(0,0,0,.1);">
-                    @(Model.id_status == 0 ? "Выбыл": "В приюте")
+                    @(Model.id_status == 0 ? "Выбыл": "На содержании")
                 </div>
             </div>
             <div class="col-lg-6">
@@ -97,9 +104,9 @@
         </div>
         <div class="form-group row" style="margin-right: 0; margin-left: 0;">
             <div class="col-lg-6">
-                <label class="font-weight-bold">@Html.DisplayNameFor(model => model.ID_MU)</label>
+                <label class="font-weight-bold">@Html.DisplayNameFor(model => model.MU)</label>
                 <div style="background-color: #e0f2f1; padding: 5px 0px 5px 5px; border-radius: 5px; border: 1px solid rgba(0,0,0,.1);">
-                    @Html.DisplayFor(model => model.ID_MU)
+                    @Html.DisplayFor(model => model.MU)
                 </div>
             </div>
             <div class="col-lg-6">
@@ -138,10 +145,10 @@
         </div>
         <div class="form-group row" style="margin-right: 0; margin-left: 0;">
             <div class="col-lg-12 col-md-12">
-                @Html.ActionLink("Вернуться к регистру", "Sort", "Register", null, new { @class = "btn btn-success col-lg-3 col-md-12", @style = "background-color: #aebfbe; border-color: #aebfbe;" })
-                @if (@ViewBag.User_Role.ToString() == "1" || @ViewBag.User_Role.ToString() == "2")
+                @Html.ActionLink("Вернуться к реестру", "Index", "Register", null, new { @class = "btn btn-success col-lg-3 col-md-12 mb-lg-0 mb-sm-2", @style = "background-color: #aebfbe; border-color: #aebfbe;" })
+                @if (@ViewBag.User_Role != null && @ViewBag.User_Role != 0 && (@ViewBag.User_Role.ToString() == "1" || @ViewBag.User_Role.ToString() == "2"))
                 {
-                    @Html.ActionLink("Редактировать", "EditCard", new { id_card = Model.ID }, new { @class = "btn btn-success col-lg-2 col-md-12", @style = "background-color: #aebfbe; border-color: #aebfbe;" })
+                    @Html.ActionLink("Редактировать", "EditCard", new { id_card = Model.ID, user_id = ViewBag.Id_User }, new { @class = "btn btn-success col-lg-2 col-md-12", @style = "background-color: #aebfbe; border-color: #aebfbe;" })
                 }
             </div>
         </div>

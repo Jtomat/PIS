@@ -9,7 +9,7 @@
 <h2 class="mt-3">Редактирование карты</h2>
 
 
-@using (Html.BeginForm("UpdateCard", "Register", FormMethod.Post, new { name = "UpdateCard", enctype = "multipart/form-data", id="updateCard" }))
+@using (Html.BeginForm("UpdateCard", "Register", FormMethod.Post, new { name = "UpdateCard", enctype = "multipart/form-data", id = "updateCard" }))
 {
     @Html.AntiForgeryToken()
 
@@ -101,8 +101,8 @@
                 <div>
                     @Html.DropDownList("SetAnimalTypeValues[hire_type]", new SelectList(
                     new[]{
-                        new { Value = "0", Text = "Прямая" },
-                        new { Value = "1", Text = "Кудрявая" },
+                        new { Value = "1", Text = "Прямая" },
+                        new { Value = "0", Text = "Кудрявая" },
                     },
                     "Value",
                     "Text",
@@ -173,8 +173,6 @@
                         </div>
                     </li>
                 </ul>
-
-
                 @*@Html.EditorFor(model => model.owner_traits, new { htmlAttributes = new { @class = "form-control" } })*@
                 @*@Html.ValidationMessageFor(model => model.owner_traits, "", new { @class = "text-danger" })*@
             </div>
@@ -204,7 +202,7 @@
                     @Html.DropDownListFor(model => model.id_status, new SelectList(
                   new[]{
                       new { Value = "0", Text = "Выбыл" },
-                      new { Value = "1", Text = "В приюте" },
+                      new { Value = "1", Text = "На содержании" },
                   },
                   "Value",
                   "Text",
@@ -223,10 +221,20 @@
 
         <div class="form-group row" style="margin-right: 0; margin-left: 0;">
             <div class="col-lg-4">
-                @Html.LabelFor(model => model.ID_MU, htmlAttributes: new { @class = "control-label" })
+                @Html.LabelFor(model => model.MU, htmlAttributes: new { @class = "control-label" })
                 <div>
-                    @Html.EditorFor(model => model.ID_MU, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = 1 } })
-                    @Html.ValidationMessageFor(model => model.ID_MU, "", new { @class = "text-danger" })
+                    <div>
+                        @Html.DropDownList("ID_MU", new SelectList(
+                        new[]{
+                            new { Value = "2", Text = "Питомник" },
+                            new { Value = "3", Text = "Отлов" },
+                            new { Value = "4", Text = "Приют" }
+                        },
+                        "Value",
+                        "Text",
+                        Model.ID_MU
+                        ), new { @class = "form-control" })
+                    </div>
                 </div>
             </div>
             <div class="offset-lg-1 col-lg-7">
@@ -269,13 +277,11 @@
         </div>
 
         <div class="form-group row" style="margin-right: 0; margin-left: 0;">
-
-
         </div>
 
         <div class="form-group">
             <div class="col-lg-12">
-                @Html.ActionLink("Вернуться к карте", "Card", new { id_card = Model.ID }, new { @class = "btn btn-success mb-lg-0 mb-sm-2 col-lg-3 mr-2", @style = "background-color: #aebfbe; border-color: #aebfbe" })
+                @Html.ActionLink("Вернуться к карте", "Card", new { id_card = Model.ID, user_id = ViewBag.Id_User }, new { @class = "btn btn-success mb-lg-0 mb-sm-2 col-lg-3 mr-2", @style = "background-color: #aebfbe; border-color: #aebfbe" })
                 <input type="submit" id="submitForm" value="Сохранить изменения" class="btn btn-success col-lg-3 col-md-12" style="background-color: #aebfbe; border-color: #aebfbe" />
             </div>
         </div>

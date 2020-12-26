@@ -34,13 +34,11 @@ namespace PIS_Project.Models.DataClasses
             return result;
         }
 
-        public List<Card> GetFilteredBy(Dictionary<string, string> filters, string action)
+        public List<Card> GetFilteredBy(Dictionary<string, string> filters)
         {
             var result = GetCards();
-            //var prop = (new Card()).GetType().GetProperty(filters["field"]);
             List<Card> filtredCards = new List<Card>();
-            if (action == "Применить")
-            {
+
                 foreach (Card card in result)
                 {
 
@@ -54,27 +52,25 @@ namespace PIS_Project.Models.DataClasses
                         continue;
                     }
 
-                    if (filters.ContainsKey("animal_size") && card.getAnimalTypeValues["size"] != filters["animal_size"])
+                    if (filters.ContainsKey("animal_size") && (!card.getAnimalTypeValues.ContainsKey("size") || card.getAnimalTypeValues["size"] != filters["animal_size"]))
                     {
                         continue;
                     }
 
-                    if (filters.ContainsKey("animal_species") && card.getAnimalTypeValues["species"] != filters["animal_species"])
+                    if (filters.ContainsKey("animal_species") && (!card.getAnimalTypeValues.ContainsKey("species") || card.getAnimalTypeValues["species"] != filters["animal_species"]))
                     {
                         continue;
                     }
 
-                    if (filters.ContainsKey("animal_hire_size") && card.getAnimalTypeValues["hire_size"] != filters["animal_hire_size"])
+                    if (filters.ContainsKey("animal_hire_size") && (!card.getAnimalTypeValues.ContainsKey("hire_size") || card.getAnimalTypeValues["hire_size"] != filters["animal_hire_size"]))
                     {
                         continue;
                     }
 
-                    if (filters.ContainsKey("animal_hire_type") && card.getAnimalTypeValues["hire_type"] != filters["animal_hire_type"])
+                    if (filters.ContainsKey("animal_hire_type") && (!card.getAnimalTypeValues.ContainsKey("hire_type") || card.getAnimalTypeValues["hire_type"] != filters["animal_hire_type"]))
                     {
                         continue;
                     }
-
-
 
                     if (!string.IsNullOrEmpty(filters["birthday1"]) && card.birthday < DateTime.Parse(filters["birthday1"]))
                     {
@@ -145,33 +141,16 @@ namespace PIS_Project.Models.DataClasses
 
                     filtredCards.Add(card);
                 }
-            }
-            if(action == "Поиск")
-            {
-                if (filters.ContainsKey("search") && !string.IsNullOrEmpty(filters["search"]))
-                {
-                    var cardProp = (new Card()).GetType().GetProperty(filters["field"]);
-                    foreach (Card card in result)
-                    {
-
-                        if (cardProp.GetValue(card) != null && cardProp.GetValue(card).ToString().Contains(filters["search"]))
-                            filtredCards.Add(card);
-                    }
-                }
-                else
-                {
-                    filtredCards = result;
-                }
-            }
+           
                 foreach (var card in result)
                 {
-                    foreach (var card in filtredCards)
+                    foreach (var filtCard in filtredCards)
                     {
-                        card.Status = GetStatusByID(card.id_status).Name;
-                        card.MU = GetMUByID(card.ID_MU).Name;
+                        filtCard.Status = GetStatusByID(card.id_status).Name;
+                        filtCard.MU = GetMUByID(card.ID_MU).Name;
                     }
                 }
-            return result;
+            return filtredCards;
         }
 
         public List<Card> GetSortedBy(List<Card> cards, string sortOrder, bool upper)
@@ -207,12 +186,5 @@ namespace PIS_Project.Models.DataClasses
             card.MU = GetMUByID(card.ID_MU).Name;
             return card;
         }
-
-
-        //public System.Data.Entity.DbSet<PIS_Project.Models.DataClasses.Card> Cards { get; set; }
-
-        //public System.Data.Entity.DbSet<PIS_Project.Models.DataClasses.Card> Cards { get; set; }
-
-        //public System.Data.Entity.DbSet<PIS_Project.Models.DataClasses.Card> Cards { get; set; }
     }
 }

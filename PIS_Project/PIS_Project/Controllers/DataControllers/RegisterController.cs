@@ -4,21 +4,19 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using PIS_Project.Models.DataClasses;
-using System.Web.Mvc;
-using System.Drawing;
 using System.IO;
 
 namespace PIS_Project.Controllers.DataControllers
 {
     public class RegisterController : Controller
     {
-        public int id_user;
+        public int id_user = 1;
 
         public ActionResult Index()
         {
             Cards = new CardsRegister();
-            ViewBag.Table = GetCards();
-            return View();
+            var cards = Cards.GetCards().ToList();
+            return View(cards);
         }
 
         [HttpGet]
@@ -224,7 +222,7 @@ namespace PIS_Project.Controllers.DataControllers
             return result;
         }
 
-       [Logging]
+        [Logging]
         [Notify]
         [HttpPost]
         public void AddCard(Dictionary<string, object> values)
@@ -244,6 +242,85 @@ namespace PIS_Project.Controllers.DataControllers
                 Cards.SaveChanges();
             }
             else { throw new ArgumentException(validation.Information); }
+        }
+
+        public ActionResult Sort(Dictionary<string, string> filters, string sortField, string act = "filtering", bool upper = false)
+        {
+            bool checkFilters = false;
+            if (filters != null && filters.Count > 2)
+            {
+                foreach (KeyValuePair<string, string> pair in filters)
+                {
+                    if (pair.Key != "field" && !string.IsNullOrEmpty(pair.Value))
+                        checkFilters = true;
+                }
+            }
+
+            if(act == "reset")
+            {
+                Session["savedFilt"] = new Dictionary<string, string>();
+            }
+
+            Dictionary<string, string> savedFilt = (Dictionary<string, string>)Session["savedFilt"];
+            List<Card> card;
+            if (checkFilters)
+            {
+                card = Cards.GetFilteredBy(filters);
+                Session["savedFilt"] = filters;
+            }
+            else if (savedFilt != null && savedFilt.Count > 0)
+            {
+                card = Cards.GetFilteredBy(savedFilt);
+            }
+            else
+                card = Cards.GetCards().ToList();
+
+            if(!String.IsNullOrEmpty(sortField))
+            {
+                ViewData[sortField] = !upper;
+                card = Cards.GetSortedBy(card, sortField, (bool)ViewData[sortField]);
+            }
+
+            return View("Index", card);
+        }
+
+        public ActionResult Card(int id_card, int user_id)
+        {
+            id_user = user_id;
+            ViewBag.Id_User = id_user;
+            if (id_user != 0)
+            {
+                var users_role = new UsersRegister().GetUserByID(id_user).ID_role;
+                ViewBag.User_Role = users_role;
+            }
+            var card = Cards.GetCardByID(id_card);
+            ViewBag.Sex = card.sex == Models.DataClasses.Card.SexAnimal.Male ? "Мужской" : "Женский";
+            return View(card);
+        }
+
+        public ActionResult EditCard(int id_card, int user_id)
+        {
+            if(user_id > 0)
+            {
+                id_user = user_id;
+            }
+            ViewBag.Id_User = id_user;
+            int users_role = 0;
+            if (id_user != 0)
+            {
+                users_role = new UsersRegister().GetUserByID(id_user).ID_role;
+                ViewBag.User_Role = users_role;
+            }
+            if (users_role == 1 || users_role == 2)
+            {
+                var card = Cards.GetCardByID(id_card);
+                return View(card);
+            }
+            else
+            {
+                ViewBag.User_Role = users_role;
+                return View("Card",Cards.GetCardByID(id_card));
+            }
         }
         //[Logging]
         [HttpPost]
@@ -293,7 +370,8 @@ namespace PIS_Project.Controllers.DataControllers
             }
             if (card.setAnimalTypeValues != null)
             {
-                uint animalType = Convert.ToUInt32($"000{card.setAnimalTypeValues["species"]}{card.setAnimalTypeValues["size"]}{card.setAnimalTypeValues["hire_size"]}{card.setAnimalTypeValues["hire_type"]}", 2);
+                string size = card.setAnimalTypeValues["size"] == "1" ? "0" + card.setAnimalTypeValues["size"] : card.setAnimalTypeValues["size"];
+                uint animalType = Convert.ToUInt32($"000{card.setAnimalTypeValues["species"]}{size}{card.setAnimalTypeValues["hire_size"]}{card.setAnimalTypeValues["hire_type"]}", 2);
                 card.type = (Card.AnimalType)animalType;
             }
 
@@ -325,7 +403,7 @@ namespace PIS_Project.Controllers.DataControllers
                         pro.SetValue(current_card, change.Value);
                 }
                 Cards.SaveChanges();
-                return RedirectToAction("Card", "Register", new { id_card = card.ID });
+                return RedirectToAction("Card", "Register", new { id_card = card.ID, user_id = 1 });
             }
             else { throw new ArgumentException(validation.Information); }
         }

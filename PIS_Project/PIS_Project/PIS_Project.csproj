@@ -264,6 +264,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\limitdate.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\sortfilter.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -304,6 +305,8 @@
     <Content Include="Views\Register\CreateNewCard.cshtml" />
     <Content Include="Views\Register\ShowRegisterCatched.cshtml" />
     <Content Include="Views\Register\RegisterCatchedGetCardByID.cshtml" />
+    <Content Include="Views\Register\Card.cshtml" />
+    <Content Include="Views\Register\EditCard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

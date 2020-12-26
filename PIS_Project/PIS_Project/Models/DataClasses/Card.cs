@@ -25,7 +25,7 @@ namespace PIS_Project.Models.DataClasses
         /// 1|0-Собака|Кошка;
         /// 01|10|11-Мальнькая|Средняя|Большая;
         /// 1|0-Длинношёрстная|Короткошёрстная;
-        /// 0|1-Волос прямой|Волос кудрявый
+        /// 1|0-Волос прямой|Волос кудрявый
         public enum AnimalType : int
         {
             DogSmallShortHairedWireHaired = 0b_0001_0101,
@@ -58,9 +58,10 @@ namespace PIS_Project.Models.DataClasses
         public int ID { get; set; }
         [Display(Name = "Пол")]
         public SexAnimal sex { get; set; }
+        [Display(Name = "Характеристика")]
         public AnimalType type { get; set; }
         [NotMapped]
-        public string Type
+        public string stringAnimalType
         {
             get
             {
@@ -68,10 +69,10 @@ namespace PIS_Project.Models.DataClasses
                 var endig = sex == SexAnimal.Male ? "ый" : "ая";
                 var mask = new int[]
                 {
-                    (((int)type) & (1 << 4))!=0?1:0, //Вид
-                    ((((((int)type) & (1 << 3))!=0?1:0)*10)+((((int)type) & (1 << 2)))!=0?1:0), //Размер
-                    ((((int)type) & (1 << 1))!=0?1:0),//Длина шерсти
-                    ((((int)type) & (1 << 0))!=0?1:0)//Тип шерсти
+                   (((int)type) & (1 << 4))!=0?1:0, //Вид
+                   ((((((int)type) & (1 << 3))!=0?1:0)*10))+(((((int)type) & (1 << 2)))!=0?1:0), //Размер
+                   ((((int)type) & (1 << 1))!=0?1:0),//Длина шерсти
+                   ((((int)type) & (1 << 0))!=0?1:0)//Тип шерсти
                 };
                 if (mask[0] == 1)
                 {
@@ -95,7 +96,7 @@ namespace PIS_Project.Models.DataClasses
                 switch (mask[1])
                 {
                     case 11:
-                        result += " больщой";
+                        result += " большой";
                         break;
                     case 10:
                         result += " средний";
@@ -128,6 +129,74 @@ namespace PIS_Project.Models.DataClasses
                 return result;
             }
         }
+        [NotMapped]
+        public Dictionary<string, string> setAnimalTypeValues
+        { get; set; }
+
+        [NotMapped]
+        public Dictionary<string, string> getAnimalTypeValues
+        {
+            get
+            {
+                Dictionary<string, string> animal_types = new Dictionary<string, string>();
+                var mask = new int[]
+                 {
+                    (((int)type) & (1 << 4))!=0?1:0, //Вид
+                    ((((((int)type) & (1 << 3))!=0?1:0)*10))+(((((int)type) & (1 << 2)))!=0?1:0), //Размер
+                    ((((int)type) & (1 << 1))!=0?1:0),//Длина шерсти
+                    ((((int)type) & (1 << 0))!=0?1:0)//Тип шерсти
+                 };
+                switch (mask[0])
+                {
+                    case 0:
+                        animal_types["species"] = "0";
+                        break;
+                    case 1:
+                        animal_types["species"] = "1";
+                        break;
+                }
+
+                switch (mask[1])
+                {
+                    case 11:
+                        animal_types["size"] = "11";
+                        break;
+                    case 10:
+                        animal_types["size"] = "10";
+                        break;
+                    case 1:
+                        animal_types["size"] = "1";
+                        break;
+                }
+
+                switch (mask[2])
+                {
+
+                    case 1:
+                        animal_types["hire_size"] = "1";
+                        break;
+                    case 0:
+                        animal_types["hire_size"] = "0";
+                        break;
+                }
+
+                switch (mask[3])
+                {
+                    case 1:
+                        animal_types["hire_type"] = "1";
+                        break;
+                    case 0:
+                        animal_types["hire_type"] = "0";
+                        break;
+                }
+                return animal_types;
+            }
+            set { }
+        }
+
+        [Display(Name = "Дата рождения")]
+        [DateLimit(ErrorMessage = "Дата рождения статуса должна быть меньше или равна текущей")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime birthday { get; set; }
         [Display(Name = "Идентификационная метка")]
         [Range(1, int.MaxValue, ErrorMessage = "Значение должно быть больше 0")]
@@ -217,6 +286,7 @@ namespace PIS_Project.Models.DataClasses
         public DateTime sterilization_date { get; set; }
 
         [NotMapped]
+        [Display(Name = "Муниципальное образование")]
         public string MU { get; set; }
 
         [NotMapped]
