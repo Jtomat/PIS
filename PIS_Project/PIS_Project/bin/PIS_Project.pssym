@@ -1,39 +1,39 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Symbols LinesOfCode="1358" PostSharpLinesOfCode="0" EnhancedTypesCount="1" SchemaVersion="1" PostSharpVersion="6.7.11.0" xmlns="http://schemas.postsharp.org/2.0/symbols">
+<Symbols LinesOfCode="1362" PostSharpLinesOfCode="0" EnhancedTypesCount="1" SchemaVersion="1" PostSharpVersion="6.7.11.0" xmlns="http://schemas.postsharp.org/2.0/symbols">
   <Class Class="#1=T:[PIS_Project]PIS_Project.Controllers.DataControllers.NotifyAttribute">
-    <Instance Declaration="#2=M:[PIS_Project]PIS_Project.Controllers.DataControllers.RegisterController::AddCard(System.Collections.Generic.Dictionary{System.String,System.Object})" Id="2f5e1f1e30553927">
+    <Instance Declaration="#2=M:[PIS_Project]PIS_Project.Controllers.DataControllers.RegisterController::AddCard(System.Collections.Generic.Dictionary{System.String,System.Object})" Id="2f5e1f1ecc4091d2">
       <Target LinesAvoided="4">
         <JoinPoint Description="#3=Wrapped by advice(s) OnSuccess, OnException" />
       </Target>
     </Instance>
   </Class>
   <Class Class="#4=T:[PIS_Project]PIS_Project.Controllers.DataControllers.LoggingAttribute">
-    <Instance Declaration="#2" Id="2f5e1f1e8b27860d">
+    <Instance Declaration="#2" Id="2f5e1f1e6ab0ed46">
       <Target LinesAvoided="6">
         <JoinPoint Description="#5=Wrapped by advice(s) OnEntry, OnSuccess, OnException" Ordinal="0" />
       </Target>
     </Instance>
-    <Instance Declaration="#6=M:[PIS_Project]PIS_Project.Controllers.DataControllers.RegisterController::UpdateCard(System.Int32, System.Collections.Generic.Dictionary{System.String,System.Object})" Id="2f5e1f1e7161b0ee">
+    <Instance Declaration="#6=M:[PIS_Project]PIS_Project.Controllers.DataControllers.RegisterController::UpdateCard(System.Int32, System.Collections.Generic.Dictionary{System.String,System.Object})" Id="2f5e1f1e117e5e78">
       <Target LinesAvoided="6">
         <JoinPoint Description="#5" Ordinal="2" />
       </Target>
     </Instance>
-    <Instance Declaration="#7=M:[PIS_Project]PIS_Project.Controllers.DataControllers.RegisterController::UploadFile(System.Int32, System.Byte[])" Id="2f5e1f1ea5844ffa">
+    <Instance Declaration="#7=M:[PIS_Project]PIS_Project.Controllers.DataControllers.RegisterController::UploadFile(System.Int32, System.Byte[])" Id="2f5e1f1eb20d789e">
       <Target LinesAvoided="6">
         <JoinPoint Description="#5" Ordinal="3" />
       </Target>
     </Instance>
-    <Instance Declaration="#8=M:[PIS_Project]PIS_Project.Controllers.DataControllers.RegisterController::DeleteFile(System.Int32)" Id="2f5e1f1e50489c77">
+    <Instance Declaration="#8=M:[PIS_Project]PIS_Project.Controllers.DataControllers.RegisterController::DeleteFile(System.Int32)" Id="2f5e1f1e8a4c8b16">
       <Target LinesAvoided="6">
         <JoinPoint Description="#5" Ordinal="4" />
       </Target>
     </Instance>
-    <Instance Declaration="#9=M:[PIS_Project]PIS_Project.Controllers.DataControllers.RegisterController::ChangeStatus(System.Int32, System.Int32)" Id="2f5e1f1e88e06dbf">
+    <Instance Declaration="#9=M:[PIS_Project]PIS_Project.Controllers.DataControllers.RegisterController::ChangeStatus(System.Int32, System.Int32)" Id="2f5e1f1eb7debddc">
       <Target LinesAvoided="6">
         <JoinPoint Description="#5" Ordinal="5" />
       </Target>
     </Instance>
-    <Instance Declaration="#10=M:[PIS_Project]PIS_Project.Controllers.DataControllers.RegisterController::DeleteEntry(System.Int32)" Id="2f5e1f1e139a9cf5">
+    <Instance Declaration="#10=M:[PIS_Project]PIS_Project.Controllers.DataControllers.RegisterController::DeleteEntry(System.Int32)" Id="2f5e1f1e3ffc3d9d">
       <Target LinesAvoided="6">
         <JoinPoint Description="#5" Ordinal="6" />
       </Target>

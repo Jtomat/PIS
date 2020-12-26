@@ -161,14 +161,19 @@ namespace PIS_Project.Controllers
         {
             if (ModelState.IsValid)
             {
-                var d = (new DataControllers.UsersController());
-                d.AddRegReq(new Dictionary<string,object>{ {"SIN",model.Email },{"FIO",model.UserName},{ "email",model.Email },{"password",model.Password},
-                    {"ID_organization",2 },{"ID_role",4 } });
-                var id = new DataControllers.UsersRegister().Requests.ToArray().Last().ID;
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, ID_info = id };
+
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    var d = (new DataControllers.UsersController());
+                    d.AddRegReq(new Dictionary<string, object>{ {"SIN",model.Email },{"FIO",model.UserName},{ "email",model.Email },{"password",model.Password},
+                        {"ID_organization",2 },{"ID_role",4 } });
+                    var id = new DataControllers.UsersRegister().Requests.ToArray().Last().ID;
+                    var wr = (new ApplicationDbContext());
+                    var vs  = wr.Users.FirstOrDefault(i=>i.Id == user.Id);
+                    vs.ID_info = id;
+                    wr.SaveChanges();
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // Дополнительные сведения о включении подтверждения учетной записи и сброса пароля см. на странице https://go.microsoft.com/fwlink/?LinkID=320771.
