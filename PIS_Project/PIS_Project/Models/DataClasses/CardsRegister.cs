@@ -9,7 +9,7 @@ namespace PIS_Project.Models.DataClasses
 {
     public class CardsRegister : DbContext
     {
-        internal DbSet<Card> Card { get; set; }
+        internal DbSet<Card> Cards { get; set; }
         internal DbSet<Status> Status { get; private set; }
         internal DbSet<MUS> MUS { get; private set; }
         internal Status GetStatusByID(int id)
@@ -22,7 +22,7 @@ namespace PIS_Project.Models.DataClasses
         }
         public virtual List<Card> GetCards()
         {
-            var result = Card.ToList();
+            var result = Cards.ToList();
             foreach (var card in result)
             {
                 card.Status = GetStatusByID(card.id_status).Name;
@@ -31,52 +31,177 @@ namespace PIS_Project.Models.DataClasses
             return result;
         }
 
-        public List<Card> GetFilteredBy(Dictionary<string, object> filters)
+        public List<Card> GetFilteredBy(Dictionary<string, string> filters, string action)
         {
             var result = GetCards();
-            foreach (var filter in filters)
+            //var prop = (new Card()).GetType().GetProperty(filters["field"]);
+            List<Card> filtredCards = new List<Card>();
+            if (action == "Применить")
             {
-                var prop = (new Card()).GetType().GetProperty(filter.Key);
-                result = result.Where(i => prop.GetValue(i) == filter.Value).ToList();
-            }
-                foreach (var card in result)
+                foreach (Card card in result)
                 {
-                    card.Status = GetStatusByID(card.id_status).Name;
-                    card.MU = GetMUByID(card.ID_MU).Name;
+
+                    if (filters.ContainsKey("sex") && card.sex != (Card.SexAnimal)int.Parse(filters["sex"]))
+                    {
+                        continue;
+                    }
+
+                    if (filters.ContainsKey("status") && card.id_status != int.Parse(filters["status"]))
+                    {
+                        continue;
+                    }
+
+                    if (filters.ContainsKey("animal_size") && card.getAnimalTypeValues["size"] != filters["animal_size"])
+                    {
+                        continue;
+                    }
+
+                    if (filters.ContainsKey("animal_species") && card.getAnimalTypeValues["species"] != filters["animal_species"])
+                    {
+                        continue;
+                    }
+
+                    if (filters.ContainsKey("animal_hire_size") && card.getAnimalTypeValues["hire_size"] != filters["animal_hire_size"])
+                    {
+                        continue;
+                    }
+
+                    if (filters.ContainsKey("animal_hire_type") && card.getAnimalTypeValues["hire_type"] != filters["animal_hire_type"])
+                    {
+                        continue;
+                    }
+
+
+
+                    if (!string.IsNullOrEmpty(filters["birthday1"]) && card.birthday < DateTime.Parse(filters["birthday1"]))
+                    {
+                        continue;
+                    }
+                    if (!string.IsNullOrEmpty(filters["birthday2"]) && card.birthday > DateTime.Parse(filters["birthday2"]))
+                    {
+                        continue;
+                    }
+
+                    if (!string.IsNullOrEmpty(filters["sterilization_date_1"]) && card.birthday < DateTime.Parse(filters["sterilization_date_1"]))
+                    {
+                        continue;
+                    }
+                    if (!string.IsNullOrEmpty(filters["sterilization_date_2"]) && card.birthday > DateTime.Parse(filters["sterilization_date_2"]))
+                    {
+                        continue;
+                    }
+
+                    if (!string.IsNullOrEmpty(filters["status_date_1"]) && card.birthday < DateTime.Parse(filters["change_status_1"]))
+                    {
+                        continue;
+                    }
+                    if (!string.IsNullOrEmpty(filters["status_date_2"]) && card.birthday > DateTime.Parse(filters["change_status_2"]))
+                    {
+                        continue;
+                    }
+
+                    if (!filters.ContainsKey("owner_traits_5"))
+                    {
+                        if (filters.ContainsKey("owner_traits_1"))
+                        {
+                            if (!card.getOwnerTraits["collar"])
+                            {
+                                continue;
+                            }
+                        }
+                        if (filters.ContainsKey("owner_traits_2"))
+                        {
+                            if (!card.getOwnerTraits["harness"])
+                            {
+                                continue;
+                            }
+                        }
+                        if (filters.ContainsKey("owner_traits_3"))
+                        {
+                            if (!card.getOwnerTraits["clothing"])
+                            {
+                                continue;
+                            }
+                        }
+                        if (filters.ContainsKey("owner_traits_4"))
+                        {
+                            if (!card.getOwnerTraits["chip"])
+                            {
+                                continue;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (filters.ContainsKey("owner_traits_5") && card.owner_traits != "нет")
+                        {
+                            continue;
+                        }
+                    }
+
+
+                    filtredCards.Add(card);
                 }
-            return result;
-        }
-        public List<Card> GetSortedBy(Dictionary<string, bool> filters)
-        {
-            var result = Card.ToList();
-            foreach (var filter in filters)
+            }
+            if (action == "Поиск")
             {
-                var prop = (new Card()).GetType().GetProperty(filter.Key);
-                if (filter.Value)
-                    result = result.OrderBy(i => prop.GetValue(i)).ToList();
+                if (filters.ContainsKey("search") && !string.IsNullOrEmpty(filters["search"]))
+                {
+                    var cardProp = (new Card()).GetType().GetProperty(filters["field"]);
+                    foreach (Card card in result)
+                    {
+
+                        if (cardProp.GetValue(card) != null && cardProp.GetValue(card).ToString().Contains(filters["search"]))
+                            filtredCards.Add(card);
+                    }
+                }
                 else
-                    result = result.OrderBy(i => prop.GetValue(i)).Reverse().ToList();
+                {
+                    filtredCards = result;
+                }
+            }
+            using (var cards = new CardsRegister())
+            {
+                if (filtredCards.Count > 0)
+                {
+                    foreach (var card in filtredCards)
+                    {
+                        card.Status = GetStatusByID(card.id_status).Name;
+                        card.MU = GetMUByID(card.ID_MU).Name;
+                    }
+                }
+            }
+            return filtredCards;
+        }
+
+        public List<Card> GetSortedBy(List<Card> cards, string sortOrder, bool upper)
+        {
+            var result = cards;
+            var prop = (new Card()).GetType().GetProperty(sortOrder);
+            if (upper)
+                result = result.OrderBy(i => prop.GetValue(i)).ToList();
+            else
+                result = result.OrderBy(i => prop.GetValue(i)).Reverse().ToList();
+
+            foreach (var card in result)
+            {
+                card.Status = GetStatusByID(card.id_status).Name;
+                card.MU = GetMUByID(card.ID_MU).Name;
             }
 
-                foreach (var card in result)
-                {
-                    card.Status = GetStatusByID(card.id_status).Name;
-                    card.MU = GetMUByID(card.ID_MU).Name;
-                }
-            
             return result;
         }
         public CardsRegister()
             : base("DBConnection") 
         {
            
-            Card = Set<Card>();
+            Cards = Set<Card>();
             Status = Set<Status>();
             MUS = Set<MUS>();
         }
         public virtual Card GetCardByID(int id)
         {
-            var card = Card.FirstOrDefault(i => i.ID == id);
+            var card = Cards.FirstOrDefault(i => i.ID == id);
             card.Status = GetStatusByID(card.id_status).Name;
             card.MU = GetMUByID(card.ID_MU).Name;
             return card;

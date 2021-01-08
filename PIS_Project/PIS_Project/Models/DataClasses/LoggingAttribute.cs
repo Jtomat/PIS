@@ -45,7 +45,7 @@ namespace PIS_Project.Models.DataClasses
             }
             catch
             {
-                id_card = (new CardsRegister()).Card.OrderBy(i=>i.ID).First().ID;
+                id_card = (new CardsRegister()).Cards.OrderBy(i=>i.ID).First().ID;
             }
             var id_user = HttpContext.Current.User.Identity.GetUserId();
             if (string.IsNullOrEmpty(id_user))
@@ -89,7 +89,7 @@ namespace PIS_Project.Models.DataClasses
             }
             catch
             {
-                id_card = (new CardsRegister()).Card.OrderBy(i => i.ID).Reverse().FirstOrDefault().ID;
+                id_card = (new CardsRegister()).Cards.OrderBy(i => i.ID).Reverse().FirstOrDefault().ID;
             }
             var id_user = "1";//HttpContext.Current.User.Identity.GetUserId();
             lock (_locker)

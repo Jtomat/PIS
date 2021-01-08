@@ -208,6 +208,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DataControllers\UsersController.cs" />
+    <Compile Include="CustomValidate\DateLimitAttribute.cs" />
     <Compile Include="Migrations\202012251525552_DataMig.cs" />
     <Compile Include="Migrations\202012251525552_DataMig.Designer.cs">
       <DependentUpon>202012251525552_DataMig.cs</DependentUpon>
@@ -307,6 +308,9 @@
     <Content Include="Views\Register\CreateNewCard.cshtml" />
     <Content Include="Views\Register\ShowRegisterCatched.cshtml" />
     <Content Include="Views\Register\RegisterCatchedGetCardByID.cshtml" />
+    <Content Include="Views\Register\Sort.cshtml" />
+    <Content Include="Views\Register\Card.cshtml" />
+    <Content Include="Views\Register\EditCard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

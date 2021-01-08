@@ -1,0 +1,185 @@
+﻿@model PIS_Project.Models.DataClasses.Card
+
+@{
+    ViewBag.Title = "Card";
+}
+
+<h2 class="mt-3">Карточка №@(Model.ID)</h2>
+
+<div>
+    <hr />
+    <div class="dl-horizontal">
+
+        <div class="form-group row" style="margin-right: 0; margin-left: 0;">
+            <div class="col-lg-2">
+                <label class="font-weight-bold">@Html.DisplayNameFor(model => model.name)</label>
+                <div style="background-color: #e0f2f1; padding: 5px 0px 5px 5px; border-radius: 5px; border: 1px solid rgba(0,0,0,.1);">
+                    @Html.DisplayFor(model => model.name)
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <label class="font-weight-bold"> @Html.DisplayNameFor(model => model.birthday)</label>
+                <div style="background-color: #e0f2f1; padding: 5px 0px 5px 5px; border-radius: 5px; border: 1px solid rgba(0,0,0,.1);">
+                    @Html.DisplayFor(model => model.birthday)
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <label class="font-weight-bold"> @Html.DisplayNameFor(model => model.sex)</label>
+                <div style="background-color: #e0f2f1; padding: 5px 0px 5px 5px; border-radius: 5px; border: 1px solid rgba(0,0,0,.1);">
+                    @(ViewBag.Sex)
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <label class="font-weight-bold"> @Html.DisplayNameFor(model => model.type)</label>
+                <div style="background-color: #e0f2f1; padding: 5px 0px 5px 5px; border-radius: 5px; border: 1px solid rgba(0,0,0,.1);">
+                    @Html.DisplayFor(model => model.stringAnimalType)
+                </div>
+            </div>
+        </div>
+        <div class="form-group row" style="margin-right: 0; margin-left: 0;">
+            <div class="col-lg-12 col-md-12">
+                <label class="font-weight-bold">@Html.DisplayNameFor(model => model.spec_mark)</label>
+                <div style="background-color: #e0f2f1; padding: 5px 0px 5px 5px; border-radius: 5px; border: 1px solid rgba(0,0,0,.1);">
+                    @Html.DisplayFor(model => model.spec_mark)
+                </div>
+            </div>
+        </div>
+        <div class="form-group row" style="margin-right: 0; margin-left: 0;">
+            <div id="idChipBlock" class="col-lg-6">
+                <label class="font-weight-bold">@Html.DisplayNameFor(model => model.id_chip)</label>
+                <div id="idChipField" style="background-color: #e0f2f1; padding: 5px 0px 5px 5px; border-radius: 5px; border: 1px solid rgba(0,0,0,.1);">
+                    @Html.DisplayFor(model => model.id_chip)
+                </div>
+            </div>
+            <div id="idMarkBlock" class="col-lg-6">
+                <label class="font-weight-bold"> @Html.DisplayNameFor(model => model.id_mark)</label>
+                <div style="background-color: #e0f2f1; padding: 5px 0px 5px 5px; border-radius: 5px; border: 1px solid rgba(0,0,0,.1);">
+                    @Html.DisplayFor(model => model.id_mark)
+                </div>
+            </div>
+        </div>
+        <div class="form-group row" style="margin-right: 0; margin-left: 0;">
+            <div class="col-lg-12 col-md-12">
+                <label class="font-weight-bold">@Html.DisplayNameFor(model => model.owner_traits)</label>
+                <div style="background-color: #e0f2f1; padding: 5px 0px 5px 5px; border-radius: 5px; border: 1px solid rgba(0,0,0,.1);">
+                    @Html.DisplayFor(model => model.owner_traits)
+                </div>
+            </div>
+        </div>
+        <div class="form-group row" style="margin-right: 0; margin-left: 0;">
+            <div class="col-lg-12">
+                <label class="font-weight-bold">@Html.DisplayNameFor(model => model.photo)</label>
+                @if (@Model.photo != null)
+                {
+                    <div style="width: 300px;">
+                        <img class="img-responsive img-thumbnail ratio-4-3" src="data:image/png;base64,@(Convert.ToBase64String(@Model.photo))" />
+                    </div>
+                }
+                else
+                {
+                    <span>Нет фото</span>
+                }
+            </div>
+        </div>
+        <div class="form-group row" style="margin-right: 0; margin-left: 0;">
+            <div class="col-lg-6">
+                <label class="font-weight-bold">@Html.DisplayNameFor(model => model.id_status)</label>
+                <div style="background-color: #e0f2f1; padding: 5px 0px 5px 5px; border-radius: 5px; border: 1px solid rgba(0,0,0,.1);">
+                    @(Model.id_status == 0 ? "Выбыл" : "В приюте")
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <label class="font-weight-bold"> @Html.DisplayNameFor(model => model.date_status_change)</label>
+                <div style="background-color: #e0f2f1; padding: 5px 0px 5px 5px; border-radius: 5px; border: 1px solid rgba(0,0,0,.1);">
+                    @Html.DisplayFor(model => model.date_status_change)
+                </div>
+            </div>
+        </div>
+        <div class="form-group row" style="margin-right: 0; margin-left: 0;">
+            <div class="col-lg-6">
+                <label class="font-weight-bold">@Html.DisplayNameFor(model => model.ID_MU)</label>
+                <div style="background-color: #e0f2f1; padding: 5px 0px 5px 5px; border-radius: 5px; border: 1px solid rgba(0,0,0,.1);">
+                    @Html.DisplayFor(model => model.ID_MU)
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <label class="font-weight-bold"> @Html.DisplayNameFor(model => model.local_place)</label>
+                <div style="background-color: #e0f2f1; padding: 5px 0px 5px 5px; border-radius: 5px; border: 1px solid rgba(0,0,0,.1);">
+                    @Html.DisplayFor(model => model.local_place)
+                </div>
+            </div>
+        </div>
+        <div class="form-group row" style="margin-right: 0; margin-left: 0;">
+            <div class="col-lg-12 col-md-12">
+                <label class="font-weight-bold">@Html.DisplayNameFor(model => model.sterilization_date)</label>
+                <div style="background-color: #e0f2f1; padding: 5px 0px 5px 5px; border-radius: 5px; border: 1px solid rgba(0,0,0,.1);">
+                    @Html.DisplayFor(model => model.sterilization_date)
+                </div>
+            </div>
+        </div>
+        <div class="form-group row" style="margin-right: 0; margin-left: 0;">
+            <div class="col-lg-12 col-md-12">
+                <label class="font-weight-bold">@Html.DisplayNameFor(model => model.scan_frame_1)</label>
+                <div style="background-color: #e0f2f1; padding: 5px 0px 5px 5px; border-radius: 5px; border: 1px solid rgba(0,0,0,.1);">
+                    @(Model.scan_frame_1 != null && Model.scan_frame_1.Length > 0 ? "Документ загружен" : "Нет документа")
+                </div>
+            </div>
+        </div>
+        <div class="form-group row" style="margin-right: 0; margin-left: 0;">
+            <div class="col-lg-12 col-md-12">
+                <label class="font-weight-bold">Экспорт документов</label>
+                <div>
+                    @Html.ActionLink("Карточка учета животного", "ExportDoc", new { id = Model.ID, doc_id = 10 }, new { id = "exportDoc1" })
+                </div>
+                <div>
+                    @Html.ActionLink("Акт первичного осмотра", "ExportDoc", new { id = Model.ID, doc_id = 11 }, new { id = "exportDoc2" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group row" style="margin-right: 0; margin-left: 0;">
+            <div class="col-lg-12 col-md-12">
+                @Html.ActionLink("Вернуться к регистру", "Sort", "Register", null, new { @class = "btn btn-success col-lg-3 col-md-12", @style = "background-color: #aebfbe; border-color: #aebfbe;" })
+                @if (@ViewBag.User_Role.ToString() == "1" || @ViewBag.User_Role.ToString() == "2")
+                {
+                    @Html.ActionLink("Редактировать", "EditCard", new { id_card = Model.ID }, new { @class = "btn btn-success col-lg-2 col-md-12", @style = "background-color: #aebfbe; border-color: #aebfbe;" })
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">let save_chip = 0;
+
+        $( document ).ready(function () {
+            if ($("#idChipField").text().trim() == "0") {
+                $("#id").val(null);
+                $("#idChipBlock").hide();
+                $("#idMarkBlock").attr('class', 'col-lg-12');
+            }
+        });
+
+        $("#exportDoc1").click(function (e) {
+            e.preventDefault()
+            $.ajax({
+                url: $(this).attr("href"),
+                type: "POST",
+                data: {},
+                processData: false,
+                contentType: false,
+            });
+
+        });
+
+        $("#exportDoc2").click(function (e) {
+            e.preventDefault()
+            $.ajax({
+                url: $(this).attr("href"),
+                type: "POST",
+                data: {},
+                processData: false,
+                contentType: false,
+            });
+
+        });</script>
+}

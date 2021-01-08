@@ -48,7 +48,7 @@ namespace PIS_Project.Models.DataClasses
             if (id_card != -1)
                 record.ID_card = id_card;
             else
-                record.ID_card = (new CardsRegister()).Card.OrderBy(i => i.ID).ToList().Last().ID;
+                record.ID_card = (new CardsRegister()).Cards.OrderBy(i => i.ID).ToList().Last().ID;
             LogRecords.Add(record);
             SaveChanges();
         }
