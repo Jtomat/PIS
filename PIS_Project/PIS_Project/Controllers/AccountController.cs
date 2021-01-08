@@ -9,7 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using PIS_Project.Models;
-
+using System.Collections.Generic;
 namespace PIS_Project.Controllers
 {
     [Authorize]
@@ -22,7 +22,7 @@ namespace PIS_Project.Controllers
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -34,9 +34,9 @@ namespace PIS_Project.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -75,8 +75,11 @@ namespace PIS_Project.Controllers
 
             // Сбои при входе не приводят к блокированию учетной записи
             // Чтобы ошибки при вводе пароля инициировали блокирование учетной записи, замените на shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-            switch (result)
+            var us = (new ApplicationDbContext()).Users.FirstOrDefault(i => i.Email == model.Email);
+            var result = await SignInManager.PasswordSignInAsync(us.UserName, model.Password, model.RememberMe, shouldLockout: false);
+            if (us != null)
+            {
+                switch (result)
             {
                 case SignInStatus.Success:
                     return RedirectToLocal(returnUrl);
@@ -89,7 +92,12 @@ namespace PIS_Project.Controllers
                     ModelState.AddModelError("", "Неудачная попытка входа.");
                     return View(model);
             }
-        }
+        }else
+            {
+                ModelState.AddModelError("", "Неудачная попытка входа.");
+                return View(model); 
+    } 
+}
 
         //
         // GET: /Account/VerifyCode
@@ -151,10 +159,18 @@ namespace PIS_Project.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    var d = (new DataControllers.UsersController());
+                    d.AddRegReq(new Dictionary<string, object>{ {"SIN",model.Email },{"FIO",model.UserName},{ "email",model.Email },{"password",model.Password},
+                        {"ID_organization",2 },{"ID_role",4 } });
+                    var id = new Models.DataClasses.UsersRegister().Requests.ToArray().Last().ID;
+                    var wr = (new ApplicationDbContext());
+                    var vs = wr.Users.FirstOrDefault(i => i.Id == user.Id);
+                    vs.ID_info = id;
+                    wr.SaveChanges();
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // Дополнительные сведения о включении подтверждения учетной записи и сброса пароля см. на странице https://go.microsoft.com/fwlink/?LinkID=320771.

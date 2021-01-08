@@ -1,40 +1,140 @@
-﻿@{
-    ViewBag.Title = "Home Page";
-}
+﻿    //@{  
+        //    ViewBag.Title = "Home Page";
+        //}
 
-<div>
-    <h3>Всякая скотина</h3>
-    <table>
-        <tr class="header">
-            <td><p>ID </p></td>
-            <td><p>sex </p></td>
-            <td><p>type </p></td>
-            <td><p>bitrhday </p></td>
-            <td><p>id_mark </p></td>
-            <td><p>id_chip </p></td>
-            <td><p>name </p></td>
-            <td><p>photo </p></td>
-            <td><p>spec_mark </p></td>
-            <td><p>owner_traits </p></td>
-            <td><p>id_status </p></td>
-            <td><p>date_status_change </p></td>
-            <td><p>id_mu </p></td>
-            <td><p>local_place </p></td>
-            <td><p>document </p></td>
-            <td><p>scan_frame </p></td>
-            <td><p>sterilisation_date </p></td>
-            <td></td>
-            <td></td>
-        </tr>
-        @foreach(var b in (new PIS_Project.Controllers.DataControllers.RegisterController()).GetCards())
+        //<div>
+        //    <h3>Всякая скотина</h3>
+        //    <table>
+        //        <tr class="header">
+        //            <td><p>ID </p></td>
+        //            <td><p>sex </p></td>
+        //            <td><p>type </p></td>
+        //            <td><p>bitrhday </p></td>
+        //            <td><p>id_mark </p></td>
+        //            <td><p>id_chip </p></td>
+        //            <td><p>name </p></td>
+        //            <td><p>photo </p></td>
+        //            <td><p>spec_mark </p></td>
+        //            <td><p>owner_traits </p></td>
+        //            <td><p>id_status </p></td>
+        //            <td><p>date_status_change </p></td>
+        //            <td><p>id_mu </p></td>
+        //            <td><p>local_place </p></td>
+        //            <td><p>document </p></td>
+        //            <td><p>scan_frame </p></td>
+        //            <td><p>sterilisation_date </p></td>
+        //            <td></td>
+        //            <td></td>
+        //        </tr>
+        //        @foreach(var b in (new PIS_Project.Controllers.DataControllers.RegisterController()).GetCards())
+        //        {
+        //        <tr>
+        //            @foreach (var val in b.Value.Values)
+        //            {
+        //                <td><p>@val  </p></td>
+        //            }
+        //            <td><p><a href="/Home/ShowCard/@b.Key">Открыть</a></p></td>
+        //        </tr>
+        //        }
+        //    </table>
+        //</div>
+    }
+    @{
+        ViewBag.Title = "Home Page";
+    }
+
+    <div class="jumbotron">
+        <h1>ASP.NET</h1>
+        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
+        <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    </div>
+    @{
+        //var ds = new PIS_Project.Models.DataClasses.Card() { type = (PIS_Project.Models.DataClasses.Card.AnimalType)4 };
+
+        //File.WriteAllBytes(@"C:\Users\Михаил\Downloads\doc23.docx", PIS_Project.Controllers.DataControllers.ReportTemplate.GetDocByID(11,new Dictionary<string, object>
+        //{
+        //        { "Wool", (ds).Type.Split(new char[]{' ',',' })[7] },
+        //        {"Size", ds.Type.Split(new char[]{' ',',' },StringSplitOptions.RemoveEmptyEntries)[3] },
+        //}));
+        var g = (PIS_Project.Controllers.DataControllers.UsersController.ConvertToGuid("Requester"));
+        var algs = "";
+        var sn = new Guid("00000000-0000-0000-004c-6f67696e6572");
+        foreach (var b in sn.ToByteArray())
         {
-        <tr>
-            @foreach (var val in b.Value.Values)
-            {
-                <td><p>@val  </p></td>
-            }
-            <td><p><a href="/Home/ShowCard/@b.Key">Открыть</a></p></td>
-        </tr>
+            algs += (char)(b);
         }
-    </table>
-</div>
+        var ps = "";
+        var psn = new Guid("00000000-0000-0000-7061-7373776f7264");
+        foreach (var b in psn.ToByteArray())
+        {
+            ps += (char)(b);
+        }
+
+
+        var id = (new PIS_Project.Models.DataClasses.UsersRegister()).GetIDByName(HttpContext.Current.User.Identity.Name);
+        //File.WriteAllBytes(@"C:\Users\Михаил\Downloads\doc24.docx", PIS_Project.Controllers.DataControllers.ReportTemplate.GetDocByID(11, new Dictionary<string, object>
+        //{
+        //        { "ID_Chip", "4324" },
+
+        //}));
+        //var d = (new PIS_Project.Controllers.DataControllers.RegisterController()).GetList(1);
+        var c = 0;
+        //var card = new PIS_Project.Models.DataClasses.Card();
+        //card.type =
+
+        //(new PIS_Project.Controllers.DataControllers.RegisterController()).AddCard(new Dictionary<string, object>()
+        //{
+        //    {"sex","3" },
+        //    {"type","4" },
+        //    {"birthday",DateTime.Now.ToString() },
+        //    {"id_mark","567" },
+        //    {"id_chip","421" },
+        //    {"name","Najimi Osana" },
+        //    {"date_status_change",DateTime.Now.ToString() },
+        //    {"ID_MU","3" },
+        //    {"sterilization_date",DateTime.Now.ToString() },
+        //    {"id_status","1" },
+        //    {"photo", new string[]{ Convert.ToBase64String(File.ReadAllBytes(@"C:\Users\Михаил\Downloads\152632.jpg")) } }
+        //}) ;
+        //var ds = new PIS_Project.Controllers.DataControllers.CardsController();
+        //var r = new PIS_Project.Controllers.DataControllers.RegisterController();
+        //foreach (var card in ds.GetCards())
+        //{
+        //    r.UpdateCard(card.ID, new Dictionary<string, object> {
+        //        { "photo", File.ReadAllBytes(@"C:\Users\Михаил\Downloads\A3CscxBuihU.jpg") } });
+        //}
+    }
+    <p>@sn/@algs</p>
+    <p>@psn/@ps</p>
+    @foreach (System.Collections.DictionaryEntry pair in (HttpContext.Current.Items))
+    {
+        <p>@(pair.Key.ToString())=@(pair.Value.ToString())</p>
+    }
+    <!--
+    //foreach(PIS_Project.Models.DataClasses.Card.AnimalType t in Enum.GetValues(typeof(PIS_Project.Models.DataClasses.Card.AnimalType)))
+    //{
+    //    var ca = new PIS_Project.Models.DataClasses.Card();
+    //    ca.type = t;
+    //<p>(ca.type)|(ca.Type)</p>
+    //}-->
+    <div class="row">
+        <div class="col-md-4">
+            <h2>Getting started</h2>
+            <p>
+                ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
+                enables a clean separation of concerns and gives you full control over markup
+                for enjoyable, agile development.
+            </p>
+            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+            <h2>Get more libraries</h2>
+            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
+            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+            <h2>Web Hosting</h2>
+            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
+            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+        </div>
+    </div>

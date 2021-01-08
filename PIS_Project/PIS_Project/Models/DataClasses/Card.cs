@@ -67,7 +67,7 @@ namespace PIS_Project.Models.DataClasses
                 var mask = new int[]
                 {
                     (((int)type) & (1 << 4))!=0?1:0, //Вид
-                    ((((((int)type) & (1 << 3))!=0?1:0)*10)+((((int)type) & (1 << 2)))!=0?1:0), //Размер
+                    ((((((int)type) & (1 << 3))!=0?1:0)*10)+(((((int)type) & (1 << 2)))!=0?1:0)), //Размер
                     ((((int)type) & (1 << 1))!=0?1:0),//Длина шерсти
                     ((((int)type) & (1 << 0))!=0?1:0)//Тип шерсти
                 };
@@ -93,7 +93,7 @@ namespace PIS_Project.Models.DataClasses
                 switch (mask[1])
                 {
                     case 11:
-                        result += " больщой";
+                        result += " большой";
                         break;
                     case 10:
                         result += " средний";
@@ -138,7 +138,7 @@ namespace PIS_Project.Models.DataClasses
         public int ID_MU { get; set; }
         public string local_place { get; set; }
         public byte[] document { get; set; }
-        public byte[] scan_frame { get; set; }
+        public byte[] scan_frame_1 { get; set; }
         public DateTime sterilization_date { get; set; }
         [NotMapped]
         public string Status

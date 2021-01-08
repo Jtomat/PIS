@@ -22,10 +22,18 @@ namespace PIS_Project.Models.DataClasses
                 foreach (var temp in filesPath)
                 {
                     var values = temp.Substring(temp.LastIndexOf('\\')+1).Split(new[] {'#','.' });
-                    var key =int.Parse(values[0]);
-                    var name = values[1];
-                    var stream = File.ReadAllBytes(temp);
-                    result.Add(new KeyValuePair<int, string>(key,name),stream);
+                    //var key =int.Parse(values[0]);
+                    //var name = values[1];
+                    //var stream = File.ReadAllBytes(temp);
+                    //result.Add(new KeyValuePair<int, string>(key,name),stream);
+                    try
+                    {
+                        var key = int.Parse(values[0]);
+                        var name = values[1];
+                        var stream = File.ReadAllBytes(temp);
+                        result.Add(new KeyValuePair<int, string>(key, name), stream);
+                    }
+                    catch { }
                 }
                 return result;
             }
