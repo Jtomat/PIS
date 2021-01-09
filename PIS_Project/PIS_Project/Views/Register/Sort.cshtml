@@ -7,9 +7,11 @@
 <h2>Sort</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Добавить новую карту", "Create")
 </p>
-
+<p>
+    @Html.ActionLink("Добавить новую карту через журнал отловленных", "ShowRegisterCatched")
+</p>
 <div class="btn btn-success" id="filtersShowButton" style="background-color: #aebfbe; border-color: #aebfbe">Показать фильтры</div>
 <div id="filtersDiv">
     @using (Html.BeginForm("Sort", "Register", FormMethod.Post, new { @class = "mb-4", id = "filtersForm" }))
@@ -263,53 +265,64 @@
             <th class="col">
                 @Html.ActionLink("Дата стерелизации", "Sort", new { sortOrder = "sterilization_date", upper = ViewData["sterilization_date"] })
             </th>
+            <th class="col">
+
+            </th>
+            <th class="col">
+
+            </th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.sex)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.type)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.birthday)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.id_mark)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.id_chip)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.spec_mark)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.owner_traits)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.id_status)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.date_status_change)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ID_MU)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.local_place)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.sterilization_date)
-                </td>
-
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.sex)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.stringAnimalType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.birthday)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.id_mark)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.id_chip)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.spec_mark)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.owner_traits)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.id_status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.date_status_change)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ID_MU)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.local_place)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.sterilization_date)
+            </td>
+            <td>
+                @Html.ActionLink("Открыть", "Card", "Register", new { id_card = item.ID }, new { @class = "navbar-brand" })
+            </td>
+            <td>
+                @Html.ActionLink("Редактировать", "EditCard", new { id_card = item.ID }, new { @class = "navbar-brand" })
+            </td>
+        </tr>
         }
     </tbody>
 </table>

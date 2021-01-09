@@ -1,39 +1,34 @@
-﻿@{
-    Layout = null;
-}
+﻿
 
-<!DOCTYPE html>
+    @{
+        ViewBag.Title = "Card";
+    }
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>GetCardByID</title>
-</head>
-<body>
+    <h2 class="mt-3">Cоздание карт</h2>
     <script type="text/javascript">
         var fileByteArray = [];
-         async function ReadPhoto(input) {
-             let file = input.files[0];
-             var file1 = document.querySelector('input[type=file]').files[0];
-             let reader = new FileReader();
-             reader.addEventListener("load", function () {
-                 document.getElementById("img").src = reader.result;
-                 let str1 = /^[^,]+/.exec(reader.result)[0];
-                 let newstr = reader.result.replace(str1+",", '');
-                 document.getElementById("values[photo]").value = newstr;
-                 document.getElementById("values[photo]").innerText = newstr;
-                 console.log(newstr);
-             }, false);
-             if (file1) {
-                 reader.readAsDataURL(file1);
-             }
-         }
+        async function ReadPhoto(input) {
+            let file = input.files[0];
+            var file1 = document.querySelector('input[type=file]').files[0];
+            let reader = new FileReader();
+            reader.addEventListener("load", function () {
+                document.getElementById("img").src = reader.result;
+                let str1 = /^[^,]+/.exec(reader.result)[0];
+                let newstr = reader.result.replace(str1 + ",", '');
+                document.getElementById("values[photo]").value = newstr;
+                document.getElementById("values[photo]").innerText = newstr;
+                console.log(newstr);
+            }, false);
+            if (file1) {
+                reader.readAsDataURL(file1);
+            }
+        }
 
         String.prototype.replaceAt = function (index, replacement) {
             return this.substr(0, index) + replacement + this.substr(index + replacement.length);
         }
 
-        function changeType1(input){
+        function changeType1(input) {
             let elem = document.getElementById("type1").value;
             let val = document.getElementById("binary").value;
             val = val.replaceAt(3, elem)
@@ -107,8 +102,8 @@
                 <option value="1">Прямоволосая</option>
                 <option value="0">Курчавая</option>
             </select>
-            <input id="binary" value="00010111" hidden="hidden"/>
-            <input id="values[type]" name="values[type]" value="7" hidden="hidden"/>
+            <input id="binary" value="00010111" hidden="hidden" />
+            <input id="values[type]" name="values[type]" value="7" hidden="hidden" />
             <p>bitrhday </p><input name="values[birthday]" type="date" />
             <p>id_mark </p><input type="number" name="values[id_mark]" />
             <p>id_chip </p><input type="number" name="values[id_chip]" />
@@ -126,9 +121,10 @@
             <p>date_status_change </p><input type="date" name="values[date_status_change]" />
             <p>id_mu </p><input name="values[ID_MU]" value="@ViewBag.MU" hidden="hidden" />
             <p>local_place </p><input name="values[local_place]" />
-            <p>sterilisation_date </p> <input type="date" name="values[sterilization_date]" />
-            <input type="submit" value="Отправить" />
-        }
-    </div>
-</body>
-</html>
+            <p>sterilisation_date </p> <input type="date" name="values[sterilization_date]" /> <br>
+                                       <div class="col-lg-12 col-md-12">
+                                           @Html.ActionLink("Вернуться к журналу", "Sort", null, new { @class = "btn btn-success col-lg-3 col-md-12", @style = "background-color: #aebfbe; border-color: #aebfbe;" })
+                                           <input type="submit" value="Отправить" class="btn btn-success col-lg-3 col-md-12" style="background-color: #aebfbe; border-color: #aebfbe;" /><br>
+                                       </div>
+                                           }
+                                       </div>
