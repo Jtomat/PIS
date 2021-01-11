@@ -303,10 +303,8 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Register\Index.cshtml" />
-    <Content Include="Views\Register\ShowRegister2.cshtml" />
     <Content Include="Views\Register\GetCardByID.cshtml" />
     <Content Include="Views\Register\Create.cshtml" />
-    <Content Include="Views\Register\ShowRegisterCatched2.cshtml" />
     <Content Include="Views\Register\RegisterCatchedGetCardByID.cshtml" />
     <Content Include="Views\Register\Sort.cshtml" />
     <Content Include="Views\Register\Card.cshtml" />

@@ -317,7 +317,7 @@
                 <td><p><button type="button" onclick="ChangeColor(this, @item.ID); return false;" value="@item.ID">Выбрать</button></p></td>
                 >
                 <td>
-                    @Html.ActionLink("Открыть", "Card", "Register", new { id_card = item.ID }, new { @class = "navbar-brand" })
+                    @Html.ActionLink("Открыть", "RegisterCatchedGetCardById", "Register", new { id_card = item.ID }, new { @class = "navbar-brand" })
                 </td>
             </tr>
         }

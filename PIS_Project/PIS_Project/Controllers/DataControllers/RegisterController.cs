@@ -22,19 +22,6 @@ namespace PIS_Project.Controllers.DataControllers
         }
 
         [HttpGet]
-        public ActionResult ShowRegister2()
-        {
-            //var id_user = (new PIS_Project.Models.DataClasses.UsersRegister()).GetIDByName(HttpContext.User.Identity.Name); //Временно!!!
-            var id_user = 1;
-            Cards = new CardsRegister();
-            ViewBag.Table = GetList(id_user);
-            ViewBag.Id_User = id_user;
-            var users_role = new UsersRegister().GetUserByID(id_user).ID_role;
-            ViewBag.User_Role = users_role;
-            return View();
-        }
-
-        [HttpGet]
         public ActionResult ShowRegister(Dictionary<string, string> filters, string sortOrder, string action, bool upper = false)
         {
             //var id_user = (new PIS_Project.Models.DataClasses.UsersRegister()).GetIDByName(HttpContext.User.Identity.Name); //Временно!!!
@@ -69,31 +56,6 @@ namespace PIS_Project.Controllers.DataControllers
             return View(card);
         }
 
-        [HttpGet]
-        public ActionResult ShowRegisterCatched2()
-        {
-            //var id_user = (new PIS_Project.Models.DataClasses.UsersRegister()).GetIDByName(HttpContext.User.Identity.Name); //Временно!!!
-            var id_user = 1;
-            Cards = new RegisterOfCatched();
-            var preproc = new RegisterOfCatched().GetCards();
-            var result = new Dictionary<int, Dictionary<string, object>>();
-            var prop = (new Card()).GetType().GetProperties();
-            foreach (var card in preproc)
-            {
-                var dict = new Dictionary<string, object>();
-                foreach (var pr in prop)
-                {
-                    dict.Add(pr.Name, pr.GetValue(card));
-                }
-                result.Add(card.ID, dict);
-            }
-
-            ViewBag.Table = result;
-            ViewBag.Id_User = id_user;
-            var users_role = new UsersRegister().GetUserByID(id_user).ID_role;
-            ViewBag.User_Role = users_role;
-            return View();
-        }
 
         public ActionResult ShowRegisterCatched(Dictionary<string, string> filters, string sortOrder, string action, bool upper = false)
         {
@@ -384,6 +346,29 @@ namespace PIS_Project.Controllers.DataControllers
         [HttpPost]
         public ActionResult Create(Dictionary<string, object> values)
         {
+            string ownerTraitString = "";
+
+            if (values["SetOwnerTraits"] != null )
+            {
+                foreach (var val in values["SetOwnerTraits"] as string[])
+                {
+                        ownerTraitString += val.ToLower() + ", ";
+                }
+
+                if (ownerTraitString == "")
+                {
+                    values["owner_traits"] = "нет";
+                }
+                else
+                {
+                    values["owner_traits"] = ownerTraitString.Remove(ownerTraitString.Length - 2, 2);
+                }
+            }
+            values.Remove("SetOwnerTraits");
+            if ((values["id_chip"] as string[])[0] == "")
+            {
+                values.Remove("id_chip");
+            }
             var validation = ValidationController.CheckValidation((new Card()).GetType(), values);
             if (validation.Result)
             {
