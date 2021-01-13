@@ -21,6 +21,16 @@ namespace PIS_Project.Controllers.DataControllers
         internal DbSet<Users> Users { get; set; }
         internal DbSet<Organizations> Organizations { get; set; }
         internal DbSet<Roles> Roles { get; set; }
+        public Dictionary<int, string> AllRole
+        {
+            get
+            {
+                var result = new Dictionary<int, string>();
+                foreach (var f in Roles)
+                    result.Add(f.ID, f.Name);
+                return result;
+            }
+        }
         public int GetIDByName(string name)
         {
             var us = Users.ToArray();
