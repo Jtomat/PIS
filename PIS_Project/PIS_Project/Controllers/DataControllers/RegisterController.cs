@@ -759,5 +759,47 @@ namespace PIS_Project.Controllers.DataControllers
             Cards.Cards.Remove(Cards.Cards.Where(i=>i.ID== id_card).FirstOrDefault());
             Cards.SaveChanges();
         }
+        [HttpGet]
+        public ActionResult Delete(int id_card)
+        {
+            //var id_user = (new PIS_Project.Models.DataClasses.UsersRegister()).GetIDByName(HttpContext.User.Identity.Name); //Временно!!!
+            int id_user = 1;
+            ViewBag.Id_User = default(int);
+            if (id_user != default(int))
+            {
+                ViewBag.Id_User = id_user;
+                var users_role = new UsersRegister().GetUserByID(id_user).ID_role;
+                ViewBag.User_Role = users_role;
+                var user = new UsersRegister().GetUserByID(id_user);
+                ViewBag.Role = user.ID_role.ToString();
+            }
+            var card = Cards.GetCardByID(id_card);
+            ViewBag.Sex = card.sex == Models.DataClasses.Card.SexAnimal.Male ? "Мужской" : "Женский";
+            return View(card);
+        }
+        [HttpPost]
+        public RedirectToRouteResult Delete(int id, bool t = true)
+        {
+            //var id_user = (new PIS_Project.Models.DataClasses.UsersRegister()).GetIDByName(HttpContext.User.Identity.Name); //Временно!!!
+            int id_user = 1;
+            if (id_user != default(int))
+            {
+                ViewBag.Id_User = id_user;
+                var users_role = new UsersRegister().GetUserByID(id_user).ID_role;
+                if (users_role == 1 || users_role == 0 || users_role == 2)
+                {
+                    DeleteEntry(id);
+                    return RedirectToAction("Sort");
+                }
+                else
+                {
+                    throw new ArgumentException("У вас нет прав на удаление карт");
+                }
+            }
+            else
+            {
+                throw new ArgumentException("У вас нет прав на удаление карт");
+            }
+        }
     }
 }

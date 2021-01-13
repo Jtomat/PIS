@@ -316,6 +316,7 @@
     <Content Include="Views\Register\EditCatchedCard.cshtml" />
     <Content Include="Views\Register\CatchedCard.cshtml" />
     <Content Include="Views\Users\UsersList.cshtml" />
+    <Content Include="Views\Register\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

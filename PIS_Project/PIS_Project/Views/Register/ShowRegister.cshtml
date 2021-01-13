@@ -325,7 +325,9 @@
             </td>
             <td>
                 @if (ViewBag.Role == "2" || ViewBag.Role == "0" || ViewBag.Role == "1")
-                {@Html.ActionLink("Редактировать", "EditCard", new { id_card = item.ID }, new { @class = "navbar-brand" })}
+                {@Html.ActionLink("Редактировать", "EditCard", new { id_card = item.ID }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Удалить", "Delete", new { id_card = item.ID }, new { @class = "navbar-brand" })
+            }
             </td>
             </tr>
         }
