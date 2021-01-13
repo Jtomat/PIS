@@ -10,8 +10,10 @@
     @Html.ActionLink("Добавить новую карту", "Create")
 </p>
 <p>
-    @Html.ActionLink("Добавить новую карту через журнал отловленных", "ShowRegisterCatched")
+    @if (ViewBag.Role == "2" || ViewBag.Role == "0")
+    {@Html.ActionLink("Добавить новую карту через журнал отловленных", "ShowRegisterCatched")}
 </p>
+
 <div class="btn btn-success" id="filtersShowButton" style="background-color: #aebfbe; border-color: #aebfbe">Показать фильтры</div>
 <div id="filtersDiv">
     @using (Html.BeginForm("ShowRegister", "Register", FormMethod.Post, new { @class = "mb-4", id = "filtersForm" }))
@@ -317,14 +319,15 @@
                 @Html.DisplayFor(modelItem => item.sterilization_date)
             </td>
             <td><p><button type="button" onclick="ChangeColor(this, @item.ID); return false;" value="@item.ID">Выбрать</button></p></td>
->
-        <td>
-            @Html.ActionLink("Открыть", "Card", "Register", new { id_card = item.ID }, new { @class = "navbar-brand" })
-        </td>
-        <td>
-            @Html.ActionLink("Редактировать", "EditCard", new { id_card = item.ID }, new { @class = "navbar-brand" })
-        </td>
-        </tr>
+            >
+            <td>
+                @Html.ActionLink("Открыть", "Card", "Register", new { id_card = item.ID }, new { @class = "navbar-brand" })
+            </td>
+            <td>
+                @if (ViewBag.Role == "2" || ViewBag.Role == "0" || ViewBag.Role == "1")
+                {@Html.ActionLink("Редактировать", "EditCard", new { id_card = item.ID }, new { @class = "navbar-brand" })}
+            </td>
+            </tr>
         }
     </tbody>
 </table>

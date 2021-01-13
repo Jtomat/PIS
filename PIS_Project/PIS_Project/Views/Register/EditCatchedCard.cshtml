@@ -1,0 +1,398 @@
+﻿@model PIS_Project.Models.DataClasses.Card
+
+@{
+    ViewBag.Title = "EditCatchedCard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<h2 class="mt-3">Редактирование карты отловленного</h2>
+
+@using (Html.BeginForm("CatchedCard", "Register", FormMethod.Post, new { name = "CatchedCardCreate", enctype = "multipart/form-data", id = "catchedCardCreate" }))
+{
+    @Html.AntiForgeryToken()
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group row" style="margin-right: 0; margin-left: 0;">
+        <div class="col-lg-8">
+            @Html.LabelFor(model => model.name, htmlAttributes: new { @class = "control-label" })
+            <div>
+                @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control", @required = "required", @type = "text" } })
+                @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class=" offset-lg-1 col-lg-3">
+            @Html.LabelFor(model => model.birthday, htmlAttributes: new { @class = "control-label" })
+            <div>
+                @Html.EditorFor(model => model.birthday, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                @Html.ValidationMessageFor(model => model.birthday, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row" style="margin-right: 0; margin-left: 0;">
+        <div class="col-lg-2">
+            @Html.LabelFor(model => model.sex, htmlAttributes: new { @class = "control-label" })
+            <div>
+                @*@Html.EditorFor(model => model.sex, new { htmlAttributes = new { @class = "form-control" } })*@
+                @Html.DropDownListFor(model => model.sex, new SelectList(
+    new[]{
+
+                   new { Value = "1", Text = "Мужской" },
+                   new { Value = "2", Text = "Женский" },
+    },
+    "Value",
+    "Text",
+     ViewBag.Card.sex
+    ), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.sex, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <label class="control-label">Вид животного</label>
+            <div>
+                @Html.DropDownList("SetAnimalTypeValues[species]", new SelectList(
+     new[]{
+                    new { Value = "0", Text = "Кошка" },
+                    new { Value = "1", Text = "Собака" }
+     },
+     "Value",
+     "Text",
+     Model.getAnimalTypeValues["species"]
+     ), new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <label class="control-label">Размер</label>
+            <div>
+                @Html.DropDownList("SetAnimalTypeValues[size]", new SelectList(
+     new[]{
+                    new { Value = "01", Text = "Маленький" },
+                    new { Value = "10", Text = "Средний" },
+                    new { Value = "11", Text = "Большой" },
+     },
+     "Value",
+     "Text",
+     Model.getAnimalTypeValues.ContainsKey("size") ? Model.getAnimalTypeValues["size"] : "01"
+     ), new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <label class="control-label">Длина шерсти</label>
+            <div>
+                @Html.DropDownList("SetAnimalTypeValues[hire_size]", new SelectList(
+     new[]{
+                    new { Value = "0", Text = "Короткошерстный" },
+                    new { Value = "1", Text = "Длинношерстный" },
+     },
+     "Value",
+     "Text",
+     Model.getAnimalTypeValues["hire_size"]
+     ), new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <label class="control-label">Тип шерсти</label>
+            <div>
+                @Html.DropDownList("SetAnimalTypeValues[hire_type]", new SelectList(
+     new[]{
+                    new { Value = "0", Text = "Прямая" },
+                    new { Value = "1", Text = "Кудрявая" },
+     },
+     "Value",
+     "Text",
+     Model.getAnimalTypeValues["hire_type"]
+     ), new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.photo, htmlAttributes: new { @class = "control-label col-md-2" })
+
+        <div class=" col-lg-12 col-md-12">
+            <div style="width: 400px;">
+                <img id="photoImg" class="img-responsive img-thumbnail ratio-4-3" src="data:image/png;base64,@(Convert.ToBase64String(@Model.photo))" />
+            </div>
+            @Html.HiddenFor(model => model.photo)
+            @Html.ActionLink("Удалить фото", "DeleteFile", new { prop = "photo" }, new { id = "deleteButton" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-2"></div>
+        <div class="col-lg-12 col-md-12">
+            <input type="file" hidden name="ImageData" id="ImageData" />
+            <button type="button" id="ImageDataButton" class="btn btn-success col-lg-2 col-md-12" style="background-color: #aebfbe; border-color: #aebfbe">Загрузить фото</button>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.spec_mark, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-lg-12 col-md-12">
+            @Html.EditorFor(model => model.spec_mark, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.spec_mark, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.owner_traits, htmlAttributes: new { @class = "control-label col-md-5" })
+        <div class="col-lg-12 col-md-12">
+
+            <ul style="display: inline-flex; flex-wrap: wrap; width:100%; align-items: center; justify-content: space-between; padding-left: 0">
+                <li class="list-group-item col-lg-2 col-md-12 text-center">
+                    <div class="ml-2">
+                        @Html.CheckBox("SetOwnerTraits[1]", Model.getOwnerTraits["collar"], new { @class = "form-check-input me-1 ", @style = "margin-top: 0.4rem;" })
+                        Ошейник
+                    </div>
+                </li>
+
+                <li class="list-group-item col-lg-2 col-md-12 mt-lg-0 mt-sm-2 text-center">
+                    <div class="ml-2">
+                        @Html.CheckBox("SetOwnerTraits[2]", Model.getOwnerTraits["clothing"], new { @class = "form-check-input me-1", @style = "margin-top: 0.4rem;" })
+                        Одежда
+                    </div>
+                </li>
+
+                <li class="list-group-item col-lg-2 col-md-12 mt-lg-0 mt-sm-2 text-center">
+                    <div class="ml-2">
+                        @Html.CheckBox("SetOwnerTraits[3]", Model.getOwnerTraits["harness"], new { @class = "form-check-input me-1", @style = "margin-top: 0.4rem;" })
+                        Шлейка
+                    </div>
+                </li>
+
+                <li class="list-group-item col-lg-2 col-md-12 mt-lg-0 mt-sm-2 text-center">
+                    <div class="ml-2">
+                        @Html.CheckBox("SetOwnerTraits[4]", Model.getOwnerTraits["chip"], new { @class = "form-check-input me-1", @style = "margin-top: 0.4rem;", @id = "chipCheckbox" })
+                        Чип
+                    </div>
+                </li>
+            </ul>
+
+
+            @*@Html.EditorFor(model => model.owner_traits, new { htmlAttributes = new { @class = "form-control" } })*@
+            @*@Html.ValidationMessageFor(model => model.owner_traits, "", new { @class = "text-danger" })*@
+        </div>
+    </div>
+
+    <div class="form-group row" style="margin-right: 0; margin-left: 0;">
+        <div class="col-lg-4" id="idChipField">
+            @Html.LabelFor(model => model.id_chip, htmlAttributes: new { @class = "control-label" })
+            <div>
+                @Html.EditorFor(model => model.id_chip, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = 1 } })
+                @Html.ValidationMessageFor(model => model.id_chip, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="offset-lg-1 col-lg-7" id="idMarkField">
+            @Html.LabelFor(model => model.id_mark, htmlAttributes: new { @class = "control-label" })
+            <div>
+                @Html.EditorFor(model => model.id_mark, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = 1 } })
+                @Html.ValidationMessageFor(model => model.id_mark, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row" style="margin-right: 0; margin-left: 0;">
+        <div class="col-lg-4">
+            @Html.LabelFor(model => model.id_status, htmlAttributes: new { @class = "control-label" })
+            <div>
+                @Html.DropDownListFor(model => model.id_status, new SelectList(
+   new[]{
+                  new { Value = "0", Text = "Выбыл" },
+                  new { Value = "1", Text = "В приюте" },
+   },
+   "Value",
+   "Text",
+   Model.id_status
+   ), new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="offset-lg-1 col-lg-7">
+            @Html.LabelFor(model => model.date_status_change, htmlAttributes: new { @class = "control-label" })
+            <div>
+                @Html.EditorFor(model => model.date_status_change, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                @Html.ValidationMessageFor(model => model.date_status_change, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row" style="margin-right: 0; margin-left: 0;">
+        <div class="col-lg-4">
+            @Html.LabelFor(model => model.ID_MU, htmlAttributes: new { @class = "control-label" })
+            <div>
+                @Html.EditorFor(model => model.ID_MU, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = 1 } })
+                @Html.ValidationMessageFor(model => model.ID_MU, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="offset-lg-1 col-lg-7">
+            @Html.LabelFor(model => model.local_place, htmlAttributes: new { @class = "control-label" })
+            <div>
+                @Html.EditorFor(model => model.local_place, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                @Html.ValidationMessageFor(model => model.local_place, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.sterilization_date, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-lg-12 col-md-12">
+            @Html.EditorFor(model => model.sterilization_date, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+            @Html.ValidationMessageFor(model => model.sterilization_date, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group row" style="margin-right: 0; margin-left: 0;">
+        <div class="col-lg-12 col-md-12">
+            @Html.LabelFor(model => model.scan_frame_1, htmlAttributes: new { @class = "control-label" })
+            <div style="min-height: 100px;">
+                <div>
+                    @Html.HiddenFor(model => model.scan_frame_1)
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <span id="scanFrameTextOne">@(Model.scan_frame_1 != null && Model.scan_frame_1.Length > 0 ? "Есть загруженный документ" : "Нет документа")</span>
+                        </div>
+                    </div>
+                </div>
+                @Html.ActionLink("Удалить скан-образ", "DeleteFile", new { prop = "scan_frame_1" }, new { id = "deleteScanButtonOne" })
+            </div>
+
+            <div class="mb-3">
+                <input type="file" hidden name="ScanDataOne" id="ScanDataOne" onchange="fileCheck(this);" />
+                <button type="button" id="ScanDataButtonOne" class="btn btn-success col-lg-4 col-md-12" style="background-color: #aebfbe; border-color: #aebfbe">Загрузить скан</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row" style="margin-right: 0; margin-left: 0;">
+
+
+    </div>
+    @Html.HiddenFor(model => model.Added)
+    <div class="form-group">
+        <div class="col-lg-12">
+            @Html.ActionLink("Вернуться к карте", "CatchedCard", null, new { @class = "btn btn-success mb-lg-0 mb-sm-2 col-lg-3 mr-2", @style = "background-color: #aebfbe; border-color: #aebfbe" })
+            <input type="submit" id="submitForm" value="Сохранить изменения" class="btn btn-success col-lg-3 col-md-12" style="background-color: #aebfbe; border-color: #aebfbe" />
+        </div>
+    </div>
+</div>
+
+}
+<div>
+
+</div>
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/limitdate.js")
+    <script type="text/javascript">
+        let save_chip = 0;
+
+        $(document).ready(function () {
+
+            if ($('#photo').val() == "") {
+                $('#deleteButton').hide();
+            }
+            if ($('#scan_frame_1').val() == "") {
+                $('#deleteScanButtonOne').hide();
+            }
+            if (!$("#chipCheckbox").is(':checked')) {
+                $("#id_chip").val(null);
+                $("#idChipField").hide();
+                $("#idMarkField").attr('class', 'col-lg-12');
+            }
+        });
+
+        $("#name").change(function (e) {
+            $(this).valid()
+        })
+
+        $("#local_place").change(function (e) {
+            $(this).valid()
+        })
+
+        $("#chipCheckbox").change(function (e) {
+            let check = $(this).is(':checked');
+            if (!check) {
+                save_chip = $("#id_chip").val();
+                $("#id_chip").val(null);
+                $("#idChipField").hide();
+                $("#idMarkField").attr('class', 'col-lg-12');
+            }
+            else {
+                $("#idChipField").show();
+                $("#id_chip").val(save_chip);
+                $("#idMarkField").attr('class', 'col-lg-7 offset-lg-1');
+            }
+        });
+
+
+        $("#ImageDataButton").click(function (e) {
+            $("#ImageData").click();
+        });
+
+        $("#ImageData").change(function (e) {
+            let file = document.getElementById("ImageData").files[0]
+            if (file != null) {
+                let formData = new FormData()
+                formData.append("FileData", file)
+                $.ajax({
+                    url: "/Register/UploadFile",
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        $('#photo').val(response)
+                        $("#deleteButton").show();
+                        let src = URL.createObjectURL(file);
+                        let preview = document.getElementById("photoImg");
+                        preview.src = src;
+                    }
+                });
+            }
+        });
+
+        $("#ScanDataButtonOne").click(function (e) {
+            $("#ScanDataOne").click();
+        });
+
+        $("#ScanDataOne").change(function (e) {
+            let file = document.getElementById("ScanDataOne").files[0]
+            if (file != null) {
+                let formData = new FormData()
+                formData.append("FileData", file)
+                $.ajax({
+                    url: "/Register/UploadFile",
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        $('#scan_frame_1').val(response)
+                        $("#deleteScanButtonOne").show();
+                        let span = document.getElementById("scanFrameTextOne");
+                        span.innerText = "Есть загружнный документ";
+                    }
+                });
+            }
+        });
+
+        $("#deleteButton").click(function (e) {
+            e.preventDefault();
+            $('#photo').val("")
+            $("#photoImg").attr('src', '')
+            $('#deleteButton').hide();
+        });
+
+        $("#deleteScanButtonOne").click(function (e) {
+            e.preventDefault();
+            $('#scan_frame_1').val("")
+            let span = document.getElementById("scanFrameTextOne");
+            span.innerText = "Нет документа";
+            $('#deleteScanButtonOne').hide();
+        });</script>
+}

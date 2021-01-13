@@ -315,9 +315,10 @@
                     @Html.DisplayFor(modelItem => item.sterilization_date)
                 </td>
                 <td><p><button type="button" onclick="ChangeColor(this, @item.ID); return false;" value="@item.ID">Выбрать</button></p></td>
-                >
+                
                 <td>
-                    @Html.ActionLink("Открыть", "RegisterCatchedGetCardById", "Register", new { id_card = item.ID }, new { @class = "navbar-brand" })
+                    @if (@ViewBag.User_Role.ToString() == "0" || @ViewBag.User_Role.ToString() == "2")
+                    {@Html.ActionLink("Открыть", "CatchedCardCreate", "Register", new { id_card = item.ID }, new { @class = "navbar-brand" })}
                 </td>
             </tr>
         }

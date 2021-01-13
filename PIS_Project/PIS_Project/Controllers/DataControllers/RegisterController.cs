@@ -40,7 +40,7 @@ namespace PIS_Project.Controllers.DataControllers
                 }
             }
 
-
+            ViewBag.Role = user.ID_role;
             List<Card> card;
             if (checkFilters)
             {
@@ -78,14 +78,14 @@ namespace PIS_Project.Controllers.DataControllers
             List<Card> card;
             if (checkFilters)
             {
-                card = CatchedCards.GetFilteredBy(filters, action);
+                card = CatchedCards.GetFilteredBy(filters, action).Where(c => c.Added != true).ToList();
             }
             else
-                card = CatchedCards.GetCards().ToList();
+                card = CatchedCards.GetCards().Where(c => c.Added != true).ToList();
             if (!String.IsNullOrEmpty(sortOrder))
             {
                 ViewData[sortOrder] = !upper;
-                card = CatchedCards.GetSortedBy(card, sortOrder, (bool)ViewData[sortOrder]);
+                card = CatchedCards.GetSortedBy(card, sortOrder, (bool)ViewData[sortOrder]).Where(c => c.Added != true).ToList();
             }
             return View(card);
         }
@@ -262,6 +262,7 @@ namespace PIS_Project.Controllers.DataControllers
         //GetCardByID?
         public ActionResult Card(int id_card)
         {
+            //var id_user = (new PIS_Project.Models.DataClasses.UsersRegister()).GetIDByName(HttpContext.User.Identity.Name); //Временно!!!
             int id_user = 1;
             ViewBag.Id_User = default(int);
             if (id_user != default(int))
@@ -341,7 +342,182 @@ namespace PIS_Project.Controllers.DataControllers
             return result;
         }
 
-       //[Logging]
+        [HttpGet]
+        public ActionResult CatchedCardCreate(int id_card)
+        {
+            //var id_user = (new PIS_Project.Models.DataClasses.UsersRegister()).GetIDByName(HttpContext.User.Identity.Name); //Временно!!!
+            int id_user = 1;
+            var card = Cards.GetCardByID(id_card);
+            ViewBag.Id_User = default(int);
+            if (id_user != default)
+            {
+                ViewBag.Id_User = id_user;
+                var users_org = new UsersRegister().GetUserByID(id_user).ID_organization;
+                ViewBag.User_Org = users_org;
+                card.ID_MU = users_org;
+            }
+            card.Added = true;
+            ViewBag.Card = card;
+            ViewBag.Sex = card.sex == Models.DataClasses.Card.SexAnimal.Male ? "Мужской" : "Женский";
+            Session.Add("old_card_id", id_card);
+            Session.Add("newcard", card);
+            return View(card);
+        }
+
+        [HttpGet]
+        public ActionResult CatchedCard()
+        {
+            var newcard = Session["newcard"] as Card;
+            var card = newcard;
+            ViewBag.Card = newcard;
+            return View(card);
+        }
+
+        [HttpPost]
+        public ActionResult CatchedCard(Card newcard)
+        {
+            //var id_user = (new PIS_Project.Models.DataClasses.UsersRegister()).GetIDByName(HttpContext.User.Identity.Name); 
+            //Временно!!!
+            int id_user = 1;
+            ViewBag.Id_User = default(int);
+            if (id_user != default)
+            {
+                ViewBag.Id_User = id_user;
+                var users_org = new UsersRegister().GetUserByID(id_user).ID_organization;
+                ViewBag.User_Org = users_org;
+                newcard.ID_MU = users_org;
+            }
+
+            if (newcard.photo == null)
+            {
+                DeleteFile(newcard, "photo");
+            }
+
+            if (newcard.scan_frame_1 == null)
+            {
+                DeleteFile(newcard, "scan_frame_1");
+            }
+
+            if (newcard.scan_frame_2 == null)
+            {
+                DeleteFile(newcard, "scan_frame_2");
+            }
+
+            string ownerTraitString = "";
+
+            Dictionary<string, string> traitsLocal = new Dictionary<string, string>();
+            traitsLocal["1"] = "ошейник";
+            traitsLocal["2"] = "одежда";
+            traitsLocal["3"] = "шлейка";
+            traitsLocal["4"] = "чип";
+
+            if (newcard.setOwnerTraits != null)
+            {
+                foreach (KeyValuePair<string, bool> pair in newcard.setOwnerTraits)
+                {
+                    if (pair.Value)
+                    {
+                        ownerTraitString += traitsLocal[pair.Key] + ", ";
+                    }
+                }
+
+                if (ownerTraitString == "")
+                {
+                    newcard.owner_traits = "нет";
+                }
+                else
+                {
+                    newcard.owner_traits = ownerTraitString.Remove(ownerTraitString.Length - 2, 2);
+                }
+            }
+            if (newcard.setAnimalTypeValues != null)
+            {
+                uint animalType = Convert.ToUInt32($"000{newcard.setAnimalTypeValues["species"]}{newcard.setAnimalTypeValues["size"]}{newcard.setAnimalTypeValues["hire_size"]}{newcard.setAnimalTypeValues["hire_type"]}", 2);
+                newcard.type = (Card.AnimalType)animalType;
+            }
+
+            var prop = (new Card()).GetType().GetProperties();
+            var changedValues = new Dictionary<string, object>();
+
+            foreach (var pr in prop)
+            {
+                changedValues.Add(pr.Name, pr.GetValue(newcard));
+            }
+
+            //var validation = ValidationController.CheckValidation((new Card()).GetType(), changedValues);
+            //if (validation.Result)
+            //{
+                ViewBag.Card = newcard;
+                var card = newcard;
+            Session["newcard"]= card;
+            ViewBag.Sex = card.sex == Models.DataClasses.Card.SexAnimal.Male ? "Мужской" : "Женский";
+                return View(card);
+            //}
+            //else
+            //{
+            //    throw new ArgumentException(validation.Information);
+            //}
+        }
+
+        [Notify]
+        [HttpPost]
+        public ActionResult CatchedCardAdd(Card card, string action)
+        {
+            ///////////////////////////////////////////////////////////////////////////////////
+            ///////////////////////////////////////////////////////////////////////////////////
+            //
+            //НЕ ХВАТАЕТ БУЛЕВОГО ПОЛЯ ДЛЯ ОТМЕТКИ ЗАРЕГЕСТРИРОВАННЫХ КАРТ ИЗ ОТЛОВА///////////
+            //
+            ///////////////////////////////////////////////////////////////////////////////////
+            ///////////////////////////////////////////////////////////////////////////////////
+            var somecard = Session["newcard"] as Card; 
+                var prop = (new Card()).GetType().GetProperties();
+                var changedValues = new Dictionary<string, object>();
+
+                foreach (var pr in prop)
+                {
+                    if (pr.GetValue(card) != null)
+                    {
+                        if (pr.Name != "getOwnerTraits" && pr.Name != "stringAnimalType" && pr.Name != "getAnimalTypeValues" && pr.Name != "photo")
+                            changedValues.Add(pr.Name, pr.GetValue(card));
+                        if (pr.Name == "photo")
+                        {
+                            var el = pr.GetValue(card);
+                            changedValues.Add(pr.Name, card.photo);
+                        }
+                    }
+
+                    //if(pr.Name == "getOwnerTraits")
+                    //    changedValues.Add("setOwnerTraits", pr.GetValue(card));
+                }
+
+                var validation = ValidationController.CheckValidation((new Card()).GetType(), changedValues);
+                if (validation.Result)
+                {
+                    var new_card = card;
+                    new_card.Status = Cards.GetStatusByID(new_card.id_status).Name;
+                    new_card.MU = Cards.GetMUByID(new_card.ID_MU).Name;
+                var catch_card = Cards.GetCardByID(int.Parse(Session["old_card_id"].ToString()));
+                catch_card.Added = true;
+                    Cards.Cards.Add(new_card);
+                    Cards.SaveChanges();
+                    Session.Remove("old_card_id");
+                    Session.Remove("newcard");
+                    return RedirectToAction("Sort");
+                }
+                else { throw new ArgumentException(validation.Information); }
+        }
+
+        [HttpGet]
+        public ActionResult EditCatchedCard()
+        {
+            var newcard = Session["newcard"] as Card;
+            var card = newcard;
+            ViewBag.Card = newcard;
+            return View(card);
+        }
+
+        //[Logging]
         [Notify]
         [HttpPost]
         public ActionResult Create(Dictionary<string, object> values)
@@ -368,6 +544,10 @@ namespace PIS_Project.Controllers.DataControllers
             if ((values["id_chip"] as string[])[0] == "")
             {
                 values.Remove("id_chip");
+            }
+            if ((values["id_mark"] as string[])[0] == "")
+            {
+                values.Remove("id_mark");
             }
             var validation = ValidationController.CheckValidation((new Card()).GetType(), values);
             if (validation.Result)

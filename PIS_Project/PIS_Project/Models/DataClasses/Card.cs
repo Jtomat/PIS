@@ -283,7 +283,7 @@ namespace PIS_Project.Models.DataClasses
         [DateLimit(ErrorMessage = "Дата стерилизации статуса должна быть меньше или равна текущей")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime sterilization_date { get; set; }
-
+        public bool Added { get; set; }
         [NotMapped]
         public string MU { get; set; }
 
