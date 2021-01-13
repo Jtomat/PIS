@@ -40,7 +40,7 @@ namespace PIS_Project.Controllers.DataControllers
                 }
             }
 
-            ViewBag.Role = user.ID_role;
+            ViewBag.Role = user.ID_role.ToString();
             List<Card> card;
             if (checkFilters)
             {
@@ -61,9 +61,10 @@ namespace PIS_Project.Controllers.DataControllers
         {
             //var id_user = (new PIS_Project.Models.DataClasses.UsersRegister()).GetIDByName(HttpContext.User.Identity.Name); //Временно!!!
             var id_user = 1;
+            var user = new UsersRegister().GetUserByID(id_user);
             SelectList fields = new SelectList(fieldsDict, "Key", "Value");
             ViewBag.Fields = fields;
-
+            ViewBag.Role = user.ID_role.ToString();
             bool checkFilters = false;
             if (filters != null && (filters.Count > 2 || filters.ContainsKey("field")))
             {
@@ -103,6 +104,8 @@ namespace PIS_Project.Controllers.DataControllers
                 ViewBag.Id_User = id_user;
                 var users_role = new UsersRegister().GetUserByID(id_user).ID_role;
                 ViewBag.User_Role = users_role;
+                var user = new UsersRegister().GetUserByID(id_user);
+                ViewBag.Role = user.ID_role.ToString();
             }
 
             var result = new Dictionary<int, Dictionary<string, object>>();
@@ -164,6 +167,8 @@ namespace PIS_Project.Controllers.DataControllers
                 var users_role = new UsersRegister().GetUserByID(id_user).ID_role;
                 ViewBag.User_Role = users_role;
                 ViewBag.MU = new UsersRegister().GetUserByID(id_user).ID_organization;
+                var user = new UsersRegister().GetUserByID(id_user);
+                ViewBag.Role = user.ID_role.ToString();
             }
             else
             {
@@ -270,6 +275,8 @@ namespace PIS_Project.Controllers.DataControllers
                 ViewBag.Id_User = id_user;
                 var users_role = new UsersRegister().GetUserByID(id_user).ID_role;
                 ViewBag.User_Role = users_role;
+                var user = new UsersRegister().GetUserByID(id_user);
+                ViewBag.Role = user.ID_role.ToString();
             }
             var card = Cards.GetCardByID(id_card);
             ViewBag.Sex = card.sex == Models.DataClasses.Card.SexAnimal.Male ? "Мужской" : "Женский";
@@ -285,6 +292,8 @@ namespace PIS_Project.Controllers.DataControllers
             {
                 users_role = new UsersRegister().GetUserByID(id_user).ID_role;
                 ViewBag.User_Role = users_role;
+                var user = new UsersRegister().GetUserByID(id_user);
+                ViewBag.Role = user.ID_role.ToString();
             }
             if (users_role == 1 || users_role == 2)
             {
@@ -355,6 +364,8 @@ namespace PIS_Project.Controllers.DataControllers
                 var users_org = new UsersRegister().GetUserByID(id_user).ID_organization;
                 ViewBag.User_Org = users_org;
                 card.ID_MU = users_org;
+                var user = new UsersRegister().GetUserByID(id_user);
+                ViewBag.Role = user.ID_role.ToString();
             }
             card.Added = true;
             ViewBag.Card = card;
@@ -463,13 +474,6 @@ namespace PIS_Project.Controllers.DataControllers
         [HttpPost]
         public ActionResult CatchedCardAdd(Card card, string action)
         {
-            ///////////////////////////////////////////////////////////////////////////////////
-            ///////////////////////////////////////////////////////////////////////////////////
-            //
-            //НЕ ХВАТАЕТ БУЛЕВОГО ПОЛЯ ДЛЯ ОТМЕТКИ ЗАРЕГЕСТРИРОВАННЫХ КАРТ ИЗ ОТЛОВА///////////
-            //
-            ///////////////////////////////////////////////////////////////////////////////////
-            ///////////////////////////////////////////////////////////////////////////////////
             var somecard = Session["newcard"] as Card; 
                 var prop = (new Card()).GetType().GetProperties();
                 var changedValues = new Dictionary<string, object>();

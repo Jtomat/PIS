@@ -89,7 +89,7 @@ namespace PIS_Project.Models.DataClasses
             }
             catch
             {
-                id_card = (new CardsRegister()).Cards.OrderBy(i => i.ID).Reverse().FirstOrDefault().ID;
+                id_card = (new CardsRegister()).Cards.OrderBy(i => i.ID).ToList().Last().ID;
             }
             var id_user = "1";//HttpContext.Current.User.Identity.GetUserId();
             lock (_locker)
