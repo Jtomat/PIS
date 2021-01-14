@@ -717,7 +717,7 @@ namespace PIS_Project.Controllers.DataControllers
                 });
                 UpdateCard(card);
 
-                System.IO.File.WriteAllBytes(@"C:\Users\Анастасия\Desktop\ИСиТ 3 курс\ПИС\7 лаба\Карточка учета животного №" + card.ID.ToString() + ".docx", Cards.GetCardByID(card.ID).document);
+                System.IO.File.WriteAllBytes(@"Карточка учета животного №" + card.ID.ToString() + ".docx", Cards.GetCardByID(card.ID).document);
             }
             else
             {
@@ -732,7 +732,7 @@ namespace PIS_Project.Controllers.DataControllers
                 });
                 UpdateCard(card);
 
-                System.IO.File.WriteAllBytes(@"C:\Users\Анастасия\Desktop\ИСиТ 3 курс\ПИС\7 лаба\Акт первичного осмотра животного №" + card.ID.ToString() + ".docx", Cards.GetCardByID(card.ID).document);
+                System.IO.File.WriteAllBytes(@"Акт первичного осмотра животного №" + card.ID.ToString() + ".docx", Cards.GetCardByID(card.ID).document);
             }
         }
         [Logging]
