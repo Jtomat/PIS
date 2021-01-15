@@ -74,7 +74,6 @@
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <p>ID </p> @ViewBag.ID
             <div class="form-group row" style="margin-right: 0; margin-left: 0;">
                 <div class="col-lg-8">
                     @Html.LabelFor(model => model.name, htmlAttributes: new { @class = "control-label" })

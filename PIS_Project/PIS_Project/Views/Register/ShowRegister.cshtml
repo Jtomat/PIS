@@ -7,7 +7,8 @@
 <h2>ShowRegister</h2>
 
 <p>
-    @Html.ActionLink("Добавить новую карту", "Create")
+    @if (ViewBag.Role == "2" || ViewBag.Role == "0")
+    {@Html.ActionLink("Добавить новую карту", "Create")}
 </p>
 <p>
     @if (ViewBag.Role == "2" || ViewBag.Role == "0")
@@ -202,8 +203,9 @@
                 </div>
             </div>
         </div>
-    }
-    <button class="btn btn-success" id="sendFilter" style="background-color: #aebfbe; border-color: #aebfbe">Применить</button>
+    
+        }
+<button class="btn btn-success" id="sendFilter" style="background-color: #aebfbe; border-color: #aebfbe">Применить</button>
 </div>
 @*@using (Html.BeginForm("Sort", "Register", FormMethod.Post, new { @class = "mb-4" }))
     {
@@ -325,7 +327,9 @@
             </td>
             <td>
                 @if (ViewBag.Role == "2" || ViewBag.Role == "0" || ViewBag.Role == "1")
-                {@Html.ActionLink("Редактировать", "EditCard", new { id_card = item.ID }, new { @class = "navbar-brand" })
+                {
+                    if (item.id_status == 1) {
+                    @Html.ActionLink("Редактировать", "EditCard", new { id_card = item.ID }, new { @class = "navbar-brand" })}
                 @Html.ActionLink("Удалить", "Delete", new { id_card = item.ID }, new { @class = "navbar-brand" })
             }
             </td>
@@ -337,20 +341,18 @@
 @section Scripts {
     <script type="text/javascript">
             function ChangeColor(Element, id) {
-                let perem_2 = document.querySelectorAll("tr");
-                for (let i = 0; i < perem_2.length; i++) {
+            let perem_2 = document.querySelectorAll("tr");
+            for (let i = 0; i < perem_2.length; i++) {
                 perem_2[i].style.backgroundColor = 'white';
-        }
-                document.getElementById(id).style.backgroundColor = "#a7d4d0";
-                
-        }
-    
-    let filterShowState = false;
+            }
+            document.getElementById(id).style.backgroundColor = "#a7d4d0";
 
+        }
+
+        let filterShowState = false;
         $(document).ready(function (e) {
             $('#filtersDiv').hide();
         });
-
         $("sendFilters").click(function (e) {
             $("#filtersForm").submit()
         });
@@ -366,7 +368,6 @@
                 $(this).text("Скрыть фильтры")
             }
         });
-
         $('.animal-size-list').on('change', function () {
             $('.animal-size-list').not(this).prop('checked', false);
         });
@@ -379,16 +380,12 @@
         $('.animal-hire-type-list').on('change', function () {
             $('.animal-hire-type-list').not(this).prop('checked', false);
         });
-
-
         $('.sex-list').on('change', function () {
             $('.sex-list').not(this).prop('checked', false);
         });
         $('.status-list').on('change', function () {
             $('.status-list').not(this).prop('checked', false);
         });
-
-
         $('.traits-list').on('change', function () {
             $("#noTraitsCheckbox").prop("checked", false);
         });

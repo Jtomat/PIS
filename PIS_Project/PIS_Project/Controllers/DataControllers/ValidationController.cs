@@ -6,6 +6,7 @@ using PIS_Project.Models.DataClasses;
 using PIS_Project.Models.DataControllers;
 using System.Web.Mvc;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PIS_Project.Controllers.DataControllers
 {
@@ -18,6 +19,10 @@ namespace PIS_Project.Controllers.DataControllers
             var valid = true;
             foreach (var data in ArrayOfData)
             {
+                var t = typeof(Card);
+                var pi = t.GetProperty(data.Key);
+                bool hasNotMapped = Attribute.IsDefined(pi, typeof(NotMappedAttribute));
+
                 try
                 {
                     var prop = new_user.GetType().GetProperty(data.Key);
