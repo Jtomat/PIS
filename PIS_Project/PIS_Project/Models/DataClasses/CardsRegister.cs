@@ -39,117 +39,117 @@ namespace PIS_Project.Models.DataClasses
             var result = GetCards();
             List<Card> filtredCards = new List<Card>();
 
-                foreach (Card card in result)
+            foreach (Card card in result)
+            {
+
+                if (filters.ContainsKey("sex") && card.sex != (Card.SexAnimal)int.Parse(filters["sex"]))
                 {
+                    continue;
+                }
 
-                    if (filters.ContainsKey("sex") && card.sex != (Card.SexAnimal)int.Parse(filters["sex"]))
-                    {
-                        continue;
-                    }
+                if (filters.ContainsKey("status") && card.id_status != int.Parse(filters["status"]))
+                {
+                    continue;
+                }
 
-                    if (filters.ContainsKey("status") && card.id_status != int.Parse(filters["status"]))
-                    {
-                        continue;
-                    }
+                if (filters.ContainsKey("animal_size") && (!card.getAnimalTypeValues.ContainsKey("size") || card.getAnimalTypeValues["size"] != filters["animal_size"]))
+                {
+                    continue;
+                }
 
-                    if (filters.ContainsKey("animal_size") && (!card.getAnimalTypeValues.ContainsKey("size") || card.getAnimalTypeValues["size"] != filters["animal_size"]))
-                    {
-                        continue;
-                    }
+                if (filters.ContainsKey("animal_species") && (!card.getAnimalTypeValues.ContainsKey("species") || card.getAnimalTypeValues["species"] != filters["animal_species"]))
+                {
+                    continue;
+                }
 
-                    if (filters.ContainsKey("animal_species") && (!card.getAnimalTypeValues.ContainsKey("species") || card.getAnimalTypeValues["species"] != filters["animal_species"]))
-                    {
-                        continue;
-                    }
+                if (filters.ContainsKey("animal_hire_size") && (!card.getAnimalTypeValues.ContainsKey("hire_size") || card.getAnimalTypeValues["hire_size"] != filters["animal_hire_size"]))
+                {
+                    continue;
+                }
 
-                    if (filters.ContainsKey("animal_hire_size") && (!card.getAnimalTypeValues.ContainsKey("hire_size") || card.getAnimalTypeValues["hire_size"] != filters["animal_hire_size"]))
-                    {
-                        continue;
-                    }
+                if (filters.ContainsKey("animal_hire_type") && (!card.getAnimalTypeValues.ContainsKey("hire_type") || card.getAnimalTypeValues["hire_type"] != filters["animal_hire_type"]))
+                {
+                    continue;
+                }
 
-                    if (filters.ContainsKey("animal_hire_type") && (!card.getAnimalTypeValues.ContainsKey("hire_type") || card.getAnimalTypeValues["hire_type"] != filters["animal_hire_type"]))
-                    {
-                        continue;
-                    }
+                if (!string.IsNullOrEmpty(filters["birthday1"]) && card.birthday < DateTime.Parse(filters["birthday1"]))
+                {
+                    continue;
+                }
+                if (!string.IsNullOrEmpty(filters["birthday2"]) && card.birthday > DateTime.Parse(filters["birthday2"]))
+                {
+                    continue;
+                }
 
-                    if (!string.IsNullOrEmpty(filters["birthday1"]) && card.birthday < DateTime.Parse(filters["birthday1"]))
-                    {
-                        continue;
-                    }
-                    if (!string.IsNullOrEmpty(filters["birthday2"]) && card.birthday > DateTime.Parse(filters["birthday2"]))
-                    {
-                        continue;
-                    }
+                if (!string.IsNullOrEmpty(filters["sterilization_date_1"]) && card.birthday < DateTime.Parse(filters["sterilization_date_1"]))
+                {
+                    continue;
+                }
+                if (!string.IsNullOrEmpty(filters["sterilization_date_2"]) && card.birthday > DateTime.Parse(filters["sterilization_date_2"]))
+                {
+                    continue;
+                }
 
-                    if (!string.IsNullOrEmpty(filters["sterilization_date_1"]) && card.birthday < DateTime.Parse(filters["sterilization_date_1"]))
-                    {
-                        continue;
-                    }
-                    if (!string.IsNullOrEmpty(filters["sterilization_date_2"]) && card.birthday > DateTime.Parse(filters["sterilization_date_2"]))
-                    {
-                        continue;
-                    }
+                if (!string.IsNullOrEmpty(filters["status_date_1"]) && card.birthday < DateTime.Parse(filters["change_status_1"]))
+                {
+                    continue;
+                }
+                if (!string.IsNullOrEmpty(filters["status_date_2"]) && card.birthday > DateTime.Parse(filters["change_status_2"]))
+                {
+                    continue;
+                }
 
-                    if (!string.IsNullOrEmpty(filters["status_date_1"]) && card.birthday < DateTime.Parse(filters["change_status_1"]))
+                if (!filters.ContainsKey("owner_traits_5"))
+                {
+                    if (filters.ContainsKey("owner_traits_1"))
                     {
-                        continue;
-                    }
-                    if (!string.IsNullOrEmpty(filters["status_date_2"]) && card.birthday > DateTime.Parse(filters["change_status_2"]))
-                    {
-                        continue;
-                    }
-
-                    if (!filters.ContainsKey("owner_traits_5"))
-                    {
-                        if (filters.ContainsKey("owner_traits_1"))
-                        {
-                            if (!card.getOwnerTraits["collar"])
-                            {
-                                continue;
-                            }
-                        }
-                        if (filters.ContainsKey("owner_traits_2"))
-                        {
-                            if (!card.getOwnerTraits["harness"])
-                            {
-                                continue;
-                            }
-                        }
-                        if (filters.ContainsKey("owner_traits_3"))
-                        {
-                            if (!card.getOwnerTraits["clothing"])
-                            {
-                                continue;
-                            }
-                        }
-                        if (filters.ContainsKey("owner_traits_4"))
-                        {
-                            if (!card.getOwnerTraits["chip"])
-                            {
-                                continue;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (filters.ContainsKey("owner_traits_5") && card.owner_traits != "нет")
+                        if (!card.getOwnerTraits["collar"])
                         {
                             continue;
                         }
                     }
-
-
-                    filtredCards.Add(card);
-                }
-           
-                foreach (var card in result)
-                {
-                    foreach (var filtCard in filtredCards)
+                    if (filters.ContainsKey("owner_traits_2"))
                     {
-                        filtCard.Status = GetStatusByID(card.id_status).Name;
-                        filtCard.MU = GetMUByID(card.ID_MU).Name;
+                        if (!card.getOwnerTraits["harness"])
+                        {
+                            continue;
+                        }
+                    }
+                    if (filters.ContainsKey("owner_traits_3"))
+                    {
+                        if (!card.getOwnerTraits["clothing"])
+                        {
+                            continue;
+                        }
+                    }
+                    if (filters.ContainsKey("owner_traits_4"))
+                    {
+                        if (!card.getOwnerTraits["chip"])
+                        {
+                            continue;
+                        }
                     }
                 }
+                else
+                {
+                    if (filters.ContainsKey("owner_traits_5") && card.owner_traits != "нет")
+                    {
+                        continue;
+                    }
+                }
+
+
+                filtredCards.Add(card);
+            }
+           
+            foreach (var card in result)
+            {
+                foreach (var filtCard in filtredCards)
+                {
+                    filtCard.Status = GetStatusByID(card.id_status).Name;
+                    filtCard.MU = GetMUByID(card.ID_MU).Name;
+                }
+            }
             return filtredCards;
         }
 

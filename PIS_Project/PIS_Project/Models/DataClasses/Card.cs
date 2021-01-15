@@ -15,8 +15,7 @@ namespace PIS_Project.Models.DataClasses
         public enum SexAnimal : int
         {
             Male = 1,
-            Female = 2,
-            Germafrodit = Male | Female,
+            Female = 2
         }
         /// <summary>
         /// Перечисление для типа животного
@@ -124,8 +123,6 @@ namespace PIS_Project.Models.DataClasses
                         result += "волнистая";
                         break;
                 }
-                if (sex == SexAnimal.Germafrodit)
-                    result = "Ну на этом наши полномочия всё...";
                 return result;
             }
         }
