@@ -140,6 +140,7 @@ namespace PIS_Project.Models.DataClasses
         public byte[] document { get; set; }
         public byte[] scan_frame_1 { get; set; }
         public DateTime sterilization_date { get; set; }
+        public bool Added { get; set; }
         [NotMapped]
         public string Status
         {

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Office.Interop.Word;
+using PIS_Project.Models.DataClasses;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -34,6 +35,35 @@ namespace PIS_Project.Controllers.DataControllers
                 return result;
             }
         }
+        public static byte[] GetRegularTemp(int[] cards_id, int MUS_id)
+        {
+            var cards = (new CardsController()).GetCards()
+                .Where(i => cards_id.Contains(i.ID)).ToArray();
+            var mus = (new CardsController()).MUS.FirstOrDefault(i=>i.ID==MUS_id).Name;
+
+            return GetDocByID(13,new Dictionary<string, object>()
+            {
+                {"Table",cards },
+                {"Pri", mus}
+            });
+        }
+        public static void UploadNewTemp(byte[] file, int num, string name="")
+        {
+            var exist = _templates.Keys.ToList().FirstOrDefault(i=>i.Key==num).Key==num;
+            var path = "";
+            if (exist)
+            {
+                path= Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                    $@"Resourses\{num}#{_templates.Keys.ToList().FirstOrDefault(i => i.Key == num).Value}.docx");
+                
+            }
+            else
+            {
+                path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                    $@"Resourses\{num}#{name}.docx");
+            }
+            File.WriteAllBytes(path, file);
+        }
         public static byte[] GetDocByID(int key, Dictionary<string, object> values)
         {
             var fileGroup = _templates.FirstOrDefault(i=>i.Key.Key==key);
@@ -54,6 +84,25 @@ namespace PIS_Project.Controllers.DataControllers
                 {
                     if (field.Value is byte[])
                         valuesToFill.Images.Add((new ImageContent(field.Key, (byte[])field.Value)));
+                    else
+                    {
+                        if ((field.Value.GetType().IsArray) && ((Card[])field.Value) != null)
+                        {
+                            var table = new TableContent("Table");
+                            foreach (var c in ((Card[])field.Value))
+                            {
+                                table= table.AddRow(
+                                    new FieldContent("id_v",c.id_mark.ToString()), 
+                                    new FieldContent("Name", c.name),
+                                    new FieldContent("Card_id", c.ID.ToString()),
+                                    new FieldContent("Chip_id", c.id_chip.ToString()));
+                                //table= table.AddRow(new FieldContent("Name",c.name));
+                                //table= table.AddRow(new FieldContent("Card_id",c.ID.ToString()));
+                                // table= table.AddRow(new FieldContent("Chip_id",c.id_chip.ToString()));
+                            }
+                            valuesToFill.Tables.Add(table); 
+                        }
+                    }
                 }
             }
             using (var outputDoc = new TemplateProcessor(temp_name).SetRemoveContentControls(true))

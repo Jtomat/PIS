@@ -31,7 +31,7 @@
 
 
     var id = (new PIS_Project.Controllers.DataControllers.UsersRegister()).GetIDByName(HttpContext.Current.User.Identity.Name);
-    //File.WriteAllBytes(@"C:\Users\Михаил\Downloads\doc24.docx", PIS_Project.Controllers.DataControllers.ReportTemplate.GetDocByID(11, new Dictionary<string, object>
+    File.WriteAllBytes(@"C:\Users\Михаил\Downloads\doc13.docx", PIS_Project.Controllers.DataControllers.ReportTemplate.GetRegularTemp(new int[]{ 1, 2, 3, 4 },2) );
     //{
     //        { "ID_Chip", "4324" },
 
@@ -40,7 +40,7 @@
     var c = 0;
     //var card = new PIS_Project.Models.DataClasses.Card();
     //card.type =
-
+    /*
     (new PIS_Project.Controllers.DataControllers.RegisterController()).AddCard(new Dictionary<string, object>()
     {
         {"sex","3" },
@@ -54,7 +54,7 @@
         {"sterilization_date",DateTime.Now.ToString() },
         {"id_status","1" },
         {"photo", new string[]{ Convert.ToBase64String(File.ReadAllBytes(@"C:\Users\Михаил\Downloads\152632.jpg")) } }
-    }) ;
+    }) ;*/
     //var ds = new PIS_Project.Controllers.DataControllers.CardsController();
     //var r = new PIS_Project.Controllers.DataControllers.RegisterController();
     //foreach (var card in ds.GetCards())
@@ -62,6 +62,7 @@
     //    r.UpdateCard(card.ID, new Dictionary<string, object> {
     //        { "photo", File.ReadAllBytes(@"C:\Users\Михаил\Downloads\A3CscxBuihU.jpg") } });
     //}
+
 }
 <p>@sn/@algs</p>
 <p>@psn/@ps</p>

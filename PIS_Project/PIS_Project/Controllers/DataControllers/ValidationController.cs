@@ -19,15 +19,22 @@ namespace PIS_Project.Controllers.DataControllers
             {
                 try
                 {
+
                     var prop = new_user.GetType().GetProperty(data.Key);
                     var converter = TypeDescriptor.GetConverter(prop.PropertyType);
                     var result = new object();
+                    if (data.Value.GetType() == prop.PropertyType)
+                    {
+                        result = data.Value;
+                        prop.SetValue(new_user, result);
+                        continue;
+                    }
                     if (data.Value.GetType().IsArray)
                     {
                         result = (object)"";
                         foreach (var val in ((Array)data.Value))
                         {
-                            result = result.ToString()+(string)val;
+                            result = result.ToString()+val;
                         }
                     }
                     else
