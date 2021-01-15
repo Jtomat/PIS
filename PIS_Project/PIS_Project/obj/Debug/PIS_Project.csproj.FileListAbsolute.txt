@@ -276,3 +276,5 @@ D:\Repos\PIS\PIS_Project\PIS_Project\obj\Debug\PIS_Project.csproj.CopyComplete
 D:\Repos\PIS\PIS_Project\PIS_Project\obj\Debug\PostSharp\postsharp.app.config
 D:\Repos\PIS\PIS_Project\PIS_Project\obj\Debug\PIS_Project.Migrations.DataMig.resources
 D:\Repos\PIS\PIS_Project\PIS_Project\obj\Debug\PIS_Project.csproj.GenerateResource.cache
+D:\Repos\PIS\PIS_Project\PIS_Project\bin\evowordtopdf.dll
+D:\Repos\PIS\PIS_Project\PIS_Project\bin\evowordtopdf.xml

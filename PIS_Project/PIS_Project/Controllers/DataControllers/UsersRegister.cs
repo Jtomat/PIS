@@ -6,6 +6,8 @@ using System.Web;
 using PIS_Project.Models.DataClasses;
 using System.Diagnostics.Tracing;
 using PIS_Project.Models;
+using EvoWordToPdf;
+using System.IO;
 
 namespace PIS_Project.Controllers.DataControllers
 {
@@ -93,6 +95,15 @@ namespace PIS_Project.Controllers.DataControllers
             var validation = ValidationController.CheckValidation((new Users()).GetType(), ArrayOfData);
             if (validation.Result)
             {
+                if (((Users)validation.ValidData).Doc.Length > 0)
+                {
+                        var conv = new WordToPdfConverter();
+
+                        var bites = new MemoryStream();
+                        conv.ConvertWordStreamToStream(new MemoryStream(
+                            ((Users)validation.ValidData).Doc), bites);
+                    ((Users)validation.ValidData).Doc = bites.ToArray();
+                }
                 Users.Add((Users)validation.ValidData);
                 SaveChanges();
                 var res_u = Users.FirstOrDefault(i => i.SIN == ((Users)validation.ValidData).SIN);
@@ -100,16 +111,38 @@ namespace PIS_Project.Controllers.DataControllers
             }
             else { return validation.Information; }
         }
-        public Users UpdateUser(int ID_user, Dictionary<string,object> changes)
+        public Users UpdateUser(int ID_user, Dictionary<string, object> changes)
         {
-            var valid = ValidationController.CheckValidation((new Users()).GetType(),changes);
+            var valid = ValidationController.CheckValidation((new Users()).GetType(), changes);
             if (valid.Result)
             {
+
                 var current_user = Users.FirstOrDefault(i => i.ID == ID_user);
                 foreach (var change in changes)
                 {
-                    var prop = current_user.GetType().GetProperty(change.Key);
-                    prop.SetValue(current_user, change.Value);
+                    if (change.Key != "Doc")
+                    {
+                        var prop = current_user.GetType().GetProperty(change.Key);
+                        prop.SetValue(current_user, change.Value);
+                    }
+                    else
+                    {
+                        if (((byte[])change.Value).Length > 0)
+                        {
+                            var conv = new WordToPdfConverter();
+
+                            var bites = new MemoryStream();
+                            conv.ConvertWordStreamToStream(new MemoryStream((byte[])change.Value), bites);
+                            var prop = current_user.GetType().GetProperty(change.Key);
+                            prop.SetValue(current_user, bites.ToArray());
+
+                        }
+                        else
+                        {
+                            var prop = current_user.GetType().GetProperty(change.Key);
+                            prop.SetValue(current_user, null);
+                        }
+                    }
                 }
                 SaveChanges();
                 return Users.FirstOrDefault(i => i.ID == current_user.ID);
