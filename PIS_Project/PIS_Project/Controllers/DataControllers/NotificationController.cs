@@ -14,6 +14,10 @@ namespace PIS_Project.Controllers.DataControllers
 {
     public class NotificationController: DbContext
     {
+        public NotificationController() : base("DBConnection")
+            {
+            Notifications = Set<Notifications>();
+        }
         public DbSet<Notifications> Notifications { get; set; }
         public void Log(string logName, string logText,int id_card)
         {

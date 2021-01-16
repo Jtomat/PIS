@@ -277,9 +277,9 @@ namespace PIS_Project.Models.DataClasses
         public byte[] document { get; set; }
         [Display(Name = "Скан-образ акта первичного осмотра")]
         public byte[] scan_frame_1 { get; set; }
-        [NotMapped]
-        [Display(Name = "Скан-образ акта первичного осмотра")]
-        public byte[] scan_frame_2 { get; set; }
+        //[NotMapped]
+        //[Display(Name = "Скан-образ акта первичного осмотра")]
+        //public byte[] scan_frame_2 { get; set; }
         [Display(Name = "Дата стерелизации")]
         [DateLimit(ErrorMessage = "Дата стерилизации статуса должна быть меньше или равна текущей")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]

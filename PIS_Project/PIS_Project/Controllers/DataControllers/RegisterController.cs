@@ -488,10 +488,10 @@ namespace PIS_Project.Controllers.DataControllers
                 DeleteFile(newcard, "scan_frame_1");
             }
 
-            if (newcard.scan_frame_2 == null)
-            {
-                DeleteFile(newcard, "scan_frame_2");
-            }
+            //if (newcard.scan_frame_2 == null)
+            //{
+            //    DeleteFile(newcard, "scan_frame_2");
+            //}
 
             string ownerTraitString = "";
 
@@ -549,7 +549,7 @@ namespace PIS_Project.Controllers.DataControllers
             //}
         }
 
-        //[Logging]
+        [Logging]
         [Notify]
         [HttpPost]
         public ActionResult CatchedCardAdd(Card card, string action)
@@ -601,7 +601,7 @@ namespace PIS_Project.Controllers.DataControllers
             return View(card);
         }
 
-        //[Logging]
+        [Logging]
         [Notify]
         [HttpPost]
         public ActionResult Create(Dictionary<string, object> values)
@@ -674,14 +674,14 @@ namespace PIS_Project.Controllers.DataControllers
                 catch { }
             }
 
-            if (card.scan_frame_2 == null)
+            /*if (card.scan_frame_2 == null)
             {
                 try
                 {
                     DeleteFile(card, "scan_frame_2");
                 }
                 catch { }
-            }
+            }*/
 
             string ownerTraitString = "";
 
@@ -865,7 +865,7 @@ namespace PIS_Project.Controllers.DataControllers
                 return result.ToArray();
             }
         }
-        //[Logging]
+        [Logging]
         public void DeleteEntry(int id_card)
         {
             Cards.Cards.Remove(Cards.Cards.Where(i=>i.ID== id_card).FirstOrDefault());
@@ -889,6 +889,7 @@ namespace PIS_Project.Controllers.DataControllers
             ViewBag.Sex = card.sex == Models.DataClasses.Card.SexAnimal.Male ? "Мужской" : "Женский";
             return View(card);
         }
+        //[Logging]
         [HttpPost]
         public RedirectToRouteResult Delete(int id, bool t = true)
         {
@@ -900,7 +901,8 @@ namespace PIS_Project.Controllers.DataControllers
                 var users_role = new UsersRegister().GetUserByID(id_user).ID_role;
                 if (users_role == 1 || users_role == 0 || users_role == 2)
                 {
-                    DeleteEntry(id);
+                    Cards.Cards.Remove(Cards.Cards.Where(i => i.ID == id).FirstOrDefault());
+                    Cards.SaveChanges();
                     return RedirectToAction("Sort");
                 }
                 else
