@@ -277,6 +277,7 @@ namespace PIS_Project.Models.DataClasses
         public byte[] document { get; set; }
         [Display(Name = "Скан-образ акта первичного осмотра")]
         public byte[] scan_frame_1 { get; set; }
+        [NotMapped]
         [Display(Name = "Скан-образ акта первичного осмотра")]
         public byte[] scan_frame_2 { get; set; }
         [Display(Name = "Дата стерелизации")]

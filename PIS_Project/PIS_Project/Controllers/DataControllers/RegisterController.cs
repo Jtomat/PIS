@@ -237,6 +237,7 @@ namespace PIS_Project.Controllers.DataControllers
                 var users_role = new UsersRegister().GetUserByID(id_user).ID_role;
                 ViewBag.User_Role = users_role;
                 ViewBag.MU = new UsersRegister().GetUserByID(id_user).ID_organization;
+                
                 var user = new UsersRegister().GetUserByID(id_user);
                 ViewBag.Role = user.ID_role.ToString();
             }
@@ -643,6 +644,7 @@ namespace PIS_Project.Controllers.DataControllers
                 }
                 new_card.Status = Cards.GetStatusByID(new_card.id_status).Name;
                 new_card.MU = Cards.GetMUByID(new_card.ID_MU).Name;
+                new_card.Added = true;
                 Cards.Cards.Add(new_card);
                 Cards.SaveChanges();
                 return RedirectToAction("Sort");

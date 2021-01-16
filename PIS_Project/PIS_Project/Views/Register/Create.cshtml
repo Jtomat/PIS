@@ -232,7 +232,11 @@
                 <div class="col-lg-4">
                     @Html.LabelFor(model => model.ID_MU, htmlAttributes: new { @class = "control-label" })
                     <div>
-                        <input type="number" name="values[ID_MU]" class="form-control" min = 1/>
+                        <select name="values[ID_MU]" value="1">
+                            <option value="1">Питомник</option>
+                            <option value="2">Отлов</option>
+                            <option value="3">Приют</option>
+                        </select>
                         @Html.ValidationMessageFor(model => model.ID_MU, "", new { @class = "text-danger" })
                     </div>
                 </div>

@@ -222,7 +222,7 @@
         <div class="col-lg-4">
             @Html.LabelFor(model => model.ID_MU, htmlAttributes: new { @class = "control-label" })
             <div>
-                @Html.EditorFor(model => model.ID_MU, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = 1 } })
+                @Html.EditorFor(model => model.ID_MU, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = 1, @readonly = "readonly" } })
                 @Html.ValidationMessageFor(model => model.ID_MU, "", new { @class = "text-danger" })
             </div>
         </div>

@@ -10,6 +10,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using PIS_Project.Models;
 using System.Collections.Generic;
+using System.IO;
+using DocumentFormat.OpenXml;
 namespace PIS_Project.Controllers
 {
     [Authorize]
@@ -163,9 +165,11 @@ namespace PIS_Project.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    var uploadedFile = new byte[model.Doc.InputStream.Length];
+                    model.Doc.InputStream.Read(uploadedFile, 0, uploadedFile.Length);
                     var d = (new DataControllers.UsersController());
                     d.AddRegReq(new Dictionary<string, object>{ {"SIN",model.Email },{"FIO",model.UserName},{ "email",model.Email },{"password",model.Password},
-                        {"ID_organization",2 },{"ID_role",4 } });
+                        {"ID_organization",2 },{"ID_role",4 },{"Doc",  uploadedFile} });
                     var id = new Models.DataClasses.UsersRegister().Requests.ToArray().Last().ID;
                     var wr = (new ApplicationDbContext());
                     var vs = wr.Users.FirstOrDefault(i => i.Id == user.Id);

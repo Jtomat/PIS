@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web;
 
 namespace PIS_Project.Models
 {
@@ -77,6 +78,8 @@ namespace PIS_Project.Models
         [Required]
         [Display(Name = "Имя пользователя")]
         public string UserName { get; set; }
+        [Display(Name = "Приказ")]
+        public HttpPostedFileBase Doc { get; set; }
         [DataType(DataType.Password)]
         [Display(Name = "Подтверждение пароля")]
         [Compare("Password", ErrorMessage = "Пароль и его подтверждение не совпадают.")]

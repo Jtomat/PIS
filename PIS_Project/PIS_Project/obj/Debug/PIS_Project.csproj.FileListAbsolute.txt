@@ -761,3 +761,5 @@ C:\Jtomat\PIS\PIS_Project\PIS_Project\obj\Debug\PIS_Project.pdb
 C:\Jtomat\PIS\PIS_Project\PIS_Project\obj\Debug\PostSharp\postsharp.app.config
 C:\Jtomat\PIS\PIS_Project\PIS_Project\obj\Debug\PIS_Project.Migrations.DataMig.resources
 C:\Jtomat\PIS\PIS_Project\PIS_Project\obj\Debug\PIS_Project.csproj.GenerateResource.cache
+C:\Jtomat\PIS\PIS_Project\PIS_Project\bin\evowordtopdf.dll
+C:\Jtomat\PIS\PIS_Project\PIS_Project\bin\evowordtopdf.xml
