@@ -209,7 +209,7 @@ namespace PIS_Project.Models.DataClasses
         public string name { get; set; }
         [Display(Name = "Фото")]
         public byte[] photo { get; set; }
-        [RegularExpression("([А-ЯA-Z][а-яa-zА-ЯA-Z-',;!. ]+)", ErrorMessage = "Некорректное значение. Приметы не должны содержать цифры")]
+        [RegularExpression(@"([A-zА-яЁё',;!.\s-]*)", ErrorMessage = "Некорректное значение. Приметы не должны содержать цифры")]
         [Display(Name = "Приметы")]
         public string spec_mark { get; set; }
         [Display(Name = "Признаки наличия владельца")]
@@ -260,7 +260,7 @@ namespace PIS_Project.Models.DataClasses
         [NotMapped]
         public Dictionary<string, bool> setOwnerTraits { get; set; }
         [Display(Name = "Текущий статус")]
-        [Range(0, int.MaxValue, ErrorMessage = "Значение должно быть больше 0")]
+        //[Range(0, int.MaxValue, ErrorMessage = "Значение должно быть больше 0")]
         public int id_status { get; set; }
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [DateLimitAttribute(ErrorMessage = "Дата установки статуса должна быть меньше или равна текущей")]

@@ -11,11 +11,8 @@ using System.IO;
 namespace PIS_Project.Controllers.DataControllers
 {
     /// <summary>
-    /// Исправить везде фильтрацию/ сортировку (подтянуть изменения Насти)[ВЫПОЛНЕНО???], проверить добавление и удаление, добавить ссылку на UsersList (подтянуть изменения миши), сесть за курсач
-    /// 
-    /// 
-    /// 
-    /// 
+    /// План
+    /// (подтянуть изменения Миши), продолжить отлаживать, сесть за курсач
     /// </summary>
 
 
@@ -56,23 +53,28 @@ namespace PIS_Project.Controllers.DataControllers
 
                 Dictionary<string, string> savedFilt = (Dictionary<string, string>)Session["savedFilt"];
 
+                var ur = new UsersRegister();
                 ViewBag.Role = user.ID_role.ToString();
                 List<Card> card;
                 if (checkFilters)
                 {
-                    card = Cards.GetFilteredBy(filters).Where(a => a.ID_MU == user.ID_organization).ToList();
+                    card = Cards.GetFilteredBy(filters).Where(a => a.local_place ==
+                    ur.Organizations.FirstOrDefault(i=>i.ID== user.ID_organization).Contacts && a.ID_MU == 4).ToList();
                 }
                 else if (savedFilt != null && savedFilt.Count > 0)
                 {
-                    card = Cards.GetFilteredBy(savedFilt).Where(c => c.Added != true).ToList();
+                    card = Cards.GetFilteredBy(savedFilt).Where(a => a.local_place ==
+                    ur.Organizations.FirstOrDefault(i => i.ID == user.ID_organization).Contacts && a.ID_MU == 4).ToList();
                 }
                 else
-                    card = Cards.GetCards().Where(a => a.ID_MU == user.ID_organization).ToList();
+                    card = Cards.GetCards().Where(a => a.local_place ==
+                    ur.Organizations.FirstOrDefault(i => i.ID == user.ID_organization).Contacts && a.ID_MU == 4).ToList();
 
                 if (!String.IsNullOrEmpty(sortField))
                 {
                     ViewData[sortField] = !upper;
-                    card = Cards.GetSortedBy(card, sortField, (bool)ViewData[sortField]).Where(a => a.ID_MU == user.ID_organization).ToList();
+                    card = Cards.GetSortedBy(card, sortField, (bool)ViewData[sortField]).Where(a => a.local_place ==
+                    ur.Organizations.FirstOrDefault(i => i.ID == user.ID_organization).Contacts && a.ID_MU == 4).ToList();
                 }
                 return View(card);
             }
@@ -86,7 +88,8 @@ namespace PIS_Project.Controllers.DataControllers
         {
             //var id_user = (new PIS_Project.Models.DataClasses.UsersRegister()).GetIDByName(HttpContext.User.Identity.Name); //Временно!!!
             var id_user = 8;
-            var user = new UsersRegister().GetUserByID(id_user);
+            var ur = new UsersRegister();
+            var user = ur.GetUserByID(id_user);
             if (user.Confirmed == true)
             {
                 SelectList fields = new SelectList(fieldsDict, "Key", "Value");
@@ -112,14 +115,17 @@ namespace PIS_Project.Controllers.DataControllers
             List<Card> card;
             if (checkFilters)
             {
-                card = Cards.GetFilteredBy(filters).Where(a=> a.ID_MU == user.ID_organization).ToList();
+                card = Cards.GetFilteredBy(filters).Where(a => a.local_place ==
+                    ur.Organizations.FirstOrDefault(i => i.ID == user.ID_organization).Contacts && a.ID_MU == 4).ToList();
             }
             else if (savedFilt != null && savedFilt.Count > 0)
             {
-                card = Cards.GetFilteredBy(savedFilt).Where(c => c.Added != true).ToList();
+                card = Cards.GetFilteredBy(savedFilt).Where(a => a.local_place ==
+                    ur.Organizations.FirstOrDefault(i => i.ID == user.ID_organization).Contacts && a.ID_MU == 4).ToList();
             }
             else
-                card = Cards.GetCards().Where(a => a.ID_MU == user.ID_organization).ToList();
+                card = Cards.GetCards().Where(a => a.local_place ==
+                    ur.Organizations.FirstOrDefault(i => i.ID == user.ID_organization).Contacts && a.ID_MU == 4).ToList();
 
             if (!String.IsNullOrEmpty(sortField))
             {
@@ -187,70 +193,6 @@ namespace PIS_Project.Controllers.DataControllers
             }
         }
 
-        /*[HttpGet]
-        public ActionResult RegisterCatchedGetCardByID(int id)
-        {
-            //var id_user = (new PIS_Project.Models.DataClasses.UsersRegister()).GetIDByName(HttpContext.User.Identity.Name); //Временно!!!
-            var id_user = 1;
-            Cards = new RegisterOfCatched();
-            var preproc = new List<Card> { Cards.GetCardByID(id) };
-            ViewBag.Id_User = default(int);
-            if (id_user != default(int))
-            {
-                ViewBag.Id_User = id_user;
-                var users_role = new UsersRegister().GetUserByID(id_user).ID_role;
-                ViewBag.User_Role = users_role;
-                var user = new UsersRegister().GetUserByID(id_user);
-                ViewBag.Role = user.ID_role.ToString();
-            }
-
-            var result = new Dictionary<int, Dictionary<string, object>>();
-            var prop = (new Card()).GetType().GetProperties();
-            foreach (var card in preproc)
-            {
-                var dict = new Dictionary<string, object>();
-                foreach (var pr in prop)
-                {
-                    if (pr.Name == "type" && pr.GetValue(card) != null)
-                    {
-                        var type = (int)pr.GetValue(card);
-                        dict.Add(pr.Name, type);
-                        continue;
-                    }
-                    if (pr.Name == "date_status_change" && pr.GetValue(card) != null)
-                    {
-                        var date = DateTime.Parse(pr.GetValue(card).ToString()).ToString("yyyy-MM-dd");
-                        dict.Add(pr.Name, date);
-                        continue;
-                    }
-                    if (pr.Name == "birthday" && pr.GetValue(card) != null)
-                    {
-                        var date = DateTime.Parse(pr.GetValue(card).ToString()).ToString("yyyy-MM-dd");
-                        dict.Add(pr.Name, date);
-                        continue;
-                    }
-                    if (pr.Name == "sterilization_date" && pr.GetValue(card) != null)
-                    {
-                        var date = DateTime.Parse(pr.GetValue(card).ToString()).ToString("yyyy-MM-dd");
-                        dict.Add(pr.Name, date);
-                        continue;
-                    }
-                    dict.Add(pr.Name, pr.GetValue(card));
-                }
-                result.Add(card.ID, dict);
-            }
-            ViewBag.CardData = result;
-            foreach (var b in ViewBag.CardData.Values)
-            {
-                ViewBag.Card = b;
-                continue;
-            }
-            ViewBag.Id = ViewBag.Id = GetCards().Count + 1;
-            ViewBag.MU = new UsersRegister().GetUserByID(id_user).ID_organization;
-            ViewBag.Params = new Dictionary<string, object>();
-            return View();
-        }*/
-
         [HttpGet]
         public ActionResult Create()
         {
@@ -282,51 +224,6 @@ namespace PIS_Project.Controllers.DataControllers
             ViewBag.Params = new Dictionary<string, object>();
             return View();
         }
-
-        /*[HttpGet]
-        public ActionResult GetCardByID(int id, int id_user)
-        {
-            var preproc = new List<Card> { Cards.GetCardByID(id) };
-            ViewBag.Id_User = default(int);
-            if (id_user != default(int))
-            {
-                ViewBag.Id_User = id_user;
-                var users_role = new UsersRegister().GetUserByID(id_user).ID_role;
-                ViewBag.User_Role = users_role;
-            }
-            
-            var result = new Dictionary<int, Dictionary<string, object>>();
-            var prop = (new Card()).GetType().GetProperties();
-            foreach (var card in preproc)
-            {
-                var dict = new Dictionary<string, object>();
-                foreach (var pr in prop)
-                {
-                    if (pr.Name == "date_status_change" && pr.GetValue(card) != null)
-                    {
-                        var date = DateTime.Parse(pr.GetValue(card).ToString()).ToString("yyyy-MM-dd");
-                        dict.Add(pr.Name, date);
-                        continue;
-                    }
-                    if (pr.Name == "birthday" && pr.GetValue(card) != null)
-                    {
-                        var date = DateTime.Parse(pr.GetValue(card).ToString()).ToString("yyyy-MM-dd");
-                        dict.Add(pr.Name, date);
-                        continue;
-                    }
-                    if (pr.Name == "sterilization_date" && pr.GetValue(card) != null)
-                    {
-                        var date = DateTime.Parse(pr.GetValue(card).ToString()).ToString("yyyy-MM-dd");
-                        dict.Add(pr.Name, date);
-                        continue;
-                    }
-                    dict.Add(pr.Name, pr.GetValue(card));
-                }
-                result.Add(card.ID, dict);
-            }
-            ViewBag.CardData = result;
-            return View();
-        }*/
 
         public Dictionary<string, string> fieldsDict = new Dictionary<string, string>
         {
@@ -663,8 +560,8 @@ namespace PIS_Project.Controllers.DataControllers
             return View(card);
         }
 
-        [Logging]
-        [Notify]
+        //[Logging]
+        //[Notify]
         [HttpPost]
         public ActionResult Create(Dictionary<string, object> values)
         {
