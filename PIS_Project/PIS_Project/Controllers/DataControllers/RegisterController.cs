@@ -30,7 +30,7 @@ namespace PIS_Project.Controllers.DataControllers
         public ActionResult Index(Dictionary<string, string> filters, string sortField, string act = "filtering", bool upper = false)
         {
             //var id_user = (new PIS_Project.Models.DataClasses.UsersRegister()).GetIDByName(HttpContext.User.Identity.Name); //Временно!!!
-            var id_user = 8;
+            var id_user = 6;
             var user = new UsersRegister().GetUserByID(id_user);
             if (user.Confirmed == true)
             {
@@ -59,23 +59,24 @@ namespace PIS_Project.Controllers.DataControllers
                 if (checkFilters)
                 {
                     card = Cards.GetFilteredBy(filters).Where(a => a.local_place ==
-                    ur.Organizations.FirstOrDefault(i=>i.ID== user.ID_organization).Contacts && a.ID_MU == 4).ToList();
+                    ur.Organizations.FirstOrDefault(i=>i.ID== user.ID_organization).Contacts && Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
                 }
                 else if (savedFilt != null && savedFilt.Count > 0)
                 {
                     card = Cards.GetFilteredBy(savedFilt).Where(a => a.local_place ==
-                    ur.Organizations.FirstOrDefault(i => i.ID == user.ID_organization).Contacts && a.ID_MU == 4).ToList();
+                    ur.Organizations.FirstOrDefault(i => i.ID == user.ID_organization).Contacts && Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
                 }
                 else
                     card = Cards.GetCards().Where(a => a.local_place ==
-                    ur.Organizations.FirstOrDefault(i => i.ID == user.ID_organization).Contacts && a.ID_MU == 4).ToList();
+                    ur.Organizations.FirstOrDefault(i => i.ID == user.ID_organization).Contacts && Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
 
                 if (!String.IsNullOrEmpty(sortField))
                 {
                     ViewData[sortField] = !upper;
                     card = Cards.GetSortedBy(card, sortField, (bool)ViewData[sortField]).Where(a => a.local_place ==
-                    ur.Organizations.FirstOrDefault(i => i.ID == user.ID_organization).Contacts && a.ID_MU == 4).ToList();
+                    ur.Organizations.FirstOrDefault(i => i.ID == user.ID_organization).Contacts && Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
                 }
+                ViewBag.OMSU = "Журнал приюта " + user.Role + "а в г." + ur.Organizations.FirstOrDefault(i => i.ID == user.ID_organization).Contacts;
                 return View(card);
             }
             else
@@ -87,7 +88,7 @@ namespace PIS_Project.Controllers.DataControllers
         public ActionResult ShowRegister(Dictionary<string, string> filters, string sortField, string act = "filtering", bool upper = false)
         {
             //var id_user = (new PIS_Project.Models.DataClasses.UsersRegister()).GetIDByName(HttpContext.User.Identity.Name); //Временно!!!
-            var id_user = 8;
+            var id_user = 6;
             var ur = new UsersRegister();
             var user = ur.GetUserByID(id_user);
             if (user.Confirmed == true)
@@ -116,23 +117,24 @@ namespace PIS_Project.Controllers.DataControllers
             if (checkFilters)
             {
                 card = Cards.GetFilteredBy(filters).Where(a => a.local_place ==
-                    ur.Organizations.FirstOrDefault(i => i.ID == user.ID_organization).Contacts && a.ID_MU == 4).ToList();
+                    ur.Organizations.FirstOrDefault(i => i.ID == user.ID_organization).Contacts && Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
             }
             else if (savedFilt != null && savedFilt.Count > 0)
             {
                 card = Cards.GetFilteredBy(savedFilt).Where(a => a.local_place ==
-                    ur.Organizations.FirstOrDefault(i => i.ID == user.ID_organization).Contacts && a.ID_MU == 4).ToList();
+                    ur.Organizations.FirstOrDefault(i => i.ID == user.ID_organization).Contacts && Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
             }
             else
                 card = Cards.GetCards().Where(a => a.local_place ==
-                    ur.Organizations.FirstOrDefault(i => i.ID == user.ID_organization).Contacts && a.ID_MU == 4).ToList();
+                    ur.Organizations.FirstOrDefault(i => i.ID == user.ID_organization).Contacts && Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
 
             if (!String.IsNullOrEmpty(sortField))
             {
                 ViewData[sortField] = !upper;
                 card = Cards.GetSortedBy(card, sortField, (bool)ViewData[sortField]).Where(a => a.ID_MU == user.ID_organization).ToList();
             }
-            return View(card);
+                ViewBag.OMSU = "Журнал приюта " + user.Role + "а в г." + ur.Organizations.FirstOrDefault(i => i.ID == user.ID_organization).Contacts;
+                return View(card);
             }
             else
             {

@@ -1,19 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Symbols LinesOfCode="2167" PostSharpLinesOfCode="0" EnhancedTypesCount="1" SchemaVersion="1" PostSharpVersion="6.7.11.0" xmlns="http://schemas.postsharp.org/2.0/symbols">
+<Symbols LinesOfCode="2170" PostSharpLinesOfCode="0" EnhancedTypesCount="1" SchemaVersion="1" PostSharpVersion="6.7.11.0" xmlns="http://schemas.postsharp.org/2.0/symbols">
   <Class Class="#1=T:[PIS_Project]PIS_Project.Models.DataClasses.LoggingAttribute">
-    <Instance Declaration="#2=M:[PIS_Project]PIS_Project.Controllers.DataControllers.RegisterController::CatchedCardAdd([PIS_Project]PIS_Project.Models.DataClasses.Card, System.String)" Id="2f5e1f1e2f101885">
+    <Instance Declaration="#2=M:[PIS_Project]PIS_Project.Controllers.DataControllers.RegisterController::CatchedCardAdd([PIS_Project]PIS_Project.Models.DataClasses.Card, System.String)" Id="2f5e1f1e6f832cb3">
       <Target LinesAvoided="6">
         <JoinPoint Description="#3=Wrapped by advice(s) OnEntry, OnSuccess, OnException" />
       </Target>
     </Instance>
-    <Instance Declaration="#4=M:[PIS_Project]PIS_Project.Controllers.DataControllers.RegisterController::DeleteEntry(System.Int32)" Id="2f5e1f1e3f988801">
+    <Instance Declaration="#4=M:[PIS_Project]PIS_Project.Controllers.DataControllers.RegisterController::DeleteEntry(System.Int32)" Id="2f5e1f1ebd830ab8">
       <Target LinesAvoided="6">
         <JoinPoint Description="#3" Ordinal="2" />
       </Target>
     </Instance>
   </Class>
   <Class Class="#5=T:[PIS_Project]PIS_Project.Models.DataClasses.NotifyAttribute">
-    <Instance Declaration="#2" Id="2f5e1f1eb66b1312">
+    <Instance Declaration="#2" Id="2f5e1f1e4bd82046">
       <Target LinesAvoided="4">
         <JoinPoint Description="#6=Wrapped by advice(s) OnSuccess, OnException" Ordinal="0" />
       </Target>
