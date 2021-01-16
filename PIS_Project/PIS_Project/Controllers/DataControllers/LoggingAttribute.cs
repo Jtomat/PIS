@@ -47,7 +47,8 @@ namespace PIS_Project.Controllers.DataControllers
             {
                 id_card = (new CardsController()).Card.OrderBy(i=>i.ID).First().ID;
             }
-            var id_user = HttpContext.Current.User.Identity.GetUserId();
+            var id_user = (new UsersRegister()).
+                GetIDByName(HttpContext.Current.User.Identity.Name).ToString();
             if (string.IsNullOrEmpty(id_user))
                 id_user = "1";
             var dict_type = typeof(Dictionary<string, object>);
