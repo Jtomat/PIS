@@ -25,49 +25,61 @@ namespace PIS_Project.Controllers.DataControllers
     {
         public int id_user;
 
+        public ActionResult WaitingRoom()
+        {
+            return View();
+        }
+
         public ActionResult Index(Dictionary<string, string> filters, string sortField, string act = "filtering", bool upper = false)
         {
             //var id_user = (new PIS_Project.Models.DataClasses.UsersRegister()).GetIDByName(HttpContext.User.Identity.Name); //Временно!!!
             var id_user = 8;
             var user = new UsersRegister().GetUserByID(id_user);
-            SelectList fields = new SelectList(fieldsDict, "Key", "Value");
-            ViewBag.Fields = fields;
-
-            bool checkFilters = false;
-            if (filters != null && filters.Count > 2)
+            if (user.Confirmed == true)
             {
-                foreach (KeyValuePair<string, string> pair in filters)
+                SelectList fields = new SelectList(fieldsDict, "Key", "Value");
+                ViewBag.Fields = fields;
+
+                bool checkFilters = false;
+                if (filters != null && filters.Count > 2)
                 {
-                    if (pair.Key != "field" && !string.IsNullOrEmpty(pair.Value))
-                        checkFilters = true;
+                    foreach (KeyValuePair<string, string> pair in filters)
+                    {
+                        if (pair.Key != "field" && !string.IsNullOrEmpty(pair.Value))
+                            checkFilters = true;
+                    }
                 }
-            }
-            if (act == "reset")
-            {
-                Session["savedFilt"] = new Dictionary<string, string>();
-            }
+                if (act == "reset")
+                {
+                    Session["savedFilt"] = new Dictionary<string, string>();
+                }
 
-            Dictionary<string, string> savedFilt = (Dictionary<string, string>)Session["savedFilt"];
+                Dictionary<string, string> savedFilt = (Dictionary<string, string>)Session["savedFilt"];
 
-            ViewBag.Role = user.ID_role.ToString();
-            List<Card> card;
-            if (checkFilters)
-            {
-                card = Cards.GetFilteredBy(filters).Where(a => a.ID_MU == user.ID_organization).ToList();
-            }
-            else if (savedFilt != null && savedFilt.Count > 0)
-            {
-                card = Cards.GetFilteredBy(savedFilt).Where(c => c.Added != true).ToList();
+                ViewBag.Role = user.ID_role.ToString();
+                List<Card> card;
+                if (checkFilters)
+                {
+                    card = Cards.GetFilteredBy(filters).Where(a => a.ID_MU == user.ID_organization).ToList();
+                }
+                else if (savedFilt != null && savedFilt.Count > 0)
+                {
+                    card = Cards.GetFilteredBy(savedFilt).Where(c => c.Added != true).ToList();
+                }
+                else
+                    card = Cards.GetCards().Where(a => a.ID_MU == user.ID_organization).ToList();
+
+                if (!String.IsNullOrEmpty(sortField))
+                {
+                    ViewData[sortField] = !upper;
+                    card = Cards.GetSortedBy(card, sortField, (bool)ViewData[sortField]).Where(a => a.ID_MU == user.ID_organization).ToList();
+                }
+                return View(card);
             }
             else
-                card = Cards.GetCards().Where(a => a.ID_MU == user.ID_organization).ToList();
-
-            if (!String.IsNullOrEmpty(sortField))
             {
-                ViewData[sortField] = !upper;
-                card = Cards.GetSortedBy(card, sortField, (bool)ViewData[sortField]).Where(a => a.ID_MU == user.ID_organization).ToList();
+                return View("WaitingRoom");
             }
-            return View(card);
         }
 
         public ActionResult ShowRegister(Dictionary<string, string> filters, string sortField, string act = "filtering", bool upper = false)
@@ -75,7 +87,9 @@ namespace PIS_Project.Controllers.DataControllers
             //var id_user = (new PIS_Project.Models.DataClasses.UsersRegister()).GetIDByName(HttpContext.User.Identity.Name); //Временно!!!
             var id_user = 8;
             var user = new UsersRegister().GetUserByID(id_user);
-            SelectList fields = new SelectList(fieldsDict, "Key", "Value");
+            if (user.Confirmed == true)
+            {
+                SelectList fields = new SelectList(fieldsDict, "Key", "Value");
             ViewBag.Fields = fields;
 
             bool checkFilters = false;
@@ -113,6 +127,11 @@ namespace PIS_Project.Controllers.DataControllers
                 card = Cards.GetSortedBy(card, sortField, (bool)ViewData[sortField]).Where(a => a.ID_MU == user.ID_organization).ToList();
             }
             return View(card);
+            }
+            else
+            {
+                return View("WaitingRoom");
+            }
         }
 
 
@@ -121,7 +140,9 @@ namespace PIS_Project.Controllers.DataControllers
             //var id_user = (new PIS_Project.Models.DataClasses.UsersRegister()).GetIDByName(HttpContext.User.Identity.Name); //Временно!!!
             var id_user = 8;
             var user = new UsersRegister().GetUserByID(id_user);
-            ViewBag.User_Role = user.ID_role.ToString();
+            if (user.Confirmed == true)
+            {
+                ViewBag.User_Role = user.ID_role.ToString();
             ViewBag.Role = user.ID_role.ToString();
             bool checkFilters = false;
             if (filters != null && filters.Count > 2 )
@@ -159,6 +180,11 @@ namespace PIS_Project.Controllers.DataControllers
             }
 
             return View("ShowRegisterCatched", card);
+            }
+            else
+            {
+                return View("WaitingRoom");
+            }
         }
 
         /*[HttpGet]
@@ -239,7 +265,14 @@ namespace PIS_Project.Controllers.DataControllers
                 ViewBag.MU = new UsersRegister().GetUserByID(id_user).ID_organization;
                 
                 var user = new UsersRegister().GetUserByID(id_user);
-                ViewBag.Role = user.ID_role.ToString();
+                if (user.Confirmed == true)
+                {
+                    ViewBag.Role = user.ID_role.ToString();
+                }
+                else
+                {
+                    return View("WaitingRoom");
+                }
             }
             else
             {
@@ -355,7 +388,14 @@ namespace PIS_Project.Controllers.DataControllers
                 var users_role = new UsersRegister().GetUserByID(id_user).ID_role;
                 ViewBag.User_Role = users_role;
                 var user = new UsersRegister().GetUserByID(id_user);
-                ViewBag.Role = user.ID_role.ToString();
+                if (user.Confirmed == true)
+                {
+                    ViewBag.Role = user.ID_role.ToString();
+                }
+                else
+                {
+                    return View("WaitingRoom");
+                }
             }
             var card = Cards.GetCardByID(id_card);
             ViewBag.Sex = card.sex == Models.DataClasses.Card.SexAnimal.Male ? "Мужской" : "Женский";
@@ -372,8 +412,15 @@ namespace PIS_Project.Controllers.DataControllers
                 users_role = new UsersRegister().GetUserByID(id_user).ID_role;
                 ViewBag.User_Role = users_role;
                 var user = new UsersRegister().GetUserByID(id_user);
-                ViewBag.Role = user.ID_role.ToString();
+                if (user.Confirmed == true)
+                {
+                    ViewBag.Role = user.ID_role.ToString();
             }
+            else
+            {
+                return View("WaitingRoom");
+            }
+        }
             if (users_role == 0 || users_role == 1 || users_role == 2)
             {
                 var card = Cards.GetCardByID(id_card);
@@ -444,7 +491,14 @@ namespace PIS_Project.Controllers.DataControllers
                 ViewBag.User_Org = users_org;
                 card.ID_MU = users_org;
                 var user = new UsersRegister().GetUserByID(id_user);
-                ViewBag.Role = user.ID_role.ToString();
+                if (user.Confirmed == true)
+                {
+                    ViewBag.Role = user.ID_role.ToString();
+                }
+                else
+                {
+                    return View("WaitingRoom");
+                }
             }
             card.Added = true;
             ViewBag.Card = card;
@@ -476,6 +530,14 @@ namespace PIS_Project.Controllers.DataControllers
                 var users_org = new UsersRegister().GetUserByID(id_user).ID_organization;
                 ViewBag.User_Org = users_org;
                 newcard.ID_MU = users_org;
+                var user = new UsersRegister().GetUserByID(id_user);
+                if (user.Confirmed == true)
+                {
+                }
+                else
+                {
+                    return View("WaitingRoom");
+                }
             }
 
             if (newcard.photo == null)
@@ -883,8 +945,15 @@ namespace PIS_Project.Controllers.DataControllers
                 var users_role = new UsersRegister().GetUserByID(id_user).ID_role;
                 ViewBag.User_Role = users_role;
                 var user = new UsersRegister().GetUserByID(id_user);
-                ViewBag.Role = user.ID_role.ToString();
+                if (user.Confirmed == true)
+                {
+                    ViewBag.Role = user.ID_role.ToString();
+                }
+            else
+            {
+                return View("WaitingRoom");
             }
+        }
             var card = Cards.GetCardByID(id_card);
             ViewBag.Sex = card.sex == Models.DataClasses.Card.SexAnimal.Male ? "Мужской" : "Женский";
             return View(card);
@@ -898,6 +967,14 @@ namespace PIS_Project.Controllers.DataControllers
             if (id_user != default(int))
             {
                 ViewBag.Id_User = id_user;
+                var user = new UsersRegister().GetUserByID(id_user);
+                if (user.Confirmed == true)
+                {
+                }
+                else
+                {
+                    return RedirectToAction("WaitingRoom");
+                }
                 var users_role = new UsersRegister().GetUserByID(id_user).ID_role;
                 if (users_role == 1 || users_role == 0 || users_role == 2)
                 {
