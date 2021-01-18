@@ -5,7 +5,7 @@
 }
 
 <h2 class="mt-3">Карточка отловленного животного</h2>
-@using (Html.BeginForm("CatchedCardAdd", "Register", FormMethod.Post, new { name = "CatchedCardAdd", enctype = "multipart/form-data", id = "сatchedCardAdd" }))
+@using (Html.BeginForm("PostCreate", "Register", FormMethod.Post, new { name = "Create", enctype = "multipart/form-data", id = "сatchedCardAdd" }))
 {
     @Html.AntiForgeryToken()
     <div>

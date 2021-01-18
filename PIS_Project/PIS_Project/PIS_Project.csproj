@@ -314,7 +314,7 @@
     <Content Include="Views\Register\EditCard.cshtml" />
     <Content Include="Views\Register\ShowRegister.cshtml" />
     <Content Include="Views\Register\ShowRegisterCatched.cshtml" />
-    <Content Include="Views\Register\CatchedCardCreate.cshtml" />
+    <Content Include="Views\Register\CatchedCardById.cshtml" />
     <Content Include="Views\Register\EditCatchedCard.cshtml" />
     <Content Include="Views\Register\CatchedCard.cshtml" />
     <Content Include="Views\Users\UsersList.cshtml" />

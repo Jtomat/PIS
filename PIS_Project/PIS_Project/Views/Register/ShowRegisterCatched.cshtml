@@ -318,7 +318,7 @@
                 
                 <td>
                     @if (@ViewBag.User_Role.ToString() == "0" || @ViewBag.User_Role.ToString() == "2")
-                    {@Html.ActionLink("Открыть", "CatchedCardCreate", "Register", new { id_card = item.ID }, new { @class = "navbar-brand" })}
+                    {@Html.ActionLink("Открыть", "CatchedCardById", "Register", new { id_card = item.ID }, new { @class = "navbar-brand" })}
                 </td>
             </tr>
         }
