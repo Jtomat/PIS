@@ -203,7 +203,8 @@
         </div>
     }
     <button class="btn btn-success" id="sendFilter" style="background-color: #aebfbe; border-color: #aebfbe">Применить</button>
-    @Ajax.ActionLink("Получить отчет", "GetRegularReport", new { cardsIdString = ViewBag.CardsId}, new AjaxOptions { }, new { @class = "btn btn-success", @style= "background-color: #aebfbe; border-color: #aebfbe" })
+    @Html.ActionLink("Сбросить", "Sort", new { act = "reset" }, new { @class = "btn btn-success", @style = "background-color: #aebfbe; border-color: #aebfbe" })
+    @Ajax.ActionLink("Получить отчет", "GetRegularReport", new { cardsIdString = ViewBag.CardsId }, new AjaxOptions { }, new { @class = "btn btn-success", @style = "background-color: #aebfbe; border-color: #aebfbe" })
 </div>
 @*@using (Html.BeginForm("Sort", "Register", FormMethod.Post, new { @class = "mb-4" }))
     {
