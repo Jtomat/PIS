@@ -76,7 +76,7 @@ namespace PIS_Project.Models.DataClasses
             {
                 return new byte[0];
             }
-            var temp_name = AppDomain.CurrentDomain.BaseDirectory +"\\"+ Enumerable.Range(1, 5000).OrderBy(g => Guid.NewGuid()).First() + ".docx";
+            var temp_name = AppDomain.CurrentDomain.BaseDirectory + Enumerable.Range(1, 5000).OrderBy(g => Guid.NewGuid()).First() + ".docx";
             File.WriteAllBytes(temp_name, fileGroup.Value);
 
             var valuesToFill = new Content();

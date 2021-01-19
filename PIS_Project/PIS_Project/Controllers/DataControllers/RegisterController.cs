@@ -341,11 +341,13 @@ namespace PIS_Project.Controllers.DataControllers
             return View("Sort", card);
         }
 
-        public void GetRegularReport(string cardsIdString)
+        public ActionResult GetRegularReport(string cardsIdString)
         {
             int[] cardsId = Array.ConvertAll(cardsIdString.Split(' '), int.Parse); 
             var card = Cards.GetCardByID(cardsId[0]);
             var report = ReportTemplate.GetRegularTemp(cardsId, card.ID_MU);
+            System.IO.File.WriteAllBytes(@"C:\Users\Анастасия\Downloads\Отчет.docx", report);
+            return Redirect(Request.UrlReferrer.ToString());
         }
 
 
