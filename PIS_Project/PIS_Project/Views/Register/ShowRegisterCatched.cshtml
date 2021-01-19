@@ -318,7 +318,7 @@
                 
                 <td>
                     @if (@ViewBag.User_Role.ToString() == "0" || @ViewBag.User_Role.ToString() == "2")
-                    {@Html.ActionLink("Открыть", "CatchedCardCreate", "Register", new { id_card = item.ID }, new { @class = "navbar-brand" })}
+                    {@Html.ActionLink("Открыть", "CatchedCardById", "Register", new { id_card = item.ID }, new { @class = "navbar-brand" })}
                 </td>
             </tr>
         }
@@ -337,11 +337,9 @@
         }
 
         let filterShowState = false;
-
         $(document).ready(function (e) {
             $('#filtersDiv').hide();
         });
-
         $("sendFilters").click(function (e) {
             $("#filtersForm").submit()
         });
@@ -357,7 +355,6 @@
                 $(this).text("Скрыть фильтры")
             }
         });
-
         $('.animal-size-list').on('change', function () {
             $('.animal-size-list').not(this).prop('checked', false);
         });
@@ -370,16 +367,12 @@
         $('.animal-hire-type-list').on('change', function () {
             $('.animal-hire-type-list').not(this).prop('checked', false);
         });
-
-
         $('.sex-list').on('change', function () {
             $('.sex-list').not(this).prop('checked', false);
         });
         $('.status-list').on('change', function () {
             $('.status-list').not(this).prop('checked', false);
         });
-
-
         $('.traits-list').on('change', function () {
             $("#noTraitsCheckbox").prop("checked", false);
         });

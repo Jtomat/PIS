@@ -11,6 +11,9 @@ namespace PIS_Project.Models.DataClasses
 {
     public class Card
     {
+        /// <summary>
+        /// Перечисление для пола животного
+        /// </summary>
         [Flags()]
         public enum SexAnimal : int
         {
@@ -60,6 +63,9 @@ namespace PIS_Project.Models.DataClasses
         public SexAnimal sex { get; set; }
         [Display(Name = "Характеристика животного")]
         public AnimalType type { get; set; }
+        /// <summary>
+        /// Свойство, возвращающее тип животного в строковом формате
+        /// </summary>
         [NotMapped]
         public string stringAnimalType
         {
@@ -209,7 +215,7 @@ namespace PIS_Project.Models.DataClasses
         public string name { get; set; }
         [Display(Name = "Фото")]
         public byte[] photo { get; set; }
-        [RegularExpression("([А-ЯA-Z][а-яa-zА-ЯA-Z-',;!. ]+)", ErrorMessage = "Некорректное значение. Приметы не должны содержать цифры")]
+        [RegularExpression(@"([A-zА-яЁё',;!.\s-]*)", ErrorMessage = "Некорректное значение. Приметы не должны содержать цифры")]
         [Display(Name = "Приметы")]
         public string spec_mark { get; set; }
         [Display(Name = "Признаки наличия владельца")]
@@ -260,7 +266,7 @@ namespace PIS_Project.Models.DataClasses
         [NotMapped]
         public Dictionary<string, bool> setOwnerTraits { get; set; }
         [Display(Name = "Текущий статус")]
-        [Range(0, int.MaxValue, ErrorMessage = "Значение должно быть больше 0")]
+        //[Range(0, int.MaxValue, ErrorMessage = "Значение должно быть больше 0")]
         public int id_status { get; set; }
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [DateLimitAttribute(ErrorMessage = "Дата установки статуса должна быть меньше или равна текущей")]
@@ -277,8 +283,9 @@ namespace PIS_Project.Models.DataClasses
         public byte[] document { get; set; }
         [Display(Name = "Скан-образ акта первичного осмотра")]
         public byte[] scan_frame_1 { get; set; }
-        [Display(Name = "Скан-образ акта первичного осмотра")]
-        public byte[] scan_frame_2 { get; set; }
+        //[NotMapped]
+        //[Display(Name = "Скан-образ акта первичного осмотра")]
+        //public byte[] scan_frame_2 { get; set; }
         [Display(Name = "Дата стерелизации")]
         [DateLimit(ErrorMessage = "Дата стерилизации статуса должна быть меньше или равна текущей")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]

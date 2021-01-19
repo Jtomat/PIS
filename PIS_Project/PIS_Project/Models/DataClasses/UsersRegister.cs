@@ -5,12 +5,14 @@ using System.Linq;
 using System.Web;
 using PIS_Project.Models.DataClasses;
 using System.Diagnostics.Tracing;
-
+using EvoWordToPdf;
+using System.IO;
+using PIS_Project.Controllers.DataControllers;
 namespace PIS_Project.Models.DataClasses
 {
     public class UsersRegister:DbContext
     {
-        public UsersRegister() 
+        public UsersRegister()
             : base("DBConnection")
         {
             Users = Set<Users>();
@@ -38,7 +40,6 @@ namespace PIS_Project.Models.DataClasses
                 return ds.ID;
             return -1;
         }
-
         public Users GetUserByID(int id)
         {
             var result = Users.Where(i => i.Confirmed).FirstOrDefault(i => i.ID == id);
@@ -49,7 +50,7 @@ namespace PIS_Project.Models.DataClasses
             }
             return result;
         }
-        public List<Users> Requests 
+        public List<Users> Requests
         {
             get
             {
@@ -77,7 +78,7 @@ namespace PIS_Project.Models.DataClasses
                 SaveChanges();
                 return current_user;
             }
-            catch(Exception ex) { throw ex; }
+            catch (Exception ex) { throw ex; }
         }
         public void ConfirmRegReqByID(int reqID)
         {
@@ -91,9 +92,18 @@ namespace PIS_Project.Models.DataClasses
         }
         public string AddRegReq(Dictionary<string, object> ArrayOfData)
         {
-            var validation = Controllers.DataControllers.ValidationController.CheckValidation((new Users()).GetType(), ArrayOfData);
+            var validation = ValidationController.CheckValidation((new Users()).GetType(), ArrayOfData);
             if (validation.Result)
             {
+                if (((Users)validation.ValidData).Doc.Length > 0)
+                {
+                    var conv = new WordToPdfConverter();
+
+                    var bites = new MemoryStream();
+                    conv.ConvertWordStreamToStream(new MemoryStream(
+                        ((Users)validation.ValidData).Doc), bites);
+                    ((Users)validation.ValidData).Doc = bites.ToArray();
+                }
                 Users.Add((Users)validation.ValidData);
                 SaveChanges();
                 var res_u = Users.FirstOrDefault(i => i.SIN == ((Users)validation.ValidData).SIN);
@@ -101,16 +111,38 @@ namespace PIS_Project.Models.DataClasses
             }
             else { return validation.Information; }
         }
-        public Users UpdateUser(int ID_user, Dictionary<string,object> changes)
+        public Users UpdateUser(int ID_user, Dictionary<string, object> changes)
         {
-            var valid = Controllers.DataControllers.ValidationController.CheckValidation((new Users()).GetType(),changes);
+            var valid = ValidationController.CheckValidation((new Users()).GetType(), changes);
             if (valid.Result)
             {
+
                 var current_user = Users.FirstOrDefault(i => i.ID == ID_user);
                 foreach (var change in changes)
                 {
-                    var prop = current_user.GetType().GetProperty(change.Key);
-                    prop.SetValue(current_user, change.Value);
+                    if (change.Key != "Doc")
+                    {
+                        var prop = current_user.GetType().GetProperty(change.Key);
+                        prop.SetValue(current_user, change.Value);
+                    }
+                    else
+                    {
+                        if (((byte[])change.Value).Length > 0)
+                        {
+                            var conv = new WordToPdfConverter();
+
+                            var bites = new MemoryStream();
+                            conv.ConvertWordStreamToStream(new MemoryStream((byte[])change.Value), bites);
+                            var prop = current_user.GetType().GetProperty(change.Key);
+                            prop.SetValue(current_user, bites.ToArray());
+
+                        }
+                        else
+                        {
+                            var prop = current_user.GetType().GetProperty(change.Key);
+                            prop.SetValue(current_user, null);
+                        }
+                    }
                 }
                 SaveChanges();
                 return Users.FirstOrDefault(i => i.ID == current_user.ID);

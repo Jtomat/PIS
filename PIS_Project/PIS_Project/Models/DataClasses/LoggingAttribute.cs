@@ -47,7 +47,8 @@ namespace PIS_Project.Models.DataClasses
             {
                 id_card = (new CardsRegister()).Cards.OrderBy(i=>i.ID).First().ID;
             }
-            var id_user = HttpContext.Current.User.Identity.GetUserId();
+            var id_user = (new UsersRegister()).
+                GetIDByName(HttpContext.Current.User.Identity.Name).ToString();
             if (string.IsNullOrEmpty(id_user))
                 id_user = "1";
             var dict_type = typeof(Dictionary<string, object>);
@@ -69,7 +70,11 @@ namespace PIS_Project.Models.DataClasses
                 foreach (var pair in ((Dictionary<string, object>)values))
                 {
                     if (pair.Value.GetType() != typeof(byte[]))
-                        mes += $"Property [{pair.Key}] set [{pair.Value}]. ";
+                        if (pair.Value.GetType().IsArray &&
+                            ((Array)pair.Value).GetValue(0).GetType() == typeof(string))
+                            mes += $"Property [{pair.Key}] set [{((Array)pair.Value).GetValue(0)}]. ";
+                        else
+                            mes += $"Property [{pair.Key}] set [{pair.Value}]. ";
                     else
                         mes += $"Property [{pair.Key}] set [new blob value]. ";
                 }

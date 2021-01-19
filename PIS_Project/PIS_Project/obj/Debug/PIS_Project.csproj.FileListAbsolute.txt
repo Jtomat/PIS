@@ -761,6 +761,7 @@ C:\Jtomat\PIS\PIS_Project\PIS_Project\obj\Debug\PIS_Project.pdb
 C:\Jtomat\PIS\PIS_Project\PIS_Project\obj\Debug\PostSharp\postsharp.app.config
 C:\Jtomat\PIS\PIS_Project\PIS_Project\obj\Debug\PIS_Project.Migrations.DataMig.resources
 C:\Jtomat\PIS\PIS_Project\PIS_Project\obj\Debug\PIS_Project.csproj.GenerateResource.cache
+<<<<<<< HEAD
 C:\Users\Анастасия\Desktop\ИСиТ 3 курс\ПИС\7 лаба\PIS\PIS_Project\PIS_Project\bin\PIS_Project.pssym
 C:\Users\Анастасия\Desktop\ИСиТ 3 курс\ПИС\7 лаба\PIS\PIS_Project\PIS_Project\bin\PIS_Project.pspdb
 C:\Users\Анастасия\Desktop\ИСиТ 3 курс\ПИС\7 лаба\PIS\PIS_Project\PIS_Project\bin\PIS_Project.dll.config
@@ -1006,3 +1007,9 @@ C:\Users\Анастасия\Desktop\ИСиТ 3 курс\ПИС\7 лаба\PIS\PI
 C:\Users\Анастасия\Desktop\ИСиТ 3 курс\ПИС\7 лаба\PIS\PIS_Project\PIS_Project\obj\Debug\PIS_Project.dll
 C:\Users\Анастасия\Desktop\ИСиТ 3 курс\ПИС\7 лаба\PIS\PIS_Project\PIS_Project\obj\Debug\PIS_Project.pdb
 C:\Users\Анастасия\Desktop\ИСиТ 3 курс\ПИС\7 лаба\PIS\PIS_Project\PIS_Project\obj\Debug\PostSharp\postsharp.app.config
+=======
+C:\Jtomat\PIS\PIS_Project\PIS_Project\bin\evowordtopdf.dll
+C:\Jtomat\PIS\PIS_Project\PIS_Project\bin\evowordtopdf.xml
+>>>>>>> a076944446b79db9806ed7ffe59f8102b2ac03b7
+C:\Users\Анастасия\Desktop\ИСиТ 3 курс\ПИС\7 лаба\PIS\PIS_Project\PIS_Project\bin\evowordtopdf.dll
+C:\Users\Анастасия\Desktop\ИСиТ 3 курс\ПИС\7 лаба\PIS\PIS_Project\PIS_Project\bin\evowordtopdf.xml

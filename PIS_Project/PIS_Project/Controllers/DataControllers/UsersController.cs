@@ -4,6 +4,9 @@ using System.Linq;
 using System.Web;
 using PIS_Project.Models.DataClasses;
 using System.Web.Mvc;
+using 
+    EvoWordToPdf;
+using System.IO;
 namespace PIS_Project.Controllers.DataControllers
 {
     public class UsersController
@@ -61,32 +64,6 @@ namespace PIS_Project.Controllers.DataControllers
             return result;
         }
 
-        public bool Auth(string login, string pass)
-        {
-            var sin = ConvertToGuid(login);
-            var password = "";
-            var sp_pass = Split(pass, 16);
-            foreach (var p_chunk in sp_pass)
-                password += ConvertToGuid(p_chunk);
-            var user = _register.Users.FirstOrDefault(i => i.SIN == sin && i.Confirmed && i.password == password);
-            user = _register.GetUserByID(user.ID);
-            if (user != null)
-            {
-                HttpContext.Current.Items.Add("ID_organization", user.ID_organization);
-                HttpContext.Current.Items.Add("Organization", user.Organization);
-                HttpContext.Current.Items.Add("ID_role", user.ID_role);
-                HttpContext.Current.Items.Add("Role", user.Role);
-                HttpContext.Current.Items.Add("FIO", user.FIO);
-                HttpContext.Current.Items.Add("ID", user.ID);
-                return true;
-            }
-            return false;
-        }
-        public bool LogOut()
-        {
-            HttpContext.Current.Items.Clear();
-            return true;
-        }
         public static Guid ConvertToGuid(string text)
         {
             if (text.Length > 16)

@@ -1,0 +1,182 @@
+﻿@model PIS_Project.Models.DataClasses.Card
+
+@{
+    ViewBag.Title = "CatchedCardCreate";
+}
+
+<h2 class="mt-3">Карточка отловленного животного</h2>
+@using (Html.BeginForm("PostCreate", "Register", FormMethod.Post, new { name = "Create", enctype = "multipart/form-data", id = "Create" }))
+{
+    @Html.AntiForgeryToken()
+    <div>
+        <hr />
+        <div class="dl-horizontal">
+
+            <div class="form-group row" style="margin-right: 0; margin-left: 0;">
+                <div class="col-lg-2">
+                    <label class="font-weight-bold">@Html.DisplayNameFor(model => model.name)</label>
+                    <div style="background-color: #e0f2f1; padding: 5px 0px 5px 5px; border-radius: 5px; border: 1px solid rgba(0,0,0,.1);">
+                        @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <label class="font-weight-bold"> @Html.DisplayNameFor(model => model.birthday)</label>
+                    <div style="background-color: #e0f2f1; padding: 5px 0px 5px 5px; border-radius: 5px; border: 1px solid rgba(0,0,0,.1);">
+                        @Html.EditorFor(model => model.birthday, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <label class="font-weight-bold"> @Html.DisplayNameFor(model => model.sex)</label>
+                    <div style="background-color: #e0f2f1; padding: 5px 0px 5px 5px; border-radius: 5px; border: 1px solid rgba(0,0,0,.1);">
+                        @(ViewBag.Sex)
+                        @Html.EditorFor(model => model.sex, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <label class="font-weight-bold"> @Html.DisplayNameFor(model => model.type)</label>
+                    <div style="background-color: #e0f2f1; padding: 5px 0px 5px 5px; border-radius: 5px; border: 1px solid rgba(0,0,0,.1);">
+                        @Html.HiddenFor(model => model.type, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                        @Html.EditorFor(model => model.stringAnimalType, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row" style="margin-right: 0; margin-left: 0;">
+                <div class="col-lg-12 col-md-12">
+                    <label class="font-weight-bold">@Html.DisplayNameFor(model => model.spec_mark)</label>
+                    <div style="background-color: #e0f2f1; padding: 5px 0px 5px 5px; border-radius: 5px; border: 1px solid rgba(0,0,0,.1);">
+                        @Html.EditorFor(model => model.spec_mark, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row" style="margin-right: 0; margin-left: 0;">
+                <div id="idChipBlock" class="col-lg-6">
+                    <label class="font-weight-bold">@Html.DisplayNameFor(model => model.id_chip)</label>
+                    <div id="idChipField" style="background-color: #e0f2f1; padding: 5px 0px 5px 5px; border-radius: 5px; border: 1px solid rgba(0,0,0,.1);">
+                        @Html.EditorFor(model => model.id_chip, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                    </div>
+                </div>
+                <div id="idMarkBlock" class="col-lg-6">
+                    <label class="font-weight-bold"> @Html.DisplayNameFor(model => model.id_mark)</label>
+                    <div style="background-color: #e0f2f1; padding: 5px 0px 5px 5px; border-radius: 5px; border: 1px solid rgba(0,0,0,.1);">
+                        @Html.EditorFor(model => model.id_mark, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row" style="margin-right: 0; margin-left: 0;">
+                <div class="col-lg-12 col-md-12">
+                    <label class="font-weight-bold">@Html.DisplayNameFor(model => model.owner_traits)</label>
+                    <div style="background-color: #e0f2f1; padding: 5px 0px 5px 5px; border-radius: 5px; border: 1px solid rgba(0,0,0,.1);">
+                        @Html.EditorFor(model => model.owner_traits, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row" style="margin-right: 0; margin-left: 0;">
+                <div class="col-lg-12">
+                    <label class="font-weight-bold">@Html.DisplayNameFor(model => model.photo)</label>
+                    @if (@Model.photo != null)
+                    {
+                        <div style="width: 300px;">
+                            <img class="img-responsive img-thumbnail ratio-4-3" src="data:image/png;base64,@(Convert.ToBase64String(@Model.photo))" />
+                            @Html.HiddenFor(model => model.photo)
+                        </div>
+                    }
+                    else
+                    {
+                        <span>Нет фото</span>
+                    }
+                </div>
+            </div>
+            <div class="form-group row" style="margin-right: 0; margin-left: 0;">
+                <div class="col-lg-6">
+                    <label class="font-weight-bold">@Html.DisplayNameFor(model => model.id_status)</label>
+                    <div style="background-color: #e0f2f1; padding: 5px 0px 5px 5px; border-radius: 5px; border: 1px solid rgba(0,0,0,.1);">
+                        @(Model.id_status == 0 ? "Выбыл" : "В приюте")
+                        @Html.EditorFor(model => model.id_status, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <label class="font-weight-bold"> @Html.DisplayNameFor(model => model.date_status_change)</label>
+                    <div style="background-color: #e0f2f1; padding: 5px 0px 5px 5px; border-radius: 5px; border: 1px solid rgba(0,0,0,.1);">
+                        @Html.EditorFor(model => model.date_status_change, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row" style="margin-right: 0; margin-left: 0;">
+                <div class="col-lg-6">
+                    <label class="font-weight-bold">@Html.DisplayNameFor(model => model.ID_MU)</label>
+                    <div style="background-color: #e0f2f1; padding: 5px 0px 5px 5px; border-radius: 5px; border: 1px solid rgba(0,0,0,.1);">
+                        @Html.EditorFor(model => model.ID_MU, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <label class="font-weight-bold"> @Html.DisplayNameFor(model => model.local_place)</label>
+                    <div style="background-color: #e0f2f1; padding: 5px 0px 5px 5px; border-radius: 5px; border: 1px solid rgba(0,0,0,.1);">
+                        @Html.EditorFor(model => model.local_place, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row" style="margin-right: 0; margin-left: 0;">
+                <div class="col-lg-12 col-md-12">
+                    <label class="font-weight-bold">@Html.DisplayNameFor(model => model.sterilization_date)</label>
+                    <div style="background-color: #e0f2f1; padding: 5px 0px 5px 5px; border-radius: 5px; border: 1px solid rgba(0,0,0,.1);">
+                        @Html.EditorFor(model => model.sterilization_date, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row" style="margin-right: 0; margin-left: 0;">
+                <div class="col-lg-12 col-md-12">
+                    <label class="font-weight-bold">@Html.DisplayNameFor(model => model.scan_frame_1)</label>
+                    <div style="background-color: #e0f2f1; padding: 5px 0px 5px 5px; border-radius: 5px; border: 1px solid rgba(0,0,0,.1);">
+                        @(Model.scan_frame_1 != null && Model.scan_frame_1.Length > 0 ? "Документ загружен" : "Нет документа")
+                        @Html.EditorFor(model => model.scan_frame_1, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                    </div>
+                </div>
+            </div>
+            @Html.HiddenFor(model => model.Added)
+            <div class="form-group row" style="margin-right: 0; margin-left: 0;">
+                <div class="col-lg-12 col-md-12">
+                    @Html.ActionLink("Вернуться к регистру отловленных", "ShowRegisterCatched", "Register", null, new { @class = "btn btn-success col-lg-3 col-md-12", @style = "background-color: #aebfbe; border-color: #aebfbe;" })
+                    @Html.ActionLink("Вернуться к регистру приюта", "Sort", "Register", null, new { @class = "btn btn-success col-lg-3 col-md-12", @style = "background-color: #aebfbe; border-color: #aebfbe;" })
+                    @Html.ActionLink("Редактировать", "EditCatchedCard", "Register", null, new { @class = "btn btn-success col-lg-3 col-md-12", @style = "background-color: #aebfbe; border-color: #aebfbe;" })
+                    <input type="submit" id="submitForm" name="action" value="Добавить" class="btn btn-success col-lg-3 col-md-12" style="background-color: #aebfbe; border-color: #aebfbe" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@section Scripts {
+    <script type="text/javascript">
+        let save_chip = 0;
+
+        $(document).ready(function () {
+            if ($("#idChipField").text().trim() == "0") {
+                $("#id").val(null);
+                $("#idChipBlock").hide();
+                $("#idMarkBlock").attr('class', 'col-lg-12');
+            }
+        });
+
+        $("#exportDoc1").click(function (e) {
+            e.preventDefault()
+            $.ajax({
+                url: $(this).attr("href"),
+                type: "POST",
+                data: {},
+                processData: false,
+                contentType: false,
+            });
+
+        });
+
+        $("#exportDoc2").click(function (e) {
+            e.preventDefault()
+            $.ajax({
+                url: $(this).attr("href"),
+                type: "POST",
+                data: {},
+                processData: false,
+                contentType: false,
+            });
+
+        });</script>
+}
