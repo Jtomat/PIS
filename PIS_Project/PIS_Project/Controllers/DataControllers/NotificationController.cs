@@ -14,8 +14,9 @@ namespace PIS_Project.Controllers.DataControllers
 {
     public class NotificationController: DbContext
     {
-        public NotificationController() : base("DBConnection")
-            {
+        public NotificationController() :
+    base("DBConnection")
+        {
             Notifications = Set<Notifications>();
         }
         public DbSet<Notifications> Notifications { get; set; }
@@ -23,7 +24,10 @@ namespace PIS_Project.Controllers.DataControllers
         {
             var d_id = "1";
             if (!string.IsNullOrEmpty((HttpContext.Current.User.Identity.GetUserId())))
+            {
                 d_id = (HttpContext.Current.User.Identity.GetUserId());
+                d_id = (new UsersRegister()).GetIDByName(HttpContext.Current.User.Identity.Name).ToString();
+            }
             var notif = new Notifications()
             {
                 id_user = int.Parse(d_id),

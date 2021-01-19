@@ -10,8 +10,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PIS_Project.Controllers.DataControllers
 {
+    /// <summary>
+    /// Класс для проверки соответсятвия данных моделям для записи
+    /// </summary>
     public static class ValidationController
     {
+        /// <summary>
+        /// Проверка вилидности значений для выбраного типа
+        /// </summary>
+        /// <param name="classType">Тип объекта для проверки</param>
+        /// <param name="ArrayOfData">Поля и их значения для изменения</param>
+        /// <returns>Объект ValidationResponse, содержащий результаты проверки</returns>
         public static ValidationResponse CheckValidation(Type classType,Dictionary<string, object> ArrayOfData)
         {
             var message = "";
@@ -28,12 +37,15 @@ namespace PIS_Project.Controllers.DataControllers
                     var prop = new_user.GetType().GetProperty(data.Key);
                     var converter = TypeDescriptor.GetConverter(prop.PropertyType);
                     var result = new object();
+                    #region Заполнение поля
+                    /*Поле соответветствует нужному типу*/
                     if (data.Value.GetType() == prop.PropertyType)
                     {
                         result = data.Value;
                         prop.SetValue(new_user, result);
                         continue;
                     }
+                    /*Поле массив но нужна строка*/
                     if (data.Value.GetType().IsArray)
                     {
                         result = (object)"";
@@ -46,14 +58,17 @@ namespace PIS_Project.Controllers.DataControllers
                         result = data.Value;
                     try
                     {
+                        /*Стандартное приведение*/
                         if (result.GetType() != prop.PropertyType)
                             result = converter.ConvertFrom(result);
                     }
                     catch
                     {
+                        /*Декодирование картинок и файлов*/
                         result = Convert.FromBase64String(result.ToString());
                     }
                     prop.SetValue(new_user, result);
+                    #endregion
                 }
                 catch { valid = false; message += $"Property value {data.Key} failed validation.\n"; }
             }

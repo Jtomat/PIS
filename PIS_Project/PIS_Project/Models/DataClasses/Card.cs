@@ -11,6 +11,9 @@ namespace PIS_Project.Models.DataClasses
 {
     public class Card
     {
+        /// <summary>
+        /// Перечисление для пола животного
+        /// </summary>
         [Flags()]
         public enum SexAnimal : int
         {
@@ -60,6 +63,9 @@ namespace PIS_Project.Models.DataClasses
         public SexAnimal sex { get; set; }
         [Display(Name = "Характеристика животного")]
         public AnimalType type { get; set; }
+        /// <summary>
+        /// Свойство, возвращающее тип животного в строковом формате
+        /// </summary>
         [NotMapped]
         public string stringAnimalType
         {
