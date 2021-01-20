@@ -12,13 +12,11 @@
         margin-left: 5px;
     }
 </style>
-<div class="jumbotron">
-    <h1>Заявки на регистрацию</h1>
-</div>
+
 <div class="container">
     <div class="row">
         <div class="col-md-4">
-            <h2>Getting started</h2>
+            <h2>Заявки на регистрацию</h2>
             <table>
                 <tr>
                     <th>
@@ -46,18 +44,23 @@
                                 </div>
                             </td>
                             <td>
-                                <div style="width:300px;">
+                                <div style="width:200px;">
                                     @Html.DisplayFor(viewer => nowU.FIO)
                                 </div>
                             </td>
                             <td>
-                                <select name="role">
-                                    @foreach (var ds in (new PIS_Project.Models.DataClasses.UsersRegister()).AllRole)
-                                    {
-                                        <option value="@ds.Key">@ds.Value</option>
-                                    }
-                                </select>
-                            </td>
+                                <div style="width:170px;">
+                                    <select name="role">
+                                        @foreach (var ds in (new PIS_Project.Models.DataClasses.UsersRegister()).AllRole)
+                                        {
+                                            <option value="@ds.Key">@ds.Value</option>
+                                        }
+                                    </select><br />
+                                    <input hidden value="@nowU.ID" name="ID" />
+                                    <input type="submit" value="Одобрить" class="btn btn-success col-lg-7 col-md-12" style="background-color: #aebfbe; border-color: #aebfbe; margin-top:10px" />
+                            
+                                    </div>
+                                 </td>
                             <td>
                                 @if (nowU.Doc != null)
                                 {
@@ -67,10 +70,10 @@
                                 }
                             </td>
 
-                            <td>
+                            @***<td>
                                 <input hidden value="@nowU.ID" name="ID" />
-                                <input type="submit" value="Одобрить" />
-                            </td>
+                                <input type="submit" value="Одобрить" class="btn btn-success col-lg-2 col-md-12" style = "background-color: #aebfbe; border-color: #aebfbe;"/>
+                            </td>**@
 
                         </form>
 

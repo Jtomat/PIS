@@ -38,11 +38,11 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Выполнить вход" class="btn btn-default" />
+                        <input type="submit" value="Выполнить вход" class="btn btn-success col-lg-3 col-md-12" style = "background-color: #aebfbe; border-color: #aebfbe;"/>
                     </div>
                 </div>
                 <p>
-                    @Html.ActionLink("Регистрация нового пользователя", "Register")
+                    @Html.ActionLink("Регистрация нового пользователя", "Register", null, new { @class = "btn btn-success col-lg-3 col-md-12", @style = "background-color: #aebfbe; border-color: #aebfbe; margin-left: 15px;" })
                 </p>
                 @* Включите, когда будет включено подтверждение учетной записи для функции сброса пароля
                     <p>

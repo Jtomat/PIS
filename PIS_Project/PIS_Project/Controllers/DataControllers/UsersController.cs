@@ -29,8 +29,8 @@ namespace PIS_Project.Controllers.DataControllers
         {
             if (ArrayOfData.ContainsKey("SIN"))
             {
-                if(ArrayOfData["SIN"].ToString().Length > 16)
-                    ArrayOfData["SIN"] = ConvertToGuid(Split(ArrayOfData["SIN"].ToString(),16).First());
+                if (ArrayOfData["SIN"].ToString().Length > 16)
+                    ArrayOfData["SIN"] = ConvertToGuid(Split(ArrayOfData["SIN"].ToString(), 16).First());
                 else
                     ArrayOfData["SIN"] = ConvertToGuid(ArrayOfData["SIN"].ToString());
             }

@@ -146,7 +146,7 @@
             </div>
             <div class="form-group row" style="margin-right: 0; margin-left: 0;">
                 <div class="col-lg-12 col-md-12">
-                    @Html.ActionLink("Вернуться к регистру", "Sort", "Register", null, new { @class = "btn btn-success col-lg-3 col-md-12", @style = "background-color: #aebfbe; border-color: #aebfbe;" })
+                    @Html.ActionLink("Вернуться к реестру", "Sort", "Register", null, new { @class = "btn btn-success col-lg-3 col-md-12", @style = "background-color: #aebfbe; border-color: #aebfbe;" })
                     @if (@ViewBag.User_Role.ToString() == "0" || @ViewBag.User_Role.ToString() == "1" || @ViewBag.User_Role.ToString() == "2")
                     {
                         if (Model.id_status == 1 && (@ViewBag.User_Role.ToString() == "0" || @ViewBag.User_Role.ToString() == "1"))
