@@ -112,7 +112,7 @@ namespace PIS_Project.Controllers.DataControllers
         public ActionResult ShowRegister(Dictionary<string, string> filters, string sortField, string act = "filtering", bool upper = false)
         {
             //var id_user = (new PIS_Project.Models.DataClasses.UsersRegister()).GetIDByName(HttpContext.User.Identity.Name); //Временно!!!
-            var id_user = 6;
+            var id_user = 8;
             var user = new UsersRegister().GetUserByID(id_user);
             if (user.Confirmed == true)
             {
