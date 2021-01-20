@@ -16,7 +16,7 @@
 </p>
 
 <div class="btn btn-success" id="filtersShowButton" style="background-color: #aebfbe; border-color: #aebfbe">Показать фильтры</div>
-<div id="filtersDiv">
+<div id="filtersDiv" class="mb-3">
     @using (Html.BeginForm("ShowRegister", "Register", FormMethod.Post, new { @class = "mb-4", id = "filtersForm" }))
     {
         <div class="form-group row">
@@ -203,9 +203,10 @@
                 </div>
             </div>
         </div>
-    
-        }
-<button class="btn btn-success" id="sendFilter" style="background-color: #aebfbe; border-color: #aebfbe">Применить</button>
+    }
+    <button class="btn btn-success" id="sendFilters" style="background-color: #aebfbe; border-color: #aebfbe">Применить</button>
+    @Html.ActionLink("Сбросить", "Sort", new { act = "reset" }, new { @class = "btn btn-success", @style = "background-color: #aebfbe; border-color: #aebfbe" })
+    @Ajax.ActionLink("Получить отчет", "GetRegularReport", new { cardsIdString = ViewBag.CardsId }, new AjaxOptions { }, new { @class = "btn btn-success", @style = "background-color: #aebfbe; border-color: #aebfbe; float: right;" })
 </div>
 @*@using (Html.BeginForm("Sort", "Register", FormMethod.Post, new { @class = "mb-4" }))
     {
@@ -280,59 +281,60 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr id="@item.ID">
-            <td>
-                @Html.DisplayFor(modelItem => item.sex)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.stringAnimalType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.birthday)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.id_mark)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.id_chip)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.spec_mark)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.owner_traits)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.id_status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.date_status_change)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ID_MU)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.local_place)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.sterilization_date)
-            </td>
-            <td><p><button type="button" onclick="ChangeColor(this, @item.ID); return false;" value="@item.ID">Выбрать</button></p></td>
-            >
-            <td>
-                @Html.ActionLink("Открыть", "Card", "Register", new { id_card = item.ID }, new { @class = "navbar-brand" })
-            </td>
-            <td>
-                @if (ViewBag.Role == "2" || ViewBag.Role == "0" || ViewBag.Role == "1")
-                {
-                    if (item.id_status == 1) {
-                    @Html.ActionLink("Редактировать", "EditCard", new { id_card = item.ID }, new { @class = "navbar-brand" })}
-                @Html.ActionLink("Удалить", "Delete", new { id_card = item.ID }, new { @class = "navbar-brand" })
-            }
-            </td>
+            <tr id="@item.ID">
+                <td>
+                    @Html.DisplayFor(modelItem => item.sex)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.stringAnimalType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.birthday)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.id_mark)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.id_chip)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.spec_mark)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.owner_traits)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.id_status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.date_status_change)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ID_MU)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.local_place)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.sterilization_date)
+                </td>
+                <td><p><button type="button" onclick="ChangeColor(this, @item.ID); return false;" value="@item.ID">Выбрать</button></p></td>
+                >
+                <td>
+                    @Html.ActionLink("Открыть", "Card", "Register", new { id_card = item.ID }, new { @class = "navbar-brand" })
+                </td>
+                <td>
+                    @if (ViewBag.Role == "2" || ViewBag.Role == "0" || ViewBag.Role == "1")
+                    {
+                        if (item.id_status == 1)
+                        {
+                            @Html.ActionLink("Редактировать", "EditCard", new { id_card = item.ID }, new { @class = "navbar-brand" })}
+                        @Html.ActionLink("Удалить", "Delete", new { id_card = item.ID }, new { @class = "navbar-brand" })
+                    }
+                </td>
             </tr>
         }
     </tbody>
@@ -340,7 +342,7 @@
 
 @section Scripts {
     <script type="text/javascript">
-            function ChangeColor(Element, id) {
+        function ChangeColor(Element, id) {
             let perem_2 = document.querySelectorAll("tr");
             for (let i = 0; i < perem_2.length; i++) {
                 perem_2[i].style.backgroundColor = 'white';
@@ -353,7 +355,7 @@
         $(document).ready(function (e) {
             $('#filtersDiv').hide();
         });
-        $("sendFilters").click(function (e) {
+        $("#sendFilters").click(function (e) {
             $("#filtersForm").submit()
         });
         $('#filtersShowButton').click(function (e) {

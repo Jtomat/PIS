@@ -128,7 +128,7 @@
                     <label class="font-weight-bold">@Html.DisplayNameFor(model => model.scan_frame_1)</label>
                     <div style="background-color: #e0f2f1; padding: 5px 0px 5px 5px; border-radius: 5px; border: 1px solid rgba(0,0,0,.1);">
                         @(Model.scan_frame_1 != null && Model.scan_frame_1.Length > 0 ? "Документ загружен" : "Нет документа")
-                        @Html.EditorFor(model => model.scan_frame_1, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                        @Html.HiddenFor(model => model.scan_frame_1, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
                     </div>
                 </div>
             </div>
