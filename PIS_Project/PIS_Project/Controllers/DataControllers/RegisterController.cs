@@ -112,7 +112,7 @@ namespace PIS_Project.Controllers.DataControllers
         public ActionResult ShowRegister(Dictionary<string, string> filters, string sortField, string act = "filtering", bool upper = false)
         {
             //var id_user = (new PIS_Project.Models.DataClasses.UsersRegister()).GetIDByName(HttpContext.User.Identity.Name); //Временно!!!
-            var id_user = 6;
+            var id_user = 8;
             var user = new UsersRegister().GetUserByID(id_user);
             if (user.Confirmed == true)
             {
@@ -346,7 +346,7 @@ namespace PIS_Project.Controllers.DataControllers
             int[] cardsId = Array.ConvertAll(cardsIdString.Split(' '), int.Parse); 
             var card = Cards.GetCardByID(cardsId[0]);
             var report = ReportTemplate.GetRegularTemp(cardsId, card.ID_MU);
-            System.IO.File.WriteAllBytes(@"C:\Users\Анастасия\Downloads\Отчет.docx", report);
+            System.IO.File.WriteAllBytes(@"Отчет.docx", report);
             return Redirect(Request.UrlReferrer.ToString());
         }
 
@@ -574,8 +574,8 @@ namespace PIS_Project.Controllers.DataControllers
                 return View(card);
         }
 
-        [Logging]
-        [Notify]
+        //[Logging]
+        //[Notify]
         [HttpPost]
         public ActionResult PostCreate(Card card)
         {
@@ -623,7 +623,7 @@ namespace PIS_Project.Controllers.DataControllers
             return View(card);
         }
         //PostCreate(values)
-        [Logging]
+        //[Logging]
         [Notify]
         [HttpPost]
         public ActionResult Create(Dictionary<string, object> values)
@@ -674,7 +674,7 @@ namespace PIS_Project.Controllers.DataControllers
             else { throw new ArgumentException(validation.Information); }
         }
 
-        [Logging]
+        //[Logging]
         [HttpPost]
         public RedirectToRouteResult UpdateCard(Card card)
         {
@@ -779,7 +779,7 @@ namespace PIS_Project.Controllers.DataControllers
             }
             else { throw new ArgumentException(validation.Information); }
         }
-        [Logging]
+        //[Logging]
         [HttpPost]
         public string UploadFile()
         {
@@ -787,7 +787,7 @@ namespace PIS_Project.Controllers.DataControllers
             BinaryReader reader = new BinaryReader(file.InputStream);
             return Convert.ToBase64String(reader.ReadBytes((int)file.ContentLength));
         }
-        [Logging]
+        //[Logging]
         public void DeleteFile(Card card, string prop)
         {
             typeof(Card).GetProperty(prop).SetValue(card, new byte[] { });
@@ -860,7 +860,7 @@ namespace PIS_Project.Controllers.DataControllers
                 System.IO.File.WriteAllBytes(@"Акт первичного осмотра животного №" + card.ID.ToString() + ".docx", Cards.GetCardByID(card.ID).document);
             }
         }
-        [Logging]
+        //[Logging]
         public void ChangeStatus(int id_card, int id_status)
         {
             //UpdateCard(id_card, new Dictionary<string, object>() { { "id_status", id_status } });
@@ -878,7 +878,7 @@ namespace PIS_Project.Controllers.DataControllers
                 return result.ToArray();
             }
         }
-        [Logging]
+        //[Logging]
         public void DeleteEntry(int id_card)
         {
             Cards.Cards.Remove(Cards.Cards.Where(i=>i.ID== id_card).FirstOrDefault());
@@ -909,7 +909,7 @@ namespace PIS_Project.Controllers.DataControllers
             ViewBag.Sex = card.sex == Models.DataClasses.Card.SexAnimal.Male ? "Мужской" : "Женский";
             return View(card);
         }
-        [Logging]
+        //[Logging]
         [HttpPost]
         public RedirectToRouteResult Delete(int id, bool t = true)
         {

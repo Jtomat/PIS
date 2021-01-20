@@ -147,9 +147,9 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.owner_traits, htmlAttributes: new { @class = "control-label col-md-5" })
-                <div class="col-lg-12 col-md-12">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.owner_traits, htmlAttributes: new { @class = "control-label col-md-5" })
+                    <div class="col-lg-12 col-md-12">
 
                     <ul style="display: inline-flex; flex-wrap: wrap; width:100%; align-items: center; justify-content: space-between; padding-left: 0">
                         <li class="list-group-item col-lg-2 col-md-12 text-center">
@@ -166,12 +166,12 @@
                             </div>
                         </li>
 
-                        <li class="list-group-item col-lg-2 col-md-12 mt-lg-0 mt-sm-2 text-center">
-                            <div class="ml-2">
-                                <input type="checkbox" value="Шлейка" name="values[SetOwnerTraits]" class="form-check-input me-1 " style="margin-top: 0.4rem;" />
-                                Шлейка
-                            </div>
-                        </li>
+                            <li class="list-group-item col-lg-2 col-md-12 mt-lg-0 mt-sm-2 text-center">
+                                <div class="ml-2">
+                                    <input type="checkbox" value="Шлейка" name="values[SetOwnerTraits]" class="form-check-input me-1 " style="margin-top: 0.4rem;" />
+                                    Шлейка
+                                </div>
+                            </li>
 
                         <li class="list-group-item col-lg-2 col-md-12 mt-lg-0 mt-sm-2 text-center">
                             <div class="ml-2">
@@ -182,10 +182,10 @@
                     </ul>
 
 
-                    @*@Html.EditorFor(model => model.owner_traits, new { htmlAttributes = new { @class = "form-control" } })*@
-                    @*@Html.ValidationMessageFor(model => model.owner_traits, "", new { @class = "text-danger" })*@
+                        @*@Html.EditorFor(model => model.owner_traits, new { htmlAttributes = new { @class = "form-control" } })*@
+                        @*@Html.ValidationMessageFor(model => model.owner_traits, "", new { @class = "text-danger" })*@
+                    </div>
                 </div>
-            </div>
 
             <div class="form-group row" style="margin-right: 0; margin-left: 0;">
                 <div class="col-lg-4" id="idChipField">
@@ -204,10 +204,10 @@
                 </div>
             </div>
 
-            <div class="form-group row" style="margin-right: 0; margin-left: 0;">
-                <div class="col-lg-4">
-                    @Html.LabelFor(model => model.id_status, htmlAttributes: new { @class = "control-label" })
-                    <div>
+                <div class="form-group row" style="margin-right: 0; margin-left: 0;">
+                    <div class="col-lg-4">
+                        @Html.LabelFor(model => model.id_status, htmlAttributes: new { @class = "control-label" })
+                        <div>
 
                         <select name="values[id_status]" value="1" class="form-control">
 
@@ -217,45 +217,45 @@
 
                         </select>
 
+                        </div>
+                    </div>
+                    <div class="offset-lg-1 col-lg-7">
+                        @Html.LabelFor(model => model.date_status_change, htmlAttributes: new { @class = "control-label" })
+                        <div>
+                            <input id="datefield2" type='date' name="values[date_status_change]" required class="form-control" min='1899-01-01' max='2000-13-13' />
+                            @Html.ValidationMessageFor(model => model.date_status_change, "", new { @class = "text-danger" })
+                        </div>
                     </div>
                 </div>
-                <div class="offset-lg-1 col-lg-7">
-                    @Html.LabelFor(model => model.date_status_change, htmlAttributes: new { @class = "control-label" })
-                    <div>
-                        <input id="datefield2" type='date' name="values[date_status_change]" required class="form-control" min='1899-01-01' max='2000-13-13' />
-                        @Html.ValidationMessageFor(model => model.date_status_change, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </div>
 
-            <div class="form-group row" style="margin-right: 0; margin-left: 0;">
-                <div class="col-lg-4">
-                    @Html.LabelFor(model => model.ID_MU, htmlAttributes: new { @class = "control-label" })
-                    <div>
-                        <select name="values[ID_MU]" value="1">
-                            <option value="2">Питомник</option>
-                            <option value="3">Отлов</option>
-                            <option value="4">Приют</option>
-                        </select>
-                        @Html.ValidationMessageFor(model => model.ID_MU, "", new { @class = "text-danger" })
+                <div class="form-group row" style="margin-right: 0; margin-left: 0;">
+                    <div class="col-lg-4">
+                        @Html.LabelFor(model => model.ID_MU, htmlAttributes: new { @class = "control-label" })
+                        <div>
+                            <select name="values[ID_MU]" value="1">
+                                <option value="2">Питомник</option>
+                                <option value="3">Отлов</option>
+                                <option value="4">Приют</option>
+                            </select>
+                            @Html.ValidationMessageFor(model => model.ID_MU, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="offset-lg-1 col-lg-7">
+                        @Html.LabelFor(model => model.local_place, htmlAttributes: new { @class = "control-label" })
+                        <div>
+                            <input name="values[local_place]" required class="form-control" min=1 />
+                            @Html.ValidationMessageFor(model => model.local_place, "", new { @class = "text-danger" })
+                        </div>
                     </div>
                 </div>
-                <div class="offset-lg-1 col-lg-7">
-                    @Html.LabelFor(model => model.local_place, htmlAttributes: new { @class = "control-label" })
-                    <div>
-                        <input name="values[local_place]" required class="form-control" min=1 />
-                        @Html.ValidationMessageFor(model => model.local_place, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.sterilization_date, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-lg-12 col-md-12">
-                    <input id="datefield3" type='date' name="values[sterilization_date]" required class="form-control" min='1899-01-01' max='2000-13-13' />
-                    @*@Html.ValidationMessageFor(model => model.sterilization_date, "", new { @class = "text-danger" })*@
+                <div class="form-group">
+                    @Html.LabelFor(model => model.sterilization_date, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-lg-12 col-md-12">
+                        <input id="datefield3" type='date' name="values[sterilization_date]" required class="form-control" min='1899-01-01' max='2000-13-13' />
+                        @*@Html.ValidationMessageFor(model => model.sterilization_date, "", new { @class = "text-danger" })*@
+                    </div>
                 </div>
-            </div>
 
             <div class="col-lg-12 col-md-12">
                 @Html.ActionLink("Вернуться к журналу", "Sort", null, new { @class = "btn btn-success col-lg-3 col-md-12", @style = "background-color: #aebfbe; border-color: #aebfbe;" })
@@ -280,114 +280,114 @@ var yyyy = today.getFullYear();
         mm='0'+mm
     } 
 
-today = yyyy+'-'+mm+'-'+dd;
-            document.getElementById("datefield1").setAttribute("max", today);
-            document.getElementById("datefield2").setAttribute("max", today);
-            document.getElementById("datefield3").setAttribute("max", today);
-            let save_chip = 0;
+                    today = yyyy + '-' + mm + '-' + dd;
+                    document.getElementById("datefield1").setAttribute("max", today);
+                    document.getElementById("datefield2").setAttribute("max", today);
+                    document.getElementById("datefield3").setAttribute("max", today);
+                    let save_chip = 0;
 
-            $(document).ready(function () {
+                    $(document).ready(function () {
 
-                if ($('#photo').val() == "") {
-                    $('#deleteButton').hide();
-                }
-                if ($('#scan_frame_1').val() == "") {
-                    $('#deleteScanButtonOne').hide();
-                }
-                if (!$("#chipCheckbox").is(':checked')) {
-                    $("#id_chip").val(null);
-                    $("#idChipField").hide();
-                    $("#idMarkField").attr('class', 'col-lg-12');
-                }
-            });
-
-            $("#name").change(function (e) {
-                $(this).valid()
-            })
-
-            $("#local_place").change(function (e) {
-                $(this).valid()
-            })
-
-            $("#chipCheckbox").change(function (e) {
-                let check = $(this).is(':checked');
-                if (!check) {
-                    save_chip = $("#id_chip").val();
-                    $("#id_chip").val(null);
-                    $("#idChipField").hide();
-                    $("#idMarkField").attr('class', 'col-lg-12');
-                }
-                else {
-                    $("#idChipField").show();
-                    $("#id_chip").val(save_chip);
-                    $("#idMarkField").attr('class', 'col-lg-7 offset-lg-1');
-                }
-            });
-
-
-            $("#ImageDataButton").click(function (e) {
-                $("#ImageData").click();
-            });
-
-            $("#ImageData").change(function (e) {
-                let file = document.getElementById("ImageData").files[0]
-                if (file != null) {
-                    let formData = new FormData()
-                    formData.append("FileData", file)
-                    $.ajax({
-                        url: "/Register/UploadFile",
-                        type: "POST",
-                        data: formData,
-                        processData: false,
-                        contentType: false,
-                        success: function (response) {
-                            $('#photo').val(response)
-                            $("#deleteButton").show();
-                            let src = URL.createObjectURL(file);
-                            let preview = document.getElementById("photoImg");
-                            preview.src = src;
+                        if ($('#photo').val() == "") {
+                            $('#deleteButton').hide();
+                        }
+                        if ($('#scan_frame_1').val() == "") {
+                            $('#deleteScanButtonOne').hide();
+                        }
+                        if (!$("#chipCheckbox").is(':checked')) {
+                            $("#id_chip").val(null);
+                            $("#idChipField").hide();
+                            $("#idMarkField").attr('class', 'col-lg-12');
                         }
                     });
-                }
-            });
 
-            $("#ScanDataButtonOne").click(function (e) {
-                $("#ScanDataOne").click();
-            });
+                    $("#name").change(function (e) {
+                        $(this).valid()
+                    })
 
-            $("#ScanDataOne").change(function (e) {
-                let file = document.getElementById("ScanDataOne").files[0]
-                if (file != null) {
-                    let formData = new FormData()
-                    formData.append("FileData", file)
-                    $.ajax({
-                        url: "/Register/UploadFile",
-                        type: "POST",
-                        data: formData,
-                        processData: false,
-                        contentType: false,
-                        success: function (response) {
-                            $('#scan_frame_1').val(response)
-                            $("#deleteScanButtonOne").show();
-                            let span = document.getElementById("scanFrameTextOne");
-                            span.innerText = "Есть загружнный документ";
+                    $("#local_place").change(function (e) {
+                        $(this).valid()
+                    })
+
+                    $("#chipCheckbox").change(function (e) {
+                        let check = $(this).is(':checked');
+                        if (!check) {
+                            save_chip = $("#id_chip").val();
+                            $("#id_chip").val(null);
+                            $("#idChipField").hide();
+                            $("#idMarkField").attr('class', 'col-lg-12');
+                        }
+                        else {
+                            $("#idChipField").show();
+                            $("#id_chip").val(save_chip);
+                            $("#idMarkField").attr('class', 'col-lg-7 offset-lg-1');
                         }
                     });
-                }
-            });
 
-            $("#deleteButton").click(function (e) {
-                e.preventDefault();
-                $('#photo').val("")
-                $("#photoImg").attr('src', '')
-                $('#deleteButton').hide();
-            });
 
-            $("#deleteScanButtonOne").click(function (e) {
-                e.preventDefault();
-                $('#scan_frame_1').val("")
-                let span = document.getElementById("scanFrameTextOne");
-                span.innerText = "Нет документа";
-                $('#deleteScanButtonOne').hide();
-            });</script>
-    }
+                    $("#ImageDataButton").click(function (e) {
+                        $("#ImageData").click();
+                    });
+
+                    $("#ImageData").change(function (e) {
+                        let file = document.getElementById("ImageData").files[0]
+                        if (file != null) {
+                            let formData = new FormData()
+                            formData.append("FileData", file)
+                            $.ajax({
+                                url: "/Register/UploadFile",
+                                type: "POST",
+                                data: formData,
+                                processData: false,
+                                contentType: false,
+                                success: function (response) {
+                                    $('#photo').val(response)
+                                    $("#deleteButton").show();
+                                    let src = URL.createObjectURL(file);
+                                    let preview = document.getElementById("photoImg");
+                                    preview.src = src;
+                                }
+                            });
+                        }
+                    });
+
+                    $("#ScanDataButtonOne").click(function (e) {
+                        $("#ScanDataOne").click();
+                    });
+
+                    $("#ScanDataOne").change(function (e) {
+                        let file = document.getElementById("ScanDataOne").files[0]
+                        if (file != null) {
+                            let formData = new FormData()
+                            formData.append("FileData", file)
+                            $.ajax({
+                                url: "/Register/UploadFile",
+                                type: "POST",
+                                data: formData,
+                                processData: false,
+                                contentType: false,
+                                success: function (response) {
+                                    $('#scan_frame_1').val(response)
+                                    $("#deleteScanButtonOne").show();
+                                    let span = document.getElementById("scanFrameTextOne");
+                                    span.innerText = "Есть загружнный документ";
+                                }
+                            });
+                        }
+                    });
+
+                    $("#deleteButton").click(function (e) {
+                        e.preventDefault();
+                        $('#photo').val("")
+                        $("#photoImg").attr('src', '')
+                        $('#deleteButton').hide();
+                    });
+
+                    $("#deleteScanButtonOne").click(function (e) {
+                        e.preventDefault();
+                        $('#scan_frame_1').val("")
+                        let span = document.getElementById("scanFrameTextOne");
+                        span.innerText = "Нет документа";
+                        $('#deleteScanButtonOne').hide();
+                    });</script>
+            }

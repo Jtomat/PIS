@@ -15,26 +15,26 @@
         {@Html.ActionLink("Добавить новую карту через журнал отловленных", "ShowRegisterCatched")}
     </p>
 
-    <div class="btn btn-success" id="filtersShowButton" style="background-color: #aebfbe; border-color: #aebfbe">Показать фильтры</div>
-    <div id="filtersDiv">
-        @using (Html.BeginForm("ShowRegister", "Register", FormMethod.Post, new { @class = "mb-4", id = "filtersForm" }))
-        {
-            <div class="form-group row">
-                <div class="col-lg-6">
-                    <label class="label-control">Пол:</label>
-                    <div>
-                        <div class="w-100 mb-2" style="background-color: #e0f2f1; padding: 5px 0px 5px 10px; border-radius: 5px; border: 1px solid rgba(0,0,0,.1);">
-                            <input class="sex-list" type="checkbox" id="filterSex1"
-                                   name="filters[sex]" value="1">
-                            <label for="filterSex1">Мужской</label>
-                        </div>
-                        <div class="w-100 mb-2" style="background-color: #e0f2f1; padding: 5px 0px 5px 10px; border-radius: 5px; border: 1px solid rgba(0,0,0,.1);">
-                            <input class="sex-list" type="checkbox" id="filterSex2"
-                                   name="filters[sex]" value="2">
-                            <label for="filterSex2">Женский</label>
-                        </div>
+<div class="btn btn-success" id="filtersShowButton" style="background-color: #aebfbe; border-color: #aebfbe">Показать фильтры</div>
+<div id="filtersDiv" class="mb-3">
+    @using (Html.BeginForm("ShowRegister", "Register", FormMethod.Post, new { @class = "mb-4", id = "filtersForm" }))
+    {
+        <div class="form-group row">
+            <div class="col-lg-6">
+                <label class="label-control">Пол:</label>
+                <div>
+                    <div class="w-100 mb-2" style="background-color: #e0f2f1; padding: 5px 0px 5px 10px; border-radius: 5px; border: 1px solid rgba(0,0,0,.1);">
+                        <input class="sex-list" type="checkbox" id="filterSex1"
+                               name="filters[sex]" value="1">
+                        <label for="filterSex1">Мужской</label>
+                    </div>
+                    <div class="w-100 mb-2" style="background-color: #e0f2f1; padding: 5px 0px 5px 10px; border-radius: 5px; border: 1px solid rgba(0,0,0,.1);">
+                        <input class="sex-list" type="checkbox" id="filterSex2"
+                               name="filters[sex]" value="2">
+                        <label for="filterSex2">Женский</label>
                     </div>
                 </div>
+            </div>
 
                 <div class="col-lg-6">
                     <label class="label-control">Статус:</label>
