@@ -332,7 +332,9 @@
             function ChangeColor(Element, id) {
                 let perem_2 = document.querySelectorAll("tr");
                 for (let i = 0; i < perem_2.length; i++) {
-                    perem_2[i].style.backgroundColor = 'white';
+                    if (perem_2[i].className == "it") {
+                        perem_2[i].style.backgroundColor = 'white';
+                    }
                 }
                 document.getElementById(id).style.backgroundColor = "#a7d4d0";
 
