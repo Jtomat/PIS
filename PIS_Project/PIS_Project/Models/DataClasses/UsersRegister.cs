@@ -34,8 +34,20 @@ namespace PIS_Project.Models.DataClasses
         }
         public int GetIDByName(string name)
         {
-            var us = Users.ToArray();
-            var ds = us.FirstOrDefault(i => string.Compare(i.Name, name) == 0);
+            var ds = Users.First();
+            foreach (var us in Users)
+            {
+                var n = us.Name.ToString();
+                var b = string.Compare(n, name) == 0;
+                if (b)
+                {
+                    ds = us;
+                    break;
+                }
+            }
+            //var f = Users.Where(i => i.Confirmed).Where(i=> i.Name == name).First();
+            //var uck = f.ToArray();
+            //var ds = f; //uck.FirstOrDefault(i => string.Compare(i.Name, name) == 0);
             if (ds != null)
                 return ds.ID;
             return -1;
