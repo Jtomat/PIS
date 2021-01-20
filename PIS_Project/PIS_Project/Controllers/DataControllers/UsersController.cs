@@ -29,7 +29,10 @@ namespace PIS_Project.Controllers.DataControllers
         {
             if (ArrayOfData.ContainsKey("SIN"))
             {
-                ArrayOfData["SIN"] = ConvertToGuid(ArrayOfData["SIN"].ToString());
+                if (ArrayOfData["SIN"].ToString().Length > 16)
+                    ArrayOfData["SIN"] = ConvertToGuid(Split(ArrayOfData["SIN"].ToString(), 16).First());
+                else
+                    ArrayOfData["SIN"] = ConvertToGuid(ArrayOfData["SIN"].ToString());
             }
             if (ArrayOfData.ContainsKey("password"))
             {

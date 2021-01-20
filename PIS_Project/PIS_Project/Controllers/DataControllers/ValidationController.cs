@@ -28,10 +28,12 @@ namespace PIS_Project.Controllers.DataControllers
             var valid = true;
             foreach (var data in ArrayOfData)
             {
-                var t = typeof(Card);
-                var pi = t.GetProperty(data.Key);
-                bool hasNotMapped = Attribute.IsDefined(pi, typeof(NotMappedAttribute));
-
+                //if (classType == typeof(Card))
+                //{
+                    var t = classType;
+                    var pi = t.GetProperty(data.Key);
+                    bool hasNotMapped = Attribute.IsDefined(pi, typeof(NotMappedAttribute));
+                //}
                 try
                 {
                     var prop = new_user.GetType().GetProperty(data.Key);

@@ -1,62 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Symbols LinesOfCode="2236" PostSharpLinesOfCode="0" EnhancedTypesCount="1" SchemaVersion="1" PostSharpVersion="6.7.11.0" xmlns="http://schemas.postsharp.org/2.0/symbols">
-  <Class Class="#1=T:[PIS_Project]PIS_Project.Models.DataClasses.LoggingAttribute">
-    <Instance Declaration="#2=M:[PIS_Project]PIS_Project.Controllers.DataControllers.RegisterController::PostCreate([PIS_Project]PIS_Project.Models.DataClasses.Card)" Id="2f5e1f1e94f94f05">
-      <Target LinesAvoided="6">
-        <JoinPoint Description="#3=Wrapped by advice(s) OnEntry, OnSuccess, OnException" />
-      </Target>
-    </Instance>
-    <Instance Declaration="#4=M:[PIS_Project]PIS_Project.Controllers.DataControllers.RegisterController::Create(System.Collections.Generic.Dictionary{System.String,System.Object})" Id="2f5e1f1ecdc4bdfb">
-      <Target LinesAvoided="6">
-        <JoinPoint Description="#3" Ordinal="3" />
-      </Target>
-    </Instance>
-    <Instance Declaration="#5=M:[PIS_Project]PIS_Project.Controllers.DataControllers.RegisterController::UpdateCard([PIS_Project]PIS_Project.Models.DataClasses.Card)" Id="2f5e1f1e6ad2d0cd">
-      <Target LinesAvoided="6">
-        <JoinPoint Description="#3" Ordinal="4" />
-      </Target>
-    </Instance>
-    <Instance Declaration="#6=M:[PIS_Project]PIS_Project.Controllers.DataControllers.RegisterController::UploadFile()" Id="2f5e1f1e3bc2c66b">
-      <Target LinesAvoided="6">
-        <JoinPoint Description="#3" Ordinal="5" />
-      </Target>
-    </Instance>
-    <Instance Declaration="#7=M:[PIS_Project]PIS_Project.Controllers.DataControllers.RegisterController::DeleteFile([PIS_Project]PIS_Project.Models.DataClasses.Card, System.String)" Id="2f5e1f1eb8d6bc00">
-      <Target LinesAvoided="6">
-        <JoinPoint Description="#3" Ordinal="6" />
-      </Target>
-    </Instance>
-    <Instance Declaration="#8=M:[PIS_Project]PIS_Project.Controllers.DataControllers.RegisterController::ChangeStatus(System.Int32, System.Int32)" Id="2f5e1f1ea2ff70c3">
-      <Target LinesAvoided="6">
-        <JoinPoint Description="#3" Ordinal="7" />
-      </Target>
-    </Instance>
-    <Instance Declaration="#9=M:[PIS_Project]PIS_Project.Controllers.DataControllers.RegisterController::DeleteEntry(System.Int32)" Id="2f5e1f1ea07850a7">
-      <Target LinesAvoided="6">
-        <JoinPoint Description="#3" Ordinal="8" />
-      </Target>
-    </Instance>
-    <Instance Declaration="#10=M:[PIS_Project]PIS_Project.Controllers.DataControllers.RegisterController::Delete(System.Int32, System.Boolean)" Id="2f5e1f1e2e4372b2">
-      <Target LinesAvoided="6">
-        <JoinPoint Description="#3" Ordinal="9" />
+<Symbols LinesOfCode="2238" PostSharpLinesOfCode="0" EnhancedTypesCount="1" SchemaVersion="1" PostSharpVersion="6.7.11.0" xmlns="http://schemas.postsharp.org/2.0/symbols">
+  <Class Class="#1=T:[PIS_Project]PIS_Project.Models.DataClasses.NotifyAttribute">
+    <Instance Declaration="#2=M:[PIS_Project]PIS_Project.Controllers.DataControllers.RegisterController::Create(System.Collections.Generic.Dictionary{System.String,System.Object})" Id="2f5e1f1e212f3236">
+      <Target LinesAvoided="4">
+        <JoinPoint Description="#3=Wrapped by advice(s) OnSuccess, OnException" Ordinal="0" />
       </Target>
     </Instance>
   </Class>
-  <Class Class="#11=T:[PIS_Project]PIS_Project.Models.DataClasses.NotifyAttribute">
-    <Instance Declaration="#2" Id="2f5e1f1e102acc10">
-      <Target LinesAvoided="4">
-        <JoinPoint Description="#12=Wrapped by advice(s) OnSuccess, OnException" Ordinal="0" />
-      </Target>
-    </Instance>
-    <Instance Declaration="#4" Id="2f5e1f1e50c31f08">
-      <Target LinesAvoided="4">
-        <JoinPoint Description="#12" Ordinal="2" />
-      </Target>
-    </Instance>
-  </Class>
-  <Annotation Target="#13=M:[PIS_Project]PIS_Project.Models.DataClasses.LoggingAttribute::OnEntry(PostSharp.Aspects.MethodExecutionArgs)" Arguments="#14=2" Description="#15=PostSharp estimates that 2 lines of code are saved every time this advice is applied. Use the [LinesOfCodeAvoided] attribute on the aspect or specify the LinesOfCodeAvoided property on the advice attribute to override this value." />
-  <Annotation Target="#16=M:[PIS_Project]PIS_Project.Models.DataClasses.LoggingAttribute::OnSuccess(PostSharp.Aspects.MethodExecutionArgs)" Arguments="#14" Description="#15" />
-  <Annotation Target="#17=M:[PIS_Project]PIS_Project.Models.DataClasses.LoggingAttribute::OnException(PostSharp.Aspects.MethodExecutionArgs)" Arguments="#14" Description="#15" />
-  <Annotation Target="#18=M:[PIS_Project]PIS_Project.Models.DataClasses.NotifyAttribute::OnSuccess(PostSharp.Aspects.MethodExecutionArgs)" Arguments="#14" Description="#15" />
-  <Annotation Target="#19=M:[PIS_Project]PIS_Project.Models.DataClasses.NotifyAttribute::OnException(PostSharp.Aspects.MethodExecutionArgs)" Arguments="#14" Description="#15" />
+  <Annotation Target="#4=M:[PIS_Project]PIS_Project.Models.DataClasses.NotifyAttribute::OnSuccess(PostSharp.Aspects.MethodExecutionArgs)" Arguments="#5=2" Description="#6=PostSharp estimates that 2 lines of code are saved every time this advice is applied. Use the [LinesOfCodeAvoided] attribute on the aspect or specify the LinesOfCodeAvoided property on the advice attribute to override this value." />
+  <Annotation Target="#7=M:[PIS_Project]PIS_Project.Models.DataClasses.NotifyAttribute::OnException(PostSharp.Aspects.MethodExecutionArgs)" Arguments="#5" Description="#6" />
 </Symbols>
