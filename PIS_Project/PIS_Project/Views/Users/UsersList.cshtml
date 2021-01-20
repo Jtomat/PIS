@@ -15,68 +15,70 @@
 <div class="jumbotron">
     <h1>Заявки на регистрацию</h1>
 </div>
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <table>
-            <tr>
-                <th>
-                    Номер заявки
-                </th>
-                <th>
-                    Имя
-                </th>
-                <th>
-                    Роль
-                </th>
-                <th>
-                    Документ
-                </th>
-            </tr>
-            @foreach (PIS_Project.Models.DataClasses.Users nowU in ViewBag.List)
-            {
-
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <h2>Getting started</h2>
+            <table>
                 <tr>
-                    <form method="post" action="Confirm\">
-
-                        <td>
-                            <div style="width:80px;">
-                                @Html.DisplayFor(viewer => nowU.ID)
-                            </div>
-                        </td>
-                        <td>
-                            <div style="width:300px;">
-                                @Html.DisplayFor(viewer => nowU.FIO)
-                            </div>
-                        </td>
-                        <td>
-                            <select name="role">
-                                @foreach (var ds in (new PIS_Project.Models.DataClasses.UsersRegister()).AllRole)
-                                {
-                                    <option value="@ds.Key">@ds.Value</option>
-                                }
-                            </select>
-                        </td>
-                        <td>
-                            @if (nowU.Doc != null)
-                            {
-                                <div style="height:500px; width: 700px;">
-                                    <iframe src="data:application/pdf;base64,@Convert.ToBase64String(nowU.Doc)" height="100%" width="100%"></iframe>
-                                </div>
-                            }
-                        </td>
-
-                        <td>
-                            <input hidden value="@nowU.ID" name="ID" />
-                            <input type="submit" value="Одобрить" />
-                        </td>
-
-                    </form>
-
+                    <th>
+                        Номер заявки
+                    </th>
+                    <th>
+                        Имя
+                    </th>
+                    <th>
+                        Роль
+                    </th>
+                    <th>
+                        Документ
+                    </th>
                 </tr>
-            }
+                @foreach (PIS_Project.Models.DataClasses.Users nowU in ViewBag.List)
+                {
 
-        </table>
+                    <tr>
+                        <form method="post" action="Confirm\">
+
+                            <td>
+                                <div style="width:80px;">
+                                    @Html.DisplayFor(viewer => nowU.ID)
+                                </div>
+                            </td>
+                            <td>
+                                <div style="width:300px;">
+                                    @Html.DisplayFor(viewer => nowU.FIO)
+                                </div>
+                            </td>
+                            <td>
+                                <select name="role">
+                                    @foreach (var ds in (new PIS_Project.Models.DataClasses.UsersRegister()).AllRole)
+                                    {
+                                        <option value="@ds.Key">@ds.Value</option>
+                                    }
+                                </select>
+                            </td>
+                            <td>
+                                @if (nowU.Doc != null)
+                                {
+                                    <div style="height:500px; width: 700px;">
+                                        <iframe src="data:application/pdf;base64,@Convert.ToBase64String(nowU.Doc)" height="100%" width="100%"></iframe>
+                                    </div>
+                                }
+                            </td>
+
+                            <td>
+                                <input hidden value="@nowU.ID" name="ID" />
+                                <input type="submit" value="Одобрить" />
+                            </td>
+
+                        </form>
+
+                    </tr>
+                }
+
+            </table>
+        </div>
+
     </div>
-
 </div>

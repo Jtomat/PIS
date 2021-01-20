@@ -199,6 +199,16 @@ namespace PIS_Project.Models.DataClasses
             }
             set { }
         }
+        [NotMapped]
+        public string localeSex
+        {
+            get
+            {
+                return sex == SexAnimal.Male ? "Мужской" : "Женский";
+            }
+
+            set { }
+        }
         [Display(Name = "Дата рождения")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [DateLimit(ErrorMessage = "Дата рождения должна быть меньше или равна текущей")]
