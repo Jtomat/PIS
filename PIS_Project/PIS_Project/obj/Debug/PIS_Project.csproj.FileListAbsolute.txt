@@ -490,3 +490,4 @@ C:\Jtomat\PIS\PIS_Project\PIS_Project\obj\Debug\PIS_Project.csproj.CopyComplete
 C:\Jtomat\PIS\PIS_Project\PIS_Project\obj\Debug\PIS_Project.dll
 C:\Jtomat\PIS\PIS_Project\PIS_Project\obj\Debug\PIS_Project.pdb
 C:\Jtomat\PIS\PIS_Project\PIS_Project\obj\Debug\PostSharp\postsharp.app.config
+C:\Users\Анастасия\Desktop\ИСиТ 3 курс\ПИС\7 лаба\PIS\PIS_Project\PIS_Project\obj\Debug\PIS_Project.csprojAssemblyReference.cache

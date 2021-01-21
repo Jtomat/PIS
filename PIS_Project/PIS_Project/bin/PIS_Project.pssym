@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Symbols LinesOfCode="2309" PostSharpLinesOfCode="0" EnhancedTypesCount="1" SchemaVersion="1" PostSharpVersion="6.7.11.0" xmlns="http://schemas.postsharp.org/2.0/symbols">
+<Symbols LinesOfCode="2312" PostSharpLinesOfCode="0" EnhancedTypesCount="1" SchemaVersion="1" PostSharpVersion="6.7.11.0" xmlns="http://schemas.postsharp.org/2.0/symbols">
   <Class Class="#1=T:[PIS_Project]PIS_Project.Models.DataClasses.NotifyAttribute">
-    <Instance Declaration="#2=M:[PIS_Project]PIS_Project.Controllers.DataControllers.RegisterController::Create(System.Collections.Generic.Dictionary{System.String,System.Object})" Id="2f5e1f1e68bbafec">
+    <Instance Declaration="#2=M:[PIS_Project]PIS_Project.Controllers.DataControllers.RegisterController::Create(System.Collections.Generic.Dictionary{System.String,System.Object})" Id="2f5e1f1ef464a94c">
       <Target LinesAvoided="4">
         <JoinPoint Description="#3=Wrapped by advice(s) OnSuccess, OnException" Ordinal="0" />
       </Target>

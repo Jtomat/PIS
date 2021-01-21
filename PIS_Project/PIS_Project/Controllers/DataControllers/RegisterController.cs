@@ -529,7 +529,8 @@ namespace PIS_Project.Controllers.DataControllers
             int[] cardsId = Array.ConvertAll(cardsIdString.Split(' '), int.Parse); 
             var card = Cards.GetCardByID(cardsId[0]);
             var report = ReportTemplate.GetRegularTemp(cardsId, card.ID_MU);
-            System.IO.File.WriteAllBytes(@"Отчет.docx", report);
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $@"Docs\Отчет.docx");
+            System.IO.File.WriteAllBytes(path, report);
             return Redirect(Request.UrlReferrer.ToString());
         }
 
@@ -1046,8 +1047,8 @@ namespace PIS_Project.Controllers.DataControllers
                     { "Size", size},
                 });
                 UpdateCard(card);
-
-                System.IO.File.WriteAllBytes(@"Карточка учета животного №" + card.ID.ToString() + ".docx", Cards.GetCardByID(card.ID).document);
+                var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $@"Docs\Карточка учета животного № { card.ID}.docx");
+                System.IO.File.WriteAllBytes(path, Cards.GetCardByID(card.ID).document);
             }
             else
             {
@@ -1061,8 +1062,8 @@ namespace PIS_Project.Controllers.DataControllers
                     { "Wool", wool},
                 });
                 UpdateCard(card);
-
-                System.IO.File.WriteAllBytes(@"Акт первичного осмотра животного №" + card.ID.ToString() + ".docx", Cards.GetCardByID(card.ID).document);
+                var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $@"Docs\Акт первичного осмотра животного № { card.ID}.docx");
+                System.IO.File.WriteAllBytes(path, Cards.GetCardByID(card.ID).document);
             }
         }
         //[Logging]
