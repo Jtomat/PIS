@@ -22,8 +22,16 @@ namespace PIS_Project.Controllers.DataControllers
 
         public ActionResult Index(Dictionary<string, string> filters, string sortField, string act = "filtering", bool upper = false)
         {
-            var id_user = (new PIS_Project.Models.DataClasses.UsersRegister()).GetIDByName(HttpContext.User.Identity.Name); //Временно!!!
-            //var id_user = 6;
+            var id_user = default(int);
+            var boolAuth = HttpContext.User.Identity.IsAuthenticated;
+            if (boolAuth)
+            {
+                id_user = (new UsersRegister()).GetIDByName(HttpContext.User.Identity.Name); //Временно!!!
+            }
+            else
+            {
+                id_user = 1;
+            }
             var user = new UsersRegister().GetUserByID(id_user);
             if (user.Confirmed == true)
             {
@@ -111,9 +119,16 @@ namespace PIS_Project.Controllers.DataControllers
 
         public ActionResult ShowRegister(Dictionary<string, string> filters, string sortField, string act = "filtering", bool upper = false)
         {
-            var name = HttpContext.User.Identity.Name;
-            var id_user = (new UsersRegister()).GetIDByName(name); //Временно!!!
-            //var id_user = 8;
+            var id_user = default(int);
+            var boolAuth = HttpContext.User.Identity.IsAuthenticated;
+            if (boolAuth)
+            {
+                id_user = (new UsersRegister()).GetIDByName(HttpContext.User.Identity.Name); //Временно!!!
+            }
+            else
+            {
+                id_user = 1;
+            }
             var user = new UsersRegister().GetUserByID(id_user);
             if (user.Confirmed == true)
             {
@@ -202,8 +217,16 @@ namespace PIS_Project.Controllers.DataControllers
 
         public ActionResult ShowRegisterCatched(Dictionary<string, string> filters, string sortField, string act = "filtering", bool upper = false)
         {
-            var id_user = (new PIS_Project.Models.DataClasses.UsersRegister()).GetIDByName(HttpContext.User.Identity.Name); //Временно!!!
-            //var id_user = 8;
+            var id_user = default(int);
+            var boolAuth = HttpContext.User.Identity.IsAuthenticated;
+            if (boolAuth)
+            {
+                id_user = (new UsersRegister()).GetIDByName(HttpContext.User.Identity.Name); //Временно!!!
+            }
+            else
+            {
+                id_user = 1;
+            }
             var user = new UsersRegister().GetUserByID(id_user);
             if (user.Confirmed == true)
             {
@@ -255,8 +278,17 @@ namespace PIS_Project.Controllers.DataControllers
         [HttpGet]
         public ActionResult Create()
         {
-            var id_user = (new PIS_Project.Models.DataClasses.UsersRegister()).GetIDByName(HttpContext.User.Identity.Name); //Временно!!!
-            //var id_user = 8;
+            var id_user = default(int);
+            var boolAuth = HttpContext.User.Identity.IsAuthenticated;
+            if (boolAuth)
+            {
+                id_user = (new UsersRegister()).GetIDByName(HttpContext.User.Identity.Name); //Временно!!!
+            }
+            else
+            {
+                id_user = 1;
+            }
+            //var i
             ViewBag.Id_User = default(int);
             if (id_user != -1)
             {
@@ -355,8 +387,17 @@ namespace PIS_Project.Controllers.DataControllers
         //GetCardByID
         public ActionResult Card(int id_card)
         {
-            var id_user = (new PIS_Project.Models.DataClasses.UsersRegister()).GetIDByName(HttpContext.User.Identity.Name); //Временно!!!
-            //int id_user = 8;
+            var id_user = default(int);
+            var boolAuth = HttpContext.User.Identity.IsAuthenticated;
+            if (boolAuth)
+            {
+                id_user = (new UsersRegister()).GetIDByName(HttpContext.User.Identity.Name); //Временно!!!
+            }
+            else
+            {
+                id_user = 1;
+            }
+            //var i
             ViewBag.Id_User = default(int);
             if (id_user != default(int))
             {
@@ -380,8 +421,17 @@ namespace PIS_Project.Controllers.DataControllers
 
         public ActionResult EditCard(int id_card)
         {
-            var id_user = (new PIS_Project.Models.DataClasses.UsersRegister()).GetIDByName(HttpContext.User.Identity.Name); //Временно!!!
-            //int id_user = 8;
+            var id_user = default(int);
+            var boolAuth = HttpContext.User.Identity.IsAuthenticated;
+            if (boolAuth)
+            {
+                id_user = (new UsersRegister()).GetIDByName(HttpContext.User.Identity.Name); //Временно!!!
+            }
+            else
+            {
+                id_user = 1;
+            }
+            //var i
             int users_role = 0;
             if (id_user != default(int))
             {
@@ -456,8 +506,17 @@ namespace PIS_Project.Controllers.DataControllers
         [HttpGet]
         public ActionResult CatchedCardById(int id_card)
         {
-            var id_user = (new PIS_Project.Models.DataClasses.UsersRegister()).GetIDByName(HttpContext.User.Identity.Name); //Временно!!!
-            //int id_user = 8;
+            var id_user = default(int);
+            var boolAuth = HttpContext.User.Identity.IsAuthenticated;
+            if (boolAuth)
+            {
+                id_user = (new UsersRegister()).GetIDByName(HttpContext.User.Identity.Name); //Временно!!!
+            }
+            else
+            {
+                id_user = 1;
+            }
+            //var i
             var CatchedCards = new RegisterOfCatched();
             var card = CatchedCards.GetCardByID(id_card);
             ViewBag.Id_User = default(int);
@@ -497,9 +556,17 @@ namespace PIS_Project.Controllers.DataControllers
         [HttpPost]
         public ActionResult CatchedCard(Card newcard)
         {
-            var id_user = (new PIS_Project.Models.DataClasses.UsersRegister()).GetIDByName(HttpContext.User.Identity.Name); 
-            //Временно!!!
-            //int id_user = 8;
+            var id_user = default(int);
+            var boolAuth = HttpContext.User.Identity.IsAuthenticated;
+            if (boolAuth)
+            {
+                id_user = (new UsersRegister()).GetIDByName(HttpContext.User.Identity.Name); //Временно!!!
+            }
+            else
+            {
+                id_user = 1;
+            }
+            //var i
             ViewBag.Id_User = default(int);
             if (id_user != default)
             {
@@ -888,8 +955,17 @@ namespace PIS_Project.Controllers.DataControllers
         [HttpGet]
         public ActionResult Delete(int id_card)
         {
-            var id_user = (new PIS_Project.Models.DataClasses.UsersRegister()).GetIDByName(HttpContext.User.Identity.Name); //Временно!!!
-            //int id_user = 8;
+            var id_user = default(int);
+            var boolAuth = HttpContext.User.Identity.IsAuthenticated;
+            if (boolAuth)
+            {
+                id_user = (new UsersRegister()).GetIDByName(HttpContext.User.Identity.Name); //Временно!!!
+            }
+            else
+            {
+                id_user = 1;
+            }
+            //var i
             ViewBag.Id_User = default(int);
             if (id_user != default(int))
             {
@@ -914,8 +990,16 @@ namespace PIS_Project.Controllers.DataControllers
         [HttpPost]
         public RedirectToRouteResult Delete(int id, bool t = true)
         {
-            var id_user = (new PIS_Project.Models.DataClasses.UsersRegister()).GetIDByName(HttpContext.User.Identity.Name); //Временно!!!
-            //int id_user = 8;
+            var id_user = default(int);
+            var boolAuth = HttpContext.User.Identity.IsAuthenticated;
+            if (boolAuth)
+            {
+                id_user = (new UsersRegister()).GetIDByName(HttpContext.User.Identity.Name); //Временно!!!
+            }
+            else
+            {
+                id_user = 1;
+            }
             if (id_user != default(int))
             {
                 ViewBag.Id_User = id_user;
