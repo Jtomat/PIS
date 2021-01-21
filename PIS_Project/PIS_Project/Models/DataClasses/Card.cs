@@ -282,7 +282,7 @@ namespace PIS_Project.Models.DataClasses
         [DateLimitAttribute(ErrorMessage = "Дата установки статуса должна быть меньше или равна текущей")]
         [Display(Name = "Дата установки статуса")]
         public DateTime date_status_change { get; set; }
-        [Display(Name = "ID Муниципального образования")]
+        [Display(Name = "Муниципальное образование")]
         [Range(0, int.MaxValue, ErrorMessage = "Значение должно быть больше или равно 1")]
         [Required]
         public int ID_MU { get; set; }

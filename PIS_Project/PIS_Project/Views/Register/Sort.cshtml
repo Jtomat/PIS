@@ -230,22 +230,22 @@
         <thead class="table-head">
             <tr>
                 <th class="col">
-                    @Html.ActionLink("Пол животного", "Sort", new { sortOrder = "sex", upper = ViewData["sex"] })
+                    @Html.ActionLink("Пол животного", "Sort", new { sortField = "sex", upper = ViewData["sex"] })
                 </th>
                 <th class="col">
                     @Html.DisplayNameFor(model => model.type)
                 </th>
                 <th class="col pl-3 pr-3">
-                    @Html.ActionLink("Дата рождения", "Sort", new { sortOrder = "birthday", upper = ViewData["birthday"] })
+                    @Html.ActionLink("Дата рождения", "Sort", new { sortField = "birthday", upper = ViewData["birthday"] })
                 </th>
                 <th class="col">
-                    @Html.ActionLink("Метка", "Sort", new { sortOrder = "id_mark", upper = ViewData["id_mark"] })
+                    @Html.ActionLink("Метка", "Sort", new { sortField = "id_mark", upper = ViewData["id_mark"] })
                 </th>
                 <th class="col">
-                    @Html.ActionLink("Номер чипа", "Sort", new { sortOrder = "id_chip", upper = ViewData["id_chip"] })
+                    @Html.ActionLink("Номер чипа", "Sort", new { sortField = "id_chip", upper = ViewData["id_chip"] })
                 </th>
                 <th class="col">
-                    @Html.ActionLink("Кличка", "Sort", new { sortOrder = "name", upper = ViewData["name"] })
+                    @Html.ActionLink("Кличка", "Sort", new { sortField = "name", upper = ViewData["name"] })
                 </th>
                 <th class="col">
                     @Html.DisplayNameFor(model => model.spec_mark)
@@ -254,19 +254,19 @@
                     @Html.DisplayNameFor(model => model.owner_traits)
                 </th>
                 <th class="col">
-                    @Html.ActionLink("ID статус", "Sort", new { sortOrder = "id_status", upper = ViewData["id_status"] })
+                    @Html.ActionLink("ID статус", "Sort", new { sortField = "id_status", upper = ViewData["id_status"] })
                 </th>
                 <th class="col pl-3 pr-3">
-                    @Html.ActionLink("Дата установки статуса", "Sort", new { sortOrder = "date_status_change", upper = ViewData["date_status_change"] })
+                    @Html.ActionLink("Дата установки статуса", "Sort", new { sortField = "date_status_change", upper = ViewData["date_status_change"] })
                 </th>
                 <th class="col">
-                    @Html.ActionLink("ID MU", "Sort", new { sortOrder = "ID_MU", upper = ViewData["ID_MU"] })
+                    @Html.ActionLink("ID MU", "Sort", new { sortField = "ID_MU", upper = ViewData["ID_MU"] })
                 </th>
                 <th class="col">
-                    @Html.ActionLink("Населенный пункт", "Sort", new { sortOrder = "local_place", upper = ViewData["local_place"] })
+                    @Html.ActionLink("Населенный пункт", "Sort", new { sortField = "local_place", upper = ViewData["local_place"] })
                 </th>
                 <th class="col">
-                    @Html.ActionLink("Дата стерелизации", "Sort", new { sortOrder = "sterilization_date", upper = ViewData["sterilization_date"] })
+                    @Html.ActionLink("Дата стерелизации", "Sort", new { sortField = "sterilization_date", upper = ViewData["sterilization_date"] })
                 </th>
                 <th class="col">
 
