@@ -355,58 +355,64 @@ namespace PIS_Project.Controllers.DataControllers
         //GetCardByID
         public ActionResult Card(int id_card)
         {
-            var id_user = (new PIS_Project.Models.DataClasses.UsersRegister()).GetIDByName(HttpContext.User.Identity.Name); //Временно!!!
-            //int id_user = 8;
-            ViewBag.Id_User = default(int);
-            if (id_user != default(int))
+            bool checkAuth = HttpContext.User.Identity.IsAuthenticated;
+            
+            if (checkAuth)
             {
+                var id_user = (new PIS_Project.Models.DataClasses.UsersRegister()).GetIDByName(HttpContext.User.Identity.Name);
                 ViewBag.Id_User = id_user;
                 var users_role = new UsersRegister().GetUserByID(id_user).ID_role;
                 ViewBag.User_Role = users_role;
+            }
+            else
+            {
+                ViewBag.User_Role = "нет";
+            }
+
+            var card = Cards.GetCardByID(id_card);
+            ViewBag.Sex = card.sex == Models.DataClasses.Card.SexAnimal.Male ? "Мужской" : "Женский";
+            return View(card);
+
+
+        }
+
+        public ActionResult EditCard(int id_card)
+        {
+            bool checkAuth = HttpContext.User.Identity.IsAuthenticated;
+         
+            if (checkAuth)
+            {
+                var id_user = (new PIS_Project.Models.DataClasses.UsersRegister()).GetIDByName(HttpContext.User.Identity.Name);
                 var user = new UsersRegister().GetUserByID(id_user);
-                if (user.Confirmed == true)
+               
+                if(user.Confirmed == true)
                 {
+                    int user_role = new UsersRegister().GetUserByID(id_user).ID_role;
+                    ViewBag.User_Role = user_role;
                     ViewBag.Role = user.ID_role.ToString();
+
+                    if (user_role == 0 || user_role == 1 || user_role == 2)
+                    {
+                        var card = Cards.GetCardByID(id_card);
+                        return View(card);
+                    }
+                    else
+                    {
+                        ViewBag.User_Role = user_role;
+                        return View("Card", Cards.GetCardByID(id_card));
+                    }
                 }
                 else
                 {
                     return View("WaitingRoom");
                 }
             }
-            var card = Cards.GetCardByID(id_card);
-            ViewBag.Sex = card.sex == Models.DataClasses.Card.SexAnimal.Male ? "Мужской" : "Женский";
-            return View(card);
-        }
-
-        public ActionResult EditCard(int id_card)
-        {
-            var id_user = (new PIS_Project.Models.DataClasses.UsersRegister()).GetIDByName(HttpContext.User.Identity.Name); //Временно!!!
-            //int id_user = 8;
-            int users_role = 0;
-            if (id_user != default(int))
-            {
-                users_role = new UsersRegister().GetUserByID(id_user).ID_role;
-                ViewBag.User_Role = users_role;
-                var user = new UsersRegister().GetUserByID(id_user);
-                if (user.Confirmed == true)
-                {
-                    ViewBag.Role = user.ID_role.ToString();
-            }
             else
             {
-                return View("WaitingRoom");
-            }
-        }
-            if (users_role == 0 || users_role == 1 || users_role == 2)
-            {
-                var card = Cards.GetCardByID(id_card);
-                return View(card);
-            }
-            else
-            {
-                ViewBag.User_Role = users_role;
+                ViewBag.User_Role = "нет";
                 return View("Card", Cards.GetCardByID(id_card));
             }
+
         }
 
         private CardsRegister Cards;
