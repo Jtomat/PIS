@@ -30,10 +30,95 @@ namespace PIS_Project.Controllers.DataControllers
             }
             else
             {
-                id_user = 6;
+                id_user = 1;
             }
             var user = new UsersRegister().GetUserByID(id_user);
-            if (user.Confirmed == true)
+            if (user == null)
+            {
+                if (user.Confirmed == true)
+                {
+                    SelectList fields = new SelectList(fieldsDict, "Key", "Value");
+                    ViewBag.Fields = fields;
+
+                    bool checkFilters = false;
+                    if (filters != null && filters.Count > 2)
+                    {
+                        foreach (KeyValuePair<string, string> pair in filters)
+                        {
+                            if (pair.Key != "field" && !string.IsNullOrEmpty(pair.Value))
+                                checkFilters = true;
+                        }
+                    }
+                    if (act == "reset")
+                    {
+                        Session["savedFilt"] = new Dictionary<string, string>();
+                    }
+
+                    Dictionary<string, string> savedFilt = (Dictionary<string, string>)Session["savedFilt"];
+
+                    var ur = new UsersRegister();
+                    ViewBag.Role = user.ID_role.ToString();
+                    List<Card> card;
+                    var urorg = ur.Organizations.FirstOrDefault(i => i.ID == user.ID_organization).Contacts;
+                    if (checkFilters)
+                    {
+                        if (!String.IsNullOrEmpty(urorg))
+                        {
+                            card = Cards.GetFilteredBy(filters).Where(a => a.local_place ==
+                            urorg && Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
+                        }
+                        else
+                        {
+                            card = Cards.GetFilteredBy(filters).Where(a => Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
+                        }
+                    }
+                    else if (savedFilt != null && savedFilt.Count > 0)
+                    {
+                        if (!String.IsNullOrEmpty(urorg))
+                        {
+                            card = Cards.GetFilteredBy(savedFilt).Where(a => a.local_place ==
+                        urorg && Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
+                        }
+                        else
+                        {
+                            card = Cards.GetFilteredBy(savedFilt).Where(a => Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
+                        }
+                    }
+                    else
+                    {
+                        if (!String.IsNullOrEmpty(urorg))
+                        {
+                            card = Cards.GetCards().Where(a => a.local_place ==
+                            urorg && Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
+                        }
+                        else
+                        {
+                            card = Cards.GetCards().Where(a => Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
+                        }
+                    }
+                    if (!String.IsNullOrEmpty(sortField))
+                    {
+                        if (!String.IsNullOrEmpty(urorg))
+                        {
+                            ViewData[sortField] = !upper;
+                            card = Cards.GetSortedBy(card, sortField, (bool)ViewData[sortField]).Where(a => a.local_place ==
+                            urorg && Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
+                        }
+                        else
+                        {
+                            ViewData[sortField] = !upper;
+                            card = Cards.GetSortedBy(card, sortField, (bool)ViewData[sortField]).Where(a => Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
+                        }
+                    }
+                    ViewBag.OMSU = "Журнал приюта " + user.Role + "а в г." + ur.Organizations.FirstOrDefault(i => i.ID == user.ID_organization).Contacts;
+                    return View(card);
+                }
+                else
+                {
+                    return View("WaitingRoom");
+                }
+            }
+            else
             {
                 SelectList fields = new SelectList(fieldsDict, "Key", "Value");
                 ViewBag.Fields = fields;
@@ -54,66 +139,31 @@ namespace PIS_Project.Controllers.DataControllers
 
                 Dictionary<string, string> savedFilt = (Dictionary<string, string>)Session["savedFilt"];
 
-                var ur = new UsersRegister();
-                ViewBag.Role = user.ID_role.ToString();
+                
+                ViewBag.Role = "5";
                 List<Card> card;
-                var urorg = ur.Organizations.FirstOrDefault(i => i.ID == user.ID_organization).Contacts;
                 if (checkFilters)
                 {
-                    if (!String.IsNullOrEmpty(urorg))
-                    {
-                        card = Cards.GetFilteredBy(filters).Where(a => a.local_place ==
-                        urorg && Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
-                    }
-                    else
-                    {
+
                         card = Cards.GetFilteredBy(filters).Where(a => Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
-                    }
                 }
                 else if (savedFilt != null && savedFilt.Count > 0)
                 {
-                    if (!String.IsNullOrEmpty(urorg))
-                    {
-                        card = Cards.GetFilteredBy(savedFilt).Where(a => a.local_place ==
-                    urorg && Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
-                    }
-                    else
-                    {
+
                         card = Cards.GetFilteredBy(savedFilt).Where(a => Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
-                    }
                 }
                 else
                 {
-                    if (!String.IsNullOrEmpty(urorg))
-                    {
-                        card = Cards.GetCards().Where(a => a.local_place ==
-                        urorg && Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
-                    }
-                    else
-                    {
                         card = Cards.GetCards().Where(a => Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
-                    }
                 }
                 if (!String.IsNullOrEmpty(sortField))
                 {
-                    if (!String.IsNullOrEmpty(urorg))
-                    {
-                        ViewData[sortField] = !upper;
-                        card = Cards.GetSortedBy(card, sortField, (bool)ViewData[sortField]).Where(a => a.local_place ==
-                        urorg && Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
-                    }
-                    else
-                    {
+
                         ViewData[sortField] = !upper;
                         card = Cards.GetSortedBy(card, sortField, (bool)ViewData[sortField]).Where(a => Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
-                    }
                 }
-                ViewBag.OMSU = "Журнал приюта " + user.Role + "а в г." + ur.Organizations.FirstOrDefault(i => i.ID == user.ID_organization).Contacts;
+                ViewBag.OMSU = "Журнал приюта " + user.Role + "а";
                 return View(card);
-            }
-            else
-            {
-                return View("WaitingRoom");
             }
         }
 
@@ -127,10 +177,95 @@ namespace PIS_Project.Controllers.DataControllers
             }
             else
             {
-                id_user = 6;
+                id_user = 1;
             }
             var user = new UsersRegister().GetUserByID(id_user);
-            if (user.Confirmed == true)
+            if (user == null)
+            {
+                if (user.Confirmed == true)
+                {
+                    SelectList fields = new SelectList(fieldsDict, "Key", "Value");
+                    ViewBag.Fields = fields;
+
+                    bool checkFilters = false;
+                    if (filters != null && filters.Count > 2)
+                    {
+                        foreach (KeyValuePair<string, string> pair in filters)
+                        {
+                            if (pair.Key != "field" && !string.IsNullOrEmpty(pair.Value))
+                                checkFilters = true;
+                        }
+                    }
+                    if (act == "reset")
+                    {
+                        Session["savedFilt"] = new Dictionary<string, string>();
+                    }
+
+                    Dictionary<string, string> savedFilt = (Dictionary<string, string>)Session["savedFilt"];
+
+                    var ur = new UsersRegister();
+                    ViewBag.Role = user.ID_role.ToString();
+                    List<Card> card;
+                    var urorg = ur.Organizations.FirstOrDefault(i => i.ID == user.ID_organization).Contacts;
+                    if (checkFilters)
+                    {
+                        if (!String.IsNullOrEmpty(urorg))
+                        {
+                            card = Cards.GetFilteredBy(filters).Where(a => a.local_place ==
+                            urorg && Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
+                        }
+                        else
+                        {
+                            card = Cards.GetFilteredBy(filters).Where(a => Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
+                        }
+                    }
+                    else if (savedFilt != null && savedFilt.Count > 0)
+                    {
+                        if (!String.IsNullOrEmpty(urorg))
+                        {
+                            card = Cards.GetFilteredBy(savedFilt).Where(a => a.local_place ==
+                        urorg && Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
+                        }
+                        else
+                        {
+                            card = Cards.GetFilteredBy(savedFilt).Where(a => Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
+                        }
+                    }
+                    else
+                    {
+                        if (!String.IsNullOrEmpty(urorg))
+                        {
+                            card = Cards.GetCards().Where(a => a.local_place ==
+                            urorg && Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
+                        }
+                        else
+                        {
+                            card = Cards.GetCards().Where(a => Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
+                        }
+                    }
+                    if (!String.IsNullOrEmpty(sortField))
+                    {
+                        if (!String.IsNullOrEmpty(urorg))
+                        {
+                            ViewData[sortField] = !upper;
+                            card = Cards.GetSortedBy(card, sortField, (bool)ViewData[sortField]).Where(a => a.local_place ==
+                            urorg && Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
+                        }
+                        else
+                        {
+                            ViewData[sortField] = !upper;
+                            card = Cards.GetSortedBy(card, sortField, (bool)ViewData[sortField]).Where(a => Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
+                        }
+                    }
+                    ViewBag.OMSU = "Журнал приюта " + user.Role + "а в г." + ur.Organizations.FirstOrDefault(i => i.ID == user.ID_organization).Contacts;
+                    return View(card);
+                }
+                else
+                {
+                    return View("WaitingRoom");
+                }
+            }
+            else
             {
                 SelectList fields = new SelectList(fieldsDict, "Key", "Value");
                 ViewBag.Fields = fields;
@@ -151,66 +286,31 @@ namespace PIS_Project.Controllers.DataControllers
 
                 Dictionary<string, string> savedFilt = (Dictionary<string, string>)Session["savedFilt"];
 
-                var ur = new UsersRegister();
-                ViewBag.Role = user.ID_role.ToString();
+
+                ViewBag.Role = "5";
                 List<Card> card;
-                var urorg = ur.Organizations.FirstOrDefault(i => i.ID == user.ID_organization).Contacts;
                 if (checkFilters)
                 {
-                    if (!String.IsNullOrEmpty(urorg))
-                    {
-                        card = Cards.GetFilteredBy(filters).Where(a => a.local_place ==
-                        urorg && Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
-                    }
-                    else
-                    {
-                        card = Cards.GetFilteredBy(filters).Where(a => Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
-                    }
+
+                    card = Cards.GetFilteredBy(filters).Where(a => Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
                 }
                 else if (savedFilt != null && savedFilt.Count > 0)
                 {
-                    if (!String.IsNullOrEmpty(urorg))
-                    {
-                        card = Cards.GetFilteredBy(savedFilt).Where(a => a.local_place ==
-                    urorg && Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
-                    }
-                    else
-                    {
-                        card = Cards.GetFilteredBy(savedFilt).Where(a => Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
-                    }
+
+                    card = Cards.GetFilteredBy(savedFilt).Where(a => Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
                 }
                 else
                 {
-                    if (!String.IsNullOrEmpty(urorg))
-                    {
-                        card = Cards.GetCards().Where(a => a.local_place ==
-                        urorg && Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
-                    }
-                    else
-                    {
-                        card = Cards.GetCards().Where(a => Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
-                    }
+                    card = Cards.GetCards().Where(a => Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
                 }
                 if (!String.IsNullOrEmpty(sortField))
                 {
-                    if (!String.IsNullOrEmpty(urorg))
-                    {
-                        ViewData[sortField] = !upper;
-                        card = Cards.GetSortedBy(card, sortField, (bool)ViewData[sortField]).Where(a => a.local_place ==
-                        urorg && Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
-                    }
-                    else
-                    {
-                        ViewData[sortField] = !upper;
-                        card = Cards.GetSortedBy(card, sortField, (bool)ViewData[sortField]).Where(a => Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
-                    }
+
+                    ViewData[sortField] = !upper;
+                    card = Cards.GetSortedBy(card, sortField, (bool)ViewData[sortField]).Where(a => Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
                 }
-                ViewBag.OMSU = "Журнал приюта " + user.Role + "а в г." + ur.Organizations.FirstOrDefault(i => i.ID == user.ID_organization).Contacts;
+                ViewBag.OMSU = "Журнал приюта " + user.Role + "а";
                 return View(card);
-            }
-            else
-            {
-                return View("WaitingRoom");
             }
         }
 
@@ -225,53 +325,103 @@ namespace PIS_Project.Controllers.DataControllers
             }
             else
             {
-                id_user =6;
+                id_user =1;
             }
             var user = new UsersRegister().GetUserByID(id_user);
-            if (user.Confirmed == true)
+            if (user == null)
             {
-                ViewBag.User_Role = user.ID_role.ToString();
-            ViewBag.Role = user.ID_role.ToString();
-            bool checkFilters = false;
-            if (filters != null && filters.Count > 2 )
-            {
-                foreach (KeyValuePair<string, string> pair in filters)
+                if (user.Confirmed == true)
                 {
-                    if (pair.Key != "field" && !string.IsNullOrEmpty(pair.Value))
-                        checkFilters = true;
+                    ViewBag.User_Role = user.ID_role.ToString();
+                    ViewBag.Role = user.ID_role.ToString();
+                    bool checkFilters = false;
+                    if (filters != null && filters.Count > 2)
+                    {
+                        foreach (KeyValuePair<string, string> pair in filters)
+                        {
+                            if (pair.Key != "field" && !string.IsNullOrEmpty(pair.Value))
+                                checkFilters = true;
+                        }
+                    }
+                    var CatchedCards = new RegisterOfCatched();
+                    if (act == "reset")
+                    {
+                        Session["savedFilt"] = new Dictionary<string, string>();
+                    }
+
+                    Dictionary<string, string> savedFilt = (Dictionary<string, string>)Session["savedFilt"];
+
+                    List<Card> card;
+                    if (checkFilters)
+                    {
+                        card = CatchedCards.GetFilteredBy(filters).Where(c => c.Added != true).ToList();
+                    }
+                    else if (savedFilt != null && savedFilt.Count > 0)
+                    {
+                        card = CatchedCards.GetFilteredBy(savedFilt).Where(c => c.Added != true).ToList();
+                    }
+                    else
+                        card = CatchedCards.GetCards().Where(c => c.Added != true).ToList();
+
+                    if (!String.IsNullOrEmpty(sortField))
+                    {
+                        ViewData[sortField] = !upper;
+                        card = CatchedCards.GetSortedBy(card, sortField, (bool)ViewData[sortField]).Where(c => c.Added != true).ToList();
+                    }
+
+                    return View("ShowRegisterCatched", card);
+                }
+                else
+                {
+                    return View("WaitingRoom");
                 }
             }
-            var CatchedCards = new RegisterOfCatched();
-            if (act == "reset")
-            {
-                Session["savedFilt"] = new Dictionary<string, string>();
-            }
-
-            Dictionary<string, string> savedFilt = (Dictionary<string, string>)Session["savedFilt"];
-
-            List<Card> card;
-            if (checkFilters)
-            {
-                card = CatchedCards.GetFilteredBy(filters).Where(c => c.Added != true).ToList();
-            }
-            else if (savedFilt != null && savedFilt.Count > 0)
-            {
-                card = CatchedCards.GetFilteredBy(savedFilt).Where(c => c.Added != true).ToList();
-            }
-            else
-                card = CatchedCards.GetCards().Where(c => c.Added != true).ToList();
-            
-            if (!String.IsNullOrEmpty(sortField))
-            {
-                ViewData[sortField] = !upper;
-                card = CatchedCards.GetSortedBy(card, sortField, (bool)ViewData[sortField]).Where(c => c.Added != true).ToList();
-            }
-
-            return View("ShowRegisterCatched", card);
-            }
             else
             {
-                return View("WaitingRoom");
+                SelectList fields = new SelectList(fieldsDict, "Key", "Value");
+                ViewBag.Fields = fields;
+
+                bool checkFilters = false;
+                if (filters != null && filters.Count > 2)
+                {
+                    foreach (KeyValuePair<string, string> pair in filters)
+                    {
+                        if (pair.Key != "field" && !string.IsNullOrEmpty(pair.Value))
+                            checkFilters = true;
+                    }
+                }
+                var CatchedCards = new RegisterOfCatched();
+                if (act == "reset")
+                {
+                    Session["savedFilt"] = new Dictionary<string, string>();
+                }
+
+                Dictionary<string, string> savedFilt = (Dictionary<string, string>)Session["savedFilt"];
+
+
+                ViewBag.Role = "5";
+                List<Card> card;
+                if (checkFilters)
+                {
+
+                    card = CatchedCards.GetFilteredBy(filters).ToList();
+                }
+                else if (savedFilt != null && savedFilt.Count > 0)
+                {
+
+                    card = CatchedCards.GetFilteredBy(savedFilt).ToList();
+                }
+                else
+                {
+                    card = CatchedCards.GetCards().ToList();
+                }
+                if (!String.IsNullOrEmpty(sortField))
+                {
+
+                    ViewData[sortField] = !upper;
+                    card = CatchedCards.GetSortedBy(card, sortField, (bool)ViewData[sortField]).ToList();
+                }
+                return View("ShowRegisterCatched", card);
             }
         }
 
