@@ -235,7 +235,6 @@ C:\Users\Анастасия\Desktop\ИСиТ 3 курс\ПИС\7 лаба\PIS\PI
 C:\Users\Анастасия\Desktop\ИСиТ 3 курс\ПИС\7 лаба\PIS\PIS_Project\PIS_Project\bin\ru\Microsoft.Owin.Security.Google.resources.dll
 C:\Users\Анастасия\Desktop\ИСиТ 3 курс\ПИС\7 лаба\PIS\PIS_Project\PIS_Project\bin\ru\Microsoft.Owin.Security.Twitter.resources.dll
 C:\Users\Анастасия\Desktop\ИСиТ 3 курс\ПИС\7 лаба\PIS\PIS_Project\PIS_Project\bin\ru\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
-C:\Users\Анастасия\Desktop\ИСиТ 3 курс\ПИС\7 лаба\PIS\PIS_Project\PIS_Project\obj\Debug\PIS_Project.csprojAssemblyReference.cache
 C:\Users\Анастасия\Desktop\ИСиТ 3 курс\ПИС\7 лаба\PIS\PIS_Project\PIS_Project\obj\Debug\PIS_Project.Migrations.DataMig.resources
 C:\Users\Анастасия\Desktop\ИСиТ 3 курс\ПИС\7 лаба\PIS\PIS_Project\PIS_Project\obj\Debug\PIS_Project.csproj.GenerateResource.cache
 C:\Users\Анастасия\Desktop\ИСиТ 3 курс\ПИС\7 лаба\PIS\PIS_Project\PIS_Project\obj\Debug\PIS_Project.csproj.CoreCompileInputs.cache

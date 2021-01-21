@@ -93,7 +93,7 @@
                 <div class="col-lg-6">
                     <label class="font-weight-bold">@Html.DisplayNameFor(model => model.id_status)</label>
                     <div style="background-color: #e0f2f1; padding: 5px 0px 5px 5px; border-radius: 5px; border: 1px solid rgba(0,0,0,.1);">
-                        @(Model.id_status == 0 ? "Выбыл" : "В приюте")
+                        @(Model.id_status == 0 ? "Выбыл" : "На содержании")
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -107,8 +107,22 @@
                 <div class="col-lg-6">
                     <label class="font-weight-bold">@Html.DisplayNameFor(model => model.ID_MU)</label>
                     <div style="background-color: #e0f2f1; padding: 5px 0px 5px 5px; border-radius: 5px; border: 1px solid rgba(0,0,0,.1);">
-                        @Html.DisplayFor(model => model.ID_MU)
-                    </div>
+                        @{
+
+                            switch(Model.ID_MU)
+                            {
+                            case 2:
+                                <span>Питомник</span>
+                                break;
+                            case 3:
+                                <span>Отлов</span>
+                                break;
+                            case 4:
+                                <span>Приют</span>
+                                break;
+                        }
+                        }
+</div>
                 </div>
                 <div class="col-lg-6">
                     <label class="font-weight-bold"> @Html.DisplayNameFor(model => model.local_place)</label>

@@ -387,25 +387,8 @@ namespace PIS_Project.Controllers.DataControllers
         //GetCardByID
         public ActionResult Card(int id_card)
         {
-<<<<<<< HEAD
             bool checkAuth = HttpContext.User.Identity.IsAuthenticated;
-            
             if (checkAuth)
-=======
-            var id_user = default(int);
-            var boolAuth = HttpContext.User.Identity.IsAuthenticated;
-            if (boolAuth)
-            {
-                id_user = (new UsersRegister()).GetIDByName(HttpContext.User.Identity.Name); //Временно!!!
-            }
-            else
-            {
-                id_user = 1;
-            }
-            //var i
-            ViewBag.Id_User = default(int);
-            if (id_user != default(int))
->>>>>>> dc349c84b1764a4546ca5fe5da276de18e25da54
             {
                 var id_user = (new PIS_Project.Models.DataClasses.UsersRegister()).GetIDByName(HttpContext.User.Identity.Name);
                 ViewBag.Id_User = id_user;
@@ -426,25 +409,9 @@ namespace PIS_Project.Controllers.DataControllers
 
         public ActionResult EditCard(int id_card)
         {
-<<<<<<< HEAD
             bool checkAuth = HttpContext.User.Identity.IsAuthenticated;
          
             if (checkAuth)
-=======
-            var id_user = default(int);
-            var boolAuth = HttpContext.User.Identity.IsAuthenticated;
-            if (boolAuth)
-            {
-                id_user = (new UsersRegister()).GetIDByName(HttpContext.User.Identity.Name); //Временно!!!
-            }
-            else
-            {
-                id_user = 1;
-            }
-            //var i
-            int users_role = 0;
-            if (id_user != default(int))
->>>>>>> dc349c84b1764a4546ca5fe5da276de18e25da54
             {
                 var id_user = (new PIS_Project.Models.DataClasses.UsersRegister()).GetIDByName(HttpContext.User.Identity.Name);
                 var user = new UsersRegister().GetUserByID(id_user);
