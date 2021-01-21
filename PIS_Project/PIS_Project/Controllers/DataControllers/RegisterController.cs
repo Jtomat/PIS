@@ -404,22 +404,22 @@ namespace PIS_Project.Controllers.DataControllers
                 if (checkFilters)
                 {
 
-                    card = CatchedCards.GetFilteredBy(filters).ToList();
+                    card = CatchedCards.GetFilteredBy(filters).Where(c => c.Added != true).ToList();
                 }
                 else if (savedFilt != null && savedFilt.Count > 0)
                 {
 
-                    card = CatchedCards.GetFilteredBy(savedFilt).ToList();
+                    card = CatchedCards.GetFilteredBy(savedFilt).Where(c => c.Added != true).ToList();
                 }
                 else
                 {
-                    card = CatchedCards.GetCards().ToList();
+                    card = CatchedCards.GetCards().Where(c => c.Added != true).ToList();
                 }
                 if (!String.IsNullOrEmpty(sortField))
                 {
 
                     ViewData[sortField] = !upper;
-                    card = CatchedCards.GetSortedBy(card, sortField, (bool)ViewData[sortField]).ToList();
+                    card = CatchedCards.GetSortedBy(card, sortField, (bool)ViewData[sortField]).Where(c => c.Added != true).ToList();
                 }
                 return View("ShowRegisterCatched", card);
             }
