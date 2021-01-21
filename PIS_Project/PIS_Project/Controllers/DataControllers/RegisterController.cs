@@ -30,7 +30,7 @@ namespace PIS_Project.Controllers.DataControllers
             }
             else
             {
-                id_user = 1;
+                id_user = 6;
             }
             var user = new UsersRegister().GetUserByID(id_user);
             if (user.Confirmed == true)
@@ -127,7 +127,7 @@ namespace PIS_Project.Controllers.DataControllers
             }
             else
             {
-                id_user = 1;
+                id_user = 6;
             }
             var user = new UsersRegister().GetUserByID(id_user);
             if (user.Confirmed == true)
@@ -225,7 +225,7 @@ namespace PIS_Project.Controllers.DataControllers
             }
             else
             {
-                id_user = 1;
+                id_user =6;
             }
             var user = new UsersRegister().GetUserByID(id_user);
             if (user.Confirmed == true)
@@ -286,7 +286,7 @@ namespace PIS_Project.Controllers.DataControllers
             }
             else
             {
-                id_user = 1;
+                id_user = 6;
             }
             //var i
             ViewBag.Id_User = default(int);
@@ -501,7 +501,7 @@ namespace PIS_Project.Controllers.DataControllers
             }
             else
             {
-                id_user = 1;
+                id_user = 6;
             }
             //var i
             var CatchedCards = new RegisterOfCatched();
@@ -551,7 +551,7 @@ namespace PIS_Project.Controllers.DataControllers
             }
             else
             {
-                id_user = 1;
+                id_user = 6;
             }
             //var i
             ViewBag.Id_User = default(int);
@@ -950,7 +950,7 @@ namespace PIS_Project.Controllers.DataControllers
             }
             else
             {
-                id_user = 1;
+                id_user = 6;
             }
             //var i
             ViewBag.Id_User = default(int);
@@ -985,7 +985,7 @@ namespace PIS_Project.Controllers.DataControllers
             }
             else
             {
-                id_user = 1;
+                id_user = 6;
             }
             if (id_user != default(int))
             {
