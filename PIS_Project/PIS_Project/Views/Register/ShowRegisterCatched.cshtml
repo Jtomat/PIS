@@ -200,7 +200,9 @@
                 </div>
             </div>
         }
-        <button type="submit" class="btn btn-success" id="sendFilter" style="background-color: #aebfbe; border-color: #aebfbe">Применить</button>
+        <button class="btn btn-success" id="sendFilters" style="background-color: #aebfbe; border-color: #aebfbe">Применить</button>
+        @Html.ActionLink("Сбросить", "Sort", new { act = "reset" }, new { @class = "btn btn-success", @style = "background-color: #aebfbe; border-color: #aebfbe" })
+        @Ajax.ActionLink("Получить отчет", "GetRegularReport", new { cardsIdString = ViewBag.CardsId }, new AjaxOptions { }, new { @class = "btn btn-success", @style = "background-color: #aebfbe; border-color: #aebfbe; float: right;" })
     </div>
     </div>
     @*@using (Html.BeginForm("Sort", "Register", FormMethod.Post, new { @class = "mb-4" }))
@@ -227,22 +229,22 @@
         <thead class="table-head">
             <tr>
                 <th class="col">
-                    @Html.ActionLink("Пол животного", "ShowRegisterCatched", new { sortOrder = "sex", upper = ViewData["sex"] })
+                    @Html.ActionLink("Пол животного", "ShowRegisterCatched", new { sortField = "sex", upper = ViewData["sex"] })
                 </th>
                 <th class="col">
                     @Html.DisplayNameFor(model => model.type)
                 </th>
-                <th class="col">
-                    @Html.ActionLink("Дата рождения", "ShowRegisterCatched", new { sortOrder = "birthday", upper = ViewData["birthday"] })
+                <th class="col pl-3 pr-3">
+                    @Html.ActionLink("Дата рождения", "ShowRegisterCatched", new { sortField = "birthday", upper = ViewData["birthday"] })
                 </th>
                 <th class="col">
-                    @Html.ActionLink("Метка", "ShowRegisterCatched", new { sortOrder = "id_mark", upper = ViewData["id_mark"] })
+                    @Html.ActionLink("Метка", "ShowRegisterCatched", new { sortField = "id_mark", upper = ViewData["id_mark"] })
                 </th>
                 <th class="col">
-                    @Html.ActionLink("Номер чипа", "ShowRegisterCatched", new { sortOrder = "id_chip", upper = ViewData["id_chip"] })
+                    @Html.ActionLink("Номер чипа", "ShowRegisterCatched", new { sortField = "id_chip", upper = ViewData["id_chip"] })
                 </th>
                 <th class="col">
-                    @Html.ActionLink("Кличка", "ShowRegisterCatched", new { sortOrder = "name", upper = ViewData["name"] })
+                    @Html.ActionLink("Кличка", "ShowRegisterCatched", new { sortField = "name", upper = ViewData["name"] })
                 </th>
                 <th class="col">
                     @Html.DisplayNameFor(model => model.spec_mark)
@@ -251,22 +253,19 @@
                     @Html.DisplayNameFor(model => model.owner_traits)
                 </th>
                 <th class="col">
-                    @Html.ActionLink("ID статус", "ShowRegisterCatched", new { sortOrder = "id_status", upper = ViewData["id_status"] })
+                    @Html.ActionLink("ID статус", "ShowRegisterCatched", new { sortField = "id_status", upper = ViewData["id_status"] })
+                </th>
+                <th class="col pl-3 pr-3">
+                    @Html.ActionLink("Дата установки статуса", "ShowRegisterCatched", new { sortField = "date_status_change", upper = ViewData["date_status_change"] })
                 </th>
                 <th class="col">
-                    @Html.ActionLink("Дата установки статуса", "ShowRegisterCatched", new { sortOrder = "date_status_change", upper = ViewData["date_status_change"] })
+                    @Html.ActionLink("ID MU", "ShowRegisterCatched", new { sortField = "ID_MU", upper = ViewData["ID_MU"] })
                 </th>
                 <th class="col">
-                    @Html.ActionLink("ID MU", "ShowRegisterCatched", new { sortOrder = "ID_MU", upper = ViewData["ID_MU"] })
+                    @Html.ActionLink("Населенный пункт", "ShowRegisterCatched", new { sortField = "local_place", upper = ViewData["local_place"] })
                 </th>
                 <th class="col">
-                    @Html.ActionLink("Населенный пункт", "ShowRegisterCatched", new { sortOrder = "local_place", upper = ViewData["local_place"] })
-                </th>
-                <th class="col">
-                    @Html.ActionLink("Дата стерелизации", "ShowRegisterCatched", new { sortOrder = "sterilization_date", upper = ViewData["sterilization_date"] })
-                </th>
-                <th class="col">
-
+                    @Html.ActionLink("Дата стерелизации", "ShowRegisterCatched", new { sortField = "sterilization_date", upper = ViewData["sterilization_date"] })
                 </th>
                 <th class="col">
 
