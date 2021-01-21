@@ -162,7 +162,7 @@ namespace PIS_Project.Controllers.DataControllers
                         ViewData[sortField] = !upper;
                         card = Cards.GetSortedBy(card, sortField, (bool)ViewData[sortField]).Where(a => Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
                 }
-                ViewBag.OMSU = "Журнал приюта " + user.Role + "а";
+                ViewBag.OMSU = "Журнал приюта подписанта";
                 return View(card);
             }
         }
@@ -309,7 +309,7 @@ namespace PIS_Project.Controllers.DataControllers
                     ViewData[sortField] = !upper;
                     card = Cards.GetSortedBy(card, sortField, (bool)ViewData[sortField]).Where(a => Cards.GetMUByID(a.ID_MU).Name == "Приют").ToList();
                 }
-                ViewBag.OMSU = "Журнал приюта " + user.Role + "а";
+                ViewBag.OMSU = "Журнал приюта подписанта";
                 return View(card);
             }
         }
