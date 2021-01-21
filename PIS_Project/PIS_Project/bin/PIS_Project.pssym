@@ -1,12 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Symbols LinesOfCode="2312" PostSharpLinesOfCode="0" EnhancedTypesCount="1" SchemaVersion="1" PostSharpVersion="6.7.11.0" xmlns="http://schemas.postsharp.org/2.0/symbols">
-  <Class Class="#1=T:[PIS_Project]PIS_Project.Models.DataClasses.NotifyAttribute">
-    <Instance Declaration="#2=M:[PIS_Project]PIS_Project.Controllers.DataControllers.RegisterController::Create(System.Collections.Generic.Dictionary{System.String,System.Object})" Id="2f5e1f1ef464a94c">
-      <Target LinesAvoided="4">
-        <JoinPoint Description="#3=Wrapped by advice(s) OnSuccess, OnException" Ordinal="0" />
+<Symbols LinesOfCode="2450" PostSharpLinesOfCode="0" EnhancedTypesCount="1" SchemaVersion="1" PostSharpVersion="6.7.11.0" xmlns="http://schemas.postsharp.org/2.0/symbols">
+  <Class Class="#1=T:[PIS_Project]PIS_Project.Models.DataClasses.LoggingAttribute">
+    <Instance Declaration="#2=M:[PIS_Project]PIS_Project.Controllers.DataControllers.RegisterController::Create(System.Collections.Generic.Dictionary{System.String,System.Object})" Id="2f5e1f1ea1ccefbd">
+      <Target LinesAvoided="6">
+        <JoinPoint Description="#3=Wrapped by advice(s) OnEntry, OnSuccess, OnException" />
       </Target>
     </Instance>
   </Class>
-  <Annotation Target="#4=M:[PIS_Project]PIS_Project.Models.DataClasses.NotifyAttribute::OnSuccess(PostSharp.Aspects.MethodExecutionArgs)" Arguments="#5=2" Description="#6=PostSharp estimates that 2 lines of code are saved every time this advice is applied. Use the [LinesOfCodeAvoided] attribute on the aspect or specify the LinesOfCodeAvoided property on the advice attribute to override this value." />
-  <Annotation Target="#7=M:[PIS_Project]PIS_Project.Models.DataClasses.NotifyAttribute::OnException(PostSharp.Aspects.MethodExecutionArgs)" Arguments="#5" Description="#6" />
+  <Class Class="#4=T:[PIS_Project]PIS_Project.Models.DataClasses.NotifyAttribute">
+    <Instance Declaration="#2" Id="2f5e1f1e31565f65">
+      <Target LinesAvoided="4">
+        <JoinPoint Description="#5=Wrapped by advice(s) OnSuccess, OnException" Ordinal="0" />
+      </Target>
+    </Instance>
+  </Class>
+  <Annotation Target="#6=M:[PIS_Project]PIS_Project.Models.DataClasses.LoggingAttribute::OnEntry(PostSharp.Aspects.MethodExecutionArgs)" Arguments="#7=2" Description="#8=PostSharp estimates that 2 lines of code are saved every time this advice is applied. Use the [LinesOfCodeAvoided] attribute on the aspect or specify the LinesOfCodeAvoided property on the advice attribute to override this value." />
+  <Annotation Target="#9=M:[PIS_Project]PIS_Project.Models.DataClasses.LoggingAttribute::OnSuccess(PostSharp.Aspects.MethodExecutionArgs)" Arguments="#7" Description="#8" />
+  <Annotation Target="#10=M:[PIS_Project]PIS_Project.Models.DataClasses.LoggingAttribute::OnException(PostSharp.Aspects.MethodExecutionArgs)" Arguments="#7" Description="#8" />
+  <Annotation Target="#11=M:[PIS_Project]PIS_Project.Models.DataClasses.NotifyAttribute::OnSuccess(PostSharp.Aspects.MethodExecutionArgs)" Arguments="#7" Description="#8" />
+  <Annotation Target="#12=M:[PIS_Project]PIS_Project.Models.DataClasses.NotifyAttribute::OnException(PostSharp.Aspects.MethodExecutionArgs)" Arguments="#7" Description="#8" />
 </Symbols>

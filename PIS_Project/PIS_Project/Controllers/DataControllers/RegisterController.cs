@@ -829,7 +829,7 @@ namespace PIS_Project.Controllers.DataControllers
             return View(card);
         }
         //PostCreate(values)
-        //[Logging]
+        [Logging]
         [Notify]
         [HttpPost]
         public ActionResult Create(Dictionary<string, object> values)

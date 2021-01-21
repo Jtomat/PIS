@@ -35,7 +35,7 @@ namespace PIS_Project.Models.DataClasses
         public int GetIDByName(string name)
         {
             var ds = Users.First();
-            foreach (var us in Users)
+            foreach (var us in Users.Where(i=>i.Confirmed))
             {
                 var n = us.Name.ToString();
                 var b = string.Compare(n, name) == 0;
