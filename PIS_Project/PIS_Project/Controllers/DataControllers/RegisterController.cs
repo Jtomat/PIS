@@ -33,7 +33,7 @@ namespace PIS_Project.Controllers.DataControllers
                 id_user = 1;
             }
             var user = new UsersRegister().GetUserByID(id_user);
-            if (user == null)
+            if (user != null)
             {
                 if (user.Confirmed == true)
                 {
@@ -180,7 +180,7 @@ namespace PIS_Project.Controllers.DataControllers
                 id_user = 1;
             }
             var user = new UsersRegister().GetUserByID(id_user);
-            if (user == null)
+            if (user != null)
             {
                 if (user.Confirmed == true)
                 {
@@ -328,7 +328,7 @@ namespace PIS_Project.Controllers.DataControllers
                 id_user =1;
             }
             var user = new UsersRegister().GetUserByID(id_user);
-            if (user == null)
+            if (user != null)
             {
                 if (user.Confirmed == true)
                 {
